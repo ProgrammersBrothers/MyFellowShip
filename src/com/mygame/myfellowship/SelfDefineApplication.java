@@ -2,7 +2,6 @@ package com.mygame.myfellowship;
 
 import com.mygame.myfellowship.http.FinalHttp;
 import com.mygame.myfellowship.info.User;
-
 import android.app.Application;
 
 public class SelfDefineApplication extends Application {
