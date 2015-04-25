@@ -1,30 +1,23 @@
 package com.mygame.myfellowship;
 
-import java.io.File;
-
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mygame.myfellowship.view.TkbActionBar;
-import com.mygame.myfellowship.view.TkbActionBar.IProvideTkActionBar;
-import com.nostra13.universalimageloader.core.ImageLoader; 
+import com.mygame.myfellowship.Constant.Preference;
+import com.mygame.myfellowship.http.FinalHttp;
+import com.mygame.myfellowship.info.User;
+import com.mygame.myfellowship.log.MyLog;
+import com.mygame.myfellowship.view.SelfDefineActionBar;
+import com.mygame.myfellowship.view.SelfDefineActionBar.IProvideTkActionBar;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * @author 
@@ -32,23 +25,23 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  */
 public class BaseActivity extends FragmentActivity implements
 		IProvideTkActionBar {
-//	public static String tag = BaseActivity.class.getSimpleName();
-//	public SharedPreferences preferences;
-//	public LoginModel user;
-//	public ImageLoader imageLoader = ImageLoader.getInstance();
-////	private FinalHttp http;
-	protected TkbActionBar mTkActionBar;
+	public static String tag = BaseActivity.class.getSimpleName();
+	public SharedPreferences preferences;
+	public User user;
+	public ImageLoader imageLoader = ImageLoader.getInstance();
+	private FinalHttp http;
+	protected SelfDefineActionBar mTkActionBar;
 
 	@Override
-	public TkbActionBar getTkActionBar() {
-		mTkActionBar = (TkbActionBar) findViewById(R.id.tkActionBar);
+	public SelfDefineActionBar getTkActionBar() {
+		mTkActionBar = (SelfDefineActionBar) findViewById(R.id.tkActionBar);
 		return mTkActionBar;
 	}
 	
-//	public Activity getActivity() {
-//		return this;
-//	}
-//
+	public Activity getActivity() {
+		return this;
+	}
+
 	/**
 	 * 添加标题
 	 * 
@@ -72,155 +65,141 @@ public class BaseActivity extends FragmentActivity implements
 			mTkActionBar.setTitle(strId, null);
 		}
 	}
-//
-//	@Override
-//	public void setTitle(CharSequence title) {
-//		getTkActionBar();
-//		if (mTkActionBar != null) {
-//			mTkActionBar.setTitle(title, null);
-//		}
-//	}
-//
-//	/**
-//	 * 添加顶部标题栏标题
-//	 */
-//	@Override
-//	public void setTitle(int strId, OnClickListener listener) {
-//		super.setTitle(strId);
-//		getTkActionBar();
-//		if (mTkActionBar != null) {
-//			mTkActionBar.setTitle(strId, listener);
-//		}
-//	}
-//
-//	/**
-//	 * 添加顶部标题栏左侧返回按钮
-//	 * 
-//	 * @param listener
-//	 *            如果为null，就pass Activity activity
-//	 */
-//	protected void addBackBtn(OnClickListener listener) {
-//		getTkActionBar();
-//		if (mTkActionBar != null) {
-//			if (listener == null) {
-//				listener = new OnClickListener() {
-//					@Override
-//					public void onClick(View v) {
-//						finish();
-//					}
-//				};
-//			}
-//			mTkActionBar.addBackText(R.string.back, listener);
-//		}
-//	}
-//
-//	/**
-//	 * 添加顶部标题栏左侧返回按钮
-//	 * 
-//	 * @param listener
-//	 */
-//	protected void addBackImage(int drawId, OnClickListener listener) {
-//		getTkActionBar();
-//		if (mTkActionBar != null) {
-//			if (listener == null) {
-//				listener = new OnClickListener() {
-//					@Override
-//					public void onClick(View v) {
-//						finish();
-//					}
-//				};
-//			}
-//			mTkActionBar.addBackImage(drawId, listener);
-//		}
-//	}
-//
-//	/**
-//	 * 添加顶部标题栏左侧返回按钮
-//	 * 
-//	 * @param listener
-//	 *            如果为null，就pass Activity activity
-//	 */
-//	protected void addRightBtn(int strId, OnClickListener listener) {
-//		getTkActionBar();
-//		if (mTkActionBar != null) {
-//			if (listener == null) {
-//				listener = new OnClickListener() {
-//					@Override
-//					public void onClick(View v) {
-//						finish();
-//					}
-//				};
-//			}
-//			mTkActionBar.addRightText(strId, listener);
-//		}
-//	}
-//
-//	/**
-//	 * 添加顶部标题栏左侧返回按钮
-//	 * 
-//	 * @param listener
-//	 */
-//	protected void addRightImage(int drawId, OnClickListener listener) {
-//		getTkActionBar();
-//		if (mTkActionBar != null) {
-//			if (listener == null) {
-//				listener = new OnClickListener() {
-//					@Override
-//					public void onClick(View v) {
-//						finish();
-//					}
-//				};
-//			}
-//			mTkActionBar.addRightImage(drawId, listener);
-//		}
-//	}
-//
-//	@Override
-//	protected void onCreate(Bundle savedInstanceState) {
-//		super.onCreate(savedInstanceState);
-//		tag = getClass().getSimpleName();
-//		TuokebaoApplication.getInstance().setDownedListener(this);
-//		// 禁止横屏
-//		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//
-//		if (null == preferences) {
-//			preferences = Preference.getSharedPreferences(this);
-//		}
-//		getCurrentUser();
-//		getFinalHttp();
-//	}
-//
-//	public FinalHttp getFinalHttp() {
-//		if (http == null) {
-//			http = TuokebaoApplication.getInstance().getFinalHttp();
-//		}
-//		return http;
-//	}
-//
-//	/**
-//	 * 获取当前登录用户信息
-//	 */
-//	protected void getCurrentUser() {
-//		try {
-//			user = new Gson().fromJson(
-//					preferences.getString(Preference.LOGIN_USER, null),
-//					new TypeToken<LoginModel>() {
-//					}.getType());
-//		} catch (Exception e) {
-//			MyLog.e(tag, getString(R.string.login_userinfo_not_exist));
-//		}
-//	}
-//
-//	/**
-//	 * 隐藏输入法
-//	 */
-//	protected void hideInput() {
-//		View view = getWindow().peekDecorView();
-//		if (view != null) {
-//			InputMethodManager inputmanger = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//			inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
-//		}
-//	}
+	@Override
+	public void setTitle(CharSequence title) {
+		getTkActionBar();
+		if (mTkActionBar != null) {
+			mTkActionBar.setTitle(title, null);
+		}
+	}
+ 
+ 
+	/**
+	 * 添加顶部标题栏左侧返回按钮
+	 * 
+	 * @param listener
+	 *            如果为null，就pass Activity activity
+	 */
+	protected void addBackBtn(View.OnClickListener listener) {
+		getTkActionBar();
+		if (mTkActionBar != null) {
+			if (listener == null) {
+				listener = new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				};
+			}
+			mTkActionBar.addBackText(R.string.back, listener);
+		}
+	}
+
+	/**
+	 * 添加顶部标题栏左侧返回按钮
+	 * 
+	 * @param listener
+	 */
+	protected void addBackImage(int drawId, OnClickListener listener) {
+		getTkActionBar();
+		if (mTkActionBar != null) {
+			if (listener == null) {
+				listener = new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				};
+			}
+			mTkActionBar.addBackImage(drawId, listener);
+		}
+	}
+	
+	/**
+	 * 添加顶部标题栏左侧返回按钮
+	 * 
+	 * @param listener
+	 *            如果为null，就pass Activity activity
+	 */
+	protected void addRightBtn(int strId, OnClickListener listener) {
+		getTkActionBar();
+		if (mTkActionBar != null) {
+			if (listener == null) {
+				listener = new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				};
+			}
+			mTkActionBar.addRightText(strId, listener);
+		}
+	}
+
+	/**
+	 * 添加顶部标题栏左侧返回按钮
+	 * 
+	 * @param listener
+	 */
+	protected void addRightImage(int drawId, OnClickListener listener) {
+		getTkActionBar();
+		if (mTkActionBar != null) {
+			if (listener == null) {
+				listener = new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				};
+			}
+			mTkActionBar.addRightImage(drawId, listener);
+		}
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		tag = getClass().getSimpleName();
+		// 禁止横屏
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+		if (null == preferences) {
+			preferences = Preference.getSharedPreferences(this);
+		} 
+		getFinalHttp();
+	}
+
+	public FinalHttp getFinalHttp() {
+		if (http == null) {
+			http = SelfDefineApplication.getInstance().getFinalHttp();
+		}
+		return http;
+	}
+	
+	/**
+	 * 获取当前登录用户信息
+	 */
+	protected void getCurrentUser() {
+		try {
+			user = new Gson().fromJson(
+					preferences.getString(Preference.LOGIN_USER, null),
+					new TypeToken<User>() {
+					}.getType());
+		} catch (Exception e) {
+			MyLog.e(tag, getString(R.string.login_userinfo_not_exist));
+		}
+	}
+
+	/**
+	 * 隐藏输入法
+	 */
+	protected void hideInput() {
+		View view = getWindow().peekDecorView();
+		if (view != null) {
+			InputMethodManager inputmanger = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+			inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+		}
+	}
 //
 //	/**
 //	 * 返回按钮
@@ -236,15 +215,15 @@ public class BaseActivity extends FragmentActivity implements
 	 */
 	@Override
 	public void setupTkActionBar(int resId) {
-		mTkActionBar = (TkbActionBar) findViewById(resId);
+		mTkActionBar = (SelfDefineActionBar) findViewById(resId);
 	}
-//
-//	/**
-//	 * 隐藏覆盖在整个fragment上的空视图--表示没有数据的情况，可以动态添加一个自定义视图
-//	 * 
-//	 * @param rootView
-//	 *            -- fragment的根视图
-//	 */
+
+	/**
+	 * 隐藏覆盖在整个fragment上的空视图--表示没有数据的情况，可以动态添加一个自定义视图
+	 * 
+	 * @param rootView
+	 *            -- fragment的根视图
+	 */
 //	public void hideEmptyView() {
 //		View rootView = getWindow().getDecorView();
 //		View emptyLayout = rootView.findViewById(R.id.rlEmptyView);

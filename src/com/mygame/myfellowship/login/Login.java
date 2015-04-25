@@ -1,6 +1,5 @@
 package com.mygame.myfellowship.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -8,18 +7,18 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
- 
+
 import com.mygame.myfellowship.BaseActivity;
+import com.mygame.myfellowship.Constant.Preference;
+import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.SelfDefineApplication;
-import com.mygame.myfellowship.ToastHelper;
 import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.utils.SecurityMD5Util;
 
 /**
  * 过渡界面/登录界面
  * 
- * @author , tom
+ * @author tom
  * 
  */
 public class Login extends BaseActivity {
@@ -42,36 +41,36 @@ public class Login extends BaseActivity {
 //			startActivity(intent);
 //			finish();
 //		} else {
-//			onFindView(true);
+			onFindView(true);
 //		}
 	}
 
 	public void onFindView(boolean isLoginFail) {
-//		uname = preferences.getString(Preference.UNAME, null);
-//		pwd = preferences.getString(Preference.PWD, null);
-//		if (!TextUtils.isEmpty(uname) && !TextUtils.isEmpty(pwd) && isLoginFail) {
-//			setContentView(R.layout.activity_welcom);
-			// 默认登陆
-//			hideInput();
-//			startTime = System.currentTimeMillis();
-//			login(uname, pwd, true, false);
-//		} else {
-//			setContentView(R.layout.act_login);
-//			setTitle(getString(R.string.login));
-//			etUname = (EditText) findViewById(R.id.etUname);
-//			etPwd = (EditText) findViewById(R.id.etPwd);
-//			btnLoad = (Button) findViewById(R.id.btnLoad);
-//			
-//			addTextWatcher(etUname, etPwd);
+		uname = preferences.getString(Preference.UNAME, null);
+		pwd = preferences.getString(Preference.PWD, null);
+		if (!TextUtils.isEmpty(uname) && !TextUtils.isEmpty(pwd) && isLoginFail) {
+			setContentView(R.layout.activity_welcom);
+//			 默认登陆
+			hideInput();
+			startTime = System.currentTimeMillis();
+			login(uname, pwd, true, false);
+		} else {
+			setContentView(R.layout.act_login);
+			setTitle(getString(R.string.login));
+			etUname = (EditText) findViewById(R.id.etUname);
+			etPwd = (EditText) findViewById(R.id.etPwd);
+			btnLoad = (Button) findViewById(R.id.btnLoad);
 			
-//			getFinalHttp().configTimeout(10*1000);
+			addTextWatcher(etUname, etPwd);
 			
-//			etPwd.setText(pwd);
-//			etUname.setText(uname);
-//			if (!TextUtils.isEmpty(uname)) {
-//				etUname.setSelection(uname.length());
-//			}
-//		}
+			getFinalHttp().configTimeout(10*1000);
+			
+			etPwd.setText(pwd);
+			etUname.setText(uname);
+			if (!TextUtils.isEmpty(uname)) {
+				etUname.setSelection(uname.length());
+			}
+		}
 
 	}
 

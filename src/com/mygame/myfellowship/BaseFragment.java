@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.http.FinalHttp;
 import com.mygame.myfellowship.info.User;
-import com.mygame.myfellowship.view.TkbActionBar;
-import com.mygame.myfellowship.view.TkbActionBar.IProvideTkActionBar;
+import com.mygame.myfellowship.view.SelfDefineActionBar;
+import com.mygame.myfellowship.view.SelfDefineActionBar.IProvideTkActionBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
@@ -33,7 +33,7 @@ public class BaseFragment extends Fragment implements IProvideTkActionBar {
 	public User user;
 	public String ipAddress;
 	public ImageLoader imageLoader = ImageLoader.getInstance();
-	protected TkbActionBar mTkActionBar;
+	protected SelfDefineActionBar mTkActionBar;
 	protected View rootView;
 	private FinalHttp http;
 
@@ -55,9 +55,9 @@ public class BaseFragment extends Fragment implements IProvideTkActionBar {
 	}
 
 	@Override
-	public TkbActionBar getTkActionBar() {
+	public SelfDefineActionBar getTkActionBar() {
 		if (rootView != null) {
-			mTkActionBar = (TkbActionBar) rootView
+			mTkActionBar = (SelfDefineActionBar) rootView
 					.findViewById(R.id.tkActionBar);
 		}
 		return mTkActionBar;
@@ -240,7 +240,7 @@ public class BaseFragment extends Fragment implements IProvideTkActionBar {
 	 */
 	@Override
 	public void setupTkActionBar(int resId) {
-		mTkActionBar = (TkbActionBar) getView().findViewById(resId);
+		mTkActionBar = (SelfDefineActionBar) getView().findViewById(resId);
 	}
 
 	@Override

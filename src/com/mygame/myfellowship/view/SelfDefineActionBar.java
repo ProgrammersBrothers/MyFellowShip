@@ -1,24 +1,22 @@
 package com.mygame.myfellowship.view;
 
-import com.mygame.myfellowship.R;
-
 import android.app.Activity;
 import android.content.Context;
-import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.mygame.myfellowship.R;
 
 /**
  * 
  * @author tom 所有界面用到的actionbar，顶部可配置
  * 
  */
-public class TkbActionBar extends RelativeLayout {
+public class SelfDefineActionBar extends RelativeLayout {
 
 	Context context;
 	View parentView;
@@ -26,18 +24,18 @@ public class TkbActionBar extends RelativeLayout {
 	private ViewGroup mFlNaviRight;
 	private ViewGroup mFlNaviMid;
 
-	public TkbActionBar(Context context) {
+	public SelfDefineActionBar(Context context) {
 		super(context, null);
 		this.context = context;
 	}
 
-	public TkbActionBar(Context context, AttributeSet attrs) {
+	public SelfDefineActionBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.context = context;
 	}
 
 	public static interface IProvideTkActionBar {
-		TkbActionBar getTkActionBar();
+		SelfDefineActionBar getTkActionBar();
 
 		void setupTkActionBar(int resId);
 
