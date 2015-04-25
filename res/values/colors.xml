@@ -2,11 +2,11 @@
 <resources>
 
     <color name="radio_pay_checked">#f7fff2</color>
-    <color name="top_bg">#4fbb0f</color>
+    <color name="top_bg">#ee0000</color>
     <color name="crystalwhite">#00ffffff</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="btn_green">#46aa0b</color>
+    <color name="btn_blue">#000033</color>
     <color name="sc_transparent_background">#00111111</color>
     <color name="title">#ebeaea</color>
     <color name="bg">#f2f2f2</color>

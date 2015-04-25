@@ -8,10 +8,14 @@ import android.app.Application;
 public class SelfDefineApplication extends Application {
 
 	public static boolean finishLogin;
+	private static SelfDefineApplication application;
+	private static FinalHttp finalHttp;
 
 	public static SelfDefineApplication getInstance() {
-		// TODO Auto-generated method stub
-		return null;
+		if(application == null){
+			application = new SelfDefineApplication();
+		}
+		return application;
 	}
 
 	public User getUser() {
@@ -19,8 +23,19 @@ public class SelfDefineApplication extends Application {
 	}
 
 	public FinalHttp getFinalHttp() {
-		// TODO Auto-generated method stub
-		return null;
+		if(finalHttp == null){
+			finalHttp = new FinalHttp();
+		}
+		return finalHttp;
 	}
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		finalHttp = getFinalHttp();
+	}
+	
+	
+	
 
 }

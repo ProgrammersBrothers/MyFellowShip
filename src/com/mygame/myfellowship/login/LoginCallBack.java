@@ -1,17 +1,15 @@
 package com.mygame.myfellowship.login;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mygame.myfellowship.Constant;
-import com.mygame.myfellowship.LoginModel;
-import com.mygame.myfellowship.MainActivity;
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.ToastHelper;
 import com.mygame.myfellowship.bean.Response;
+import com.mygame.myfellowship.info.User;
 
 /**
  * @discription 登录接口回调处理过程
@@ -20,12 +18,12 @@ import com.mygame.myfellowship.bean.Response;
 public class LoginCallBack extends LoadingCallBack<String> {
 
 	Button btnLoad;
-	LoginModel user;
+	User user;
 	Login activity;
 	ProgressDialog pDialog;
 	Boolean isBackLogin;
 
-	public LoginCallBack(Boolean isBackLogin, Button btnLoad, LoginModel user,
+	public LoginCallBack(Boolean isBackLogin, Button btnLoad, User user,
 			Login context, boolean isShowLoading) {
 		super(context);
 		if(isShowLoading){
@@ -46,8 +44,8 @@ public class LoginCallBack extends LoadingCallBack<String> {
 	@Override
 	public void onSuccess(String result) {
 		super.onSuccess(result);
-		Response<LoginModel> response = new Gson().fromJson(result,
-				new TypeToken<Response<LoginModel>>() {
+		Response<User> response = new Gson().fromJson(result,
+				new TypeToken<Response<User>>() {
 				}.getType());
 
 		if (!isBackLogin) {

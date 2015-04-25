@@ -2,6 +2,7 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg"
     android:gravity="top|center"
     android:orientation="vertical" >
 
@@ -20,7 +21,6 @@
                 android:id="@+id/llParent"
                 style="@style/ContentBgTheme"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:clickable="true"
                 android:onClick="onHideInputClick"
                 android:orientation="vertical" >
@@ -39,8 +39,8 @@
 
                         <ImageView
                             android:id="@+id/ivSanjiao"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_centerVertical="true"
                             android:src="@drawable/login_uname" />
 
@@ -64,8 +64,8 @@
 
                         <ImageView
                             android:id="@+id/ivQuickSearch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_centerVertical="true"
                             android:src="@drawable/login_pwd" />
 
@@ -74,19 +74,18 @@
                             style="@style/EtTheme"
                             android:layout_toRightOf="@+id/ivQuickSearch"
                             android:hint="密码"
-                            android:inputType="textPassword"
-                            android:text="123456" />
+                            android:inputType="textPassword" />
                     </RelativeLayout>
                     
                     <include layout="@layout/include_split" />
                      
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnForgetPwd"
-                    style="@style/btnFogetPwdTheme"
-                    android:onClick="onSkipToFindPwd"
-                    android:text="忘记密码？" />
+<!--                 <Button -->
+<!--                     android:id="@+id/btnForgetPwd" -->
+<!--                     style="@style/btnFogetPwdTheme" -->
+<!--                     android:onClick="onSkipToFindPwd" -->
+<!--                     android:text="忘记密码？" /> -->
 
                 <Button
                     android:id="@+id/btnLoad"
