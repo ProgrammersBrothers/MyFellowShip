@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.apache.http.HttpRequest;
 
-import com.mygame.myfellowship.Constant;
 import com.mygame.myfellowship.SelfDefineApplication;
+import com.mygame.myfellowship.bean.Constant;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

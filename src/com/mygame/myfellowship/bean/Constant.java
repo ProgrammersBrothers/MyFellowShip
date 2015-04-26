@@ -1,4 +1,4 @@
-package com.mygame.myfellowship;
+package com.mygame.myfellowship.bean;
 
 import android.content.Context;
 import android.content.SharedPreferences;

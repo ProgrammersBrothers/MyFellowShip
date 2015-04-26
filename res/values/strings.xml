@@ -19,5 +19,8 @@
     <string name="no_data">抱歉没有数据，请稍后再试试!</string> 
     <string name="login">登录</string> 
     <string name="loginggg">登录中...</string>
-
+    <string name="username_empty">用户名为空</string>
+	<string name="pwd_empty">密码为空</string>
+	<string name="username_limit">用户名长度在16个字符以内哦</string>
+	<string name="pwd_length_limit">密码长度在6-16个字符以内哦</string>
 </resources>
