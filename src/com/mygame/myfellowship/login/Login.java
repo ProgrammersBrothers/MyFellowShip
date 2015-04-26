@@ -9,11 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.mygame.myfellowship.BaseActivity;
-import com.mygame.myfellowship.Constant.Preference;
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.SelfDefineApplication;
+import com.mygame.myfellowship.bean.Constant.Preference;
 import com.mygame.myfellowship.http.AjaxParams;
+import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.SecurityMD5Util;
+import com.mygame.myfellowship.utils.ToastHelper;
 
 /**
  * 过渡界面/登录界面
@@ -63,7 +65,7 @@ public class Login extends BaseActivity {
 			
 			addTextWatcher(etUname, etPwd);
 			
-			getFinalHttp().configTimeout(10*1000);
+//			getFinalHttp().configTimeout(10*1000);
 			
 			etPwd.setText(pwd);
 			etUname.setText(uname);
@@ -71,7 +73,6 @@ public class Login extends BaseActivity {
 				etUname.setSelection(uname.length());
 			}
 		}
-
 	}
 
 	private void addTextWatcher(EditText etUname2, EditText etPwd2) {
@@ -87,7 +88,7 @@ public class Login extends BaseActivity {
 			@Override
 			public void afterTextChanged(Editable s) {
 				if(TextUtils.isEmpty(s.toString())){
-//					preferences.edit().putString(Preference.UNAME, null);
+					preferences.edit().putString(Preference.UNAME, null);
 				}
 			}
 		});
@@ -104,7 +105,7 @@ public class Login extends BaseActivity {
 				@Override
 				public void afterTextChanged(Editable s) {
 					if(TextUtils.isEmpty(s.toString())){
-//						preferences.edit().putString(Preference.PWD, null);
+						preferences.edit().putString(Preference.PWD, null);
 					}
 				}
 			});
@@ -172,33 +173,32 @@ public class Login extends BaseActivity {
 	 * @param view
 	 */
 	public void onLoginClick(final View view) {
-//		hideInput();
-//		uname = ((EditText) findViewById(R.id.etUname)).getText().toString()
-//				.trim();
-//		pwd = ((EditText) findViewById(R.id.etPwd)).getText().toString().trim();
-//
-//		if (TextUtils.isEmpty(uname)) {
-//			Toast.makeText(view.getContext(), R.string.username_empty,
-//					Toast.LENGTH_SHORT).show();
-//			return;
-//		}
-//
-//		if (TextUtils.isEmpty(pwd)) {
-//			Toast.makeText(view.getContext(), R.string.pwd_empty,
-//					Toast.LENGTH_SHORT).show();
-//			return;
-//		}
-//
-//		// 用户名长度限制16位以内
-//		if (uname.length() > 16) {
-//			ToastHelper.ToastSht(R.string.username_limit, getActivity());
-//			return;
-//		}
-//
-//		if (uname.length() > 16 || pwd.length() < 6) {
-//			ToastHelper.ToastSht(R.string.pwd_length_limit, getActivity());
-//			return;
-//		}
+		hideInput();
+		uname = ((EditText) findViewById(R.id.etUname)).getText().toString()
+				.trim();
+		pwd = ((EditText) findViewById(R.id.etPwd)).getText().toString().trim();
+
+		if (TextUtils.isEmpty(uname)) {
+			ToastHelper.ToastLg(R.string.username_empty, this);
+			return;
+		}
+
+		if (TextUtils.isEmpty(pwd)) {
+			ToastHelper.ToastLg(R.string.pwd_empty, this);
+			return;
+		}
+
+		// 用户名长度限制16位以内
+		if (uname.length() > 16) {
+			ToastHelper.ToastSht(R.string.username_limit, getActivity());
+			return;
+		}
+
+		if (uname.length() > 16 || pwd.length() < 6) {
+			ToastHelper.ToastSht(R.string.pwd_length_limit, getActivity());
+			return;
+		}
+		
 		btnLoad.setText("登录中");
 		btnLoad.setEnabled(false);
 		saveUser();
@@ -230,6 +230,10 @@ public class Login extends BaseActivity {
 		}
 //		getFinalHttp().get(Urls.LOGIN_URL, getLoginParams(uname, encryptPwd),
 //				new LoginCallBack(isBackLogin, btnLoad, user, Login.this, isShowLoading));
+		String logResult = AssetUtils.getDataFromAssets(this, "login.txt");
+		
+		LoginCallBack callback = new LoginCallBack(isBackLogin, btnLoad, user, Login.this, isShowLoading);
+		callback.parseData(logResult);
 	}
 
 }

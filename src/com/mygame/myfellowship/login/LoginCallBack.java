@@ -1,15 +1,17 @@
 package com.mygame.myfellowship.login;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mygame.myfellowship.Constant;
+import com.mygame.myfellowship.MainActivity;
 import com.mygame.myfellowship.R;
-import com.mygame.myfellowship.ToastHelper;
+import com.mygame.myfellowship.bean.Constant;
 import com.mygame.myfellowship.bean.Response;
 import com.mygame.myfellowship.info.User;
+import com.mygame.myfellowship.utils.ToastHelper;
 
 /**
  * @discription 登录接口回调处理过程
@@ -44,6 +46,10 @@ public class LoginCallBack extends LoadingCallBack<String> {
 	@Override
 	public void onSuccess(String result) {
 		super.onSuccess(result);
+		parseData(result);
+	}
+
+	public void parseData(String result) {
 		Response<User> response = new Gson().fromJson(result,
 				new TypeToken<Response<User>>() {
 				}.getType());
@@ -69,7 +75,8 @@ public class LoginCallBack extends LoadingCallBack<String> {
 //			activity.saveUser();
 //			UserUtils.saveUserInfo(activity, response.getResponse());
 			user = response.getResponse();
-			// 设置了城市和意向
+			activity.startActivity(new Intent(activity, MainActivity.class));
+			activity.finish();
 		} else {
 			activity.onFindView(false);
 			ToastHelper.ToastLg(response.getMessage(), activity);

@@ -11,7 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mygame.myfellowship.Constant.Preference;
+import com.mygame.myfellowship.bean.Constant.Preference;
 import com.mygame.myfellowship.http.FinalHttp;
 import com.mygame.myfellowship.info.User;
 import com.mygame.myfellowship.log.MyLog;

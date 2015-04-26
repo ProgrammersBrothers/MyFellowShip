@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mygame.myfellowship.bean.Constant;
 import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.http.FinalHttp;
 import com.mygame.myfellowship.info.User;
