@@ -137,7 +137,6 @@ public class Login extends BaseActivity {
 		}
 		super.onResume();
 	}
-
 	/**
 	 * 请求登陆的相关接口
 	 * 
