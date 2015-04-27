@@ -74,7 +74,7 @@ public class AnswerQuestionActivity extends BaseActivity {
 		
 		setContentView(R.layout.question_container);
 		initView();
-		addRightBtn(getString(R.string.nextQ), listener);
+//		addRightBtn(getString(R.string.nextQ), listener);
 		requestAllQuestionInfo();
 	}
 	
@@ -84,7 +84,6 @@ public class AnswerQuestionActivity extends BaseActivity {
 	}
 
 	public void requestAllQuestionInfo(){
-		
 		final ProgressDialog dialog = new ProgressDialog(this);
 		dialog.setMessage("获取题库中...");
 		String t = AssetUtils.getDataFromAssets(this, "question.txt");
