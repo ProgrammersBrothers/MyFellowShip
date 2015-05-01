@@ -6,4 +6,6 @@ public class Urls {
 
 	public static String question_info = SERVER_IP + "/quesitons/";
 
+	public static String verify_code = "sharesdk_verfy_code";
+
 }

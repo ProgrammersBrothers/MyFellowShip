@@ -199,7 +199,6 @@ public class Login extends BaseActivity {
 		}
 		
 		btnLoad.setText("登录中");
-		btnLoad.setEnabled(false);
 		saveUser();
 		login(uname, pwd, false, true);
 	}

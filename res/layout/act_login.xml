@@ -6,7 +6,7 @@
     android:gravity="top|center"
     android:orientation="vertical" >
 
-    <include layout="@layout/include_fragment_navigation_bar" />
+<!--     <include layout="@layout/include_fragment_navigation_bar" /> -->
 
     <FrameLayout
         android:layout_width="match_parent"
