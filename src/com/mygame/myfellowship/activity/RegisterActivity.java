@@ -15,7 +15,7 @@ public class RegisterActivity extends BaseActivity{
 		// 显示当前的答题
 		// 提交保存当前答题的题号
 		
-		setContentView(R.layout.question_container);
+		setContentView(R.layout.register_verify);
 		initView(); 
 	}
 	

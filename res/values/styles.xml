@@ -204,4 +204,10 @@
         <item name="android:textColor">@color/item_subtitle</item>
         <item name="android:textSize">15sp</item>
     </style>
+    
+    
+    <style name="styleForQuestionRadio" parent="@style/w_w">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">15sp</item>
+    </style>
 </resources>
