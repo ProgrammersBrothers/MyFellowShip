@@ -19,7 +19,7 @@ import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.http.FinalHttp;
 import com.mygame.myfellowship.info.User;
 import com.mygame.myfellowship.view.SelfDefineActionBar;
-import com.mygame.myfellowship.view.SelfDefineActionBar.IProvideTkActionBar;
+import com.mygame.myfellowship.view.SelfDefineActionBar.IProvideActionBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
@@ -28,7 +28,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * @author 
  * 
  */
-public class BaseFragment extends Fragment implements IProvideTkActionBar {
+public class BaseFragment extends Fragment implements IProvideActionBar {
 
 	protected SharedPreferences preferences;
 	public User user;
@@ -56,7 +56,7 @@ public class BaseFragment extends Fragment implements IProvideTkActionBar {
 	}
 
 	@Override
-	public SelfDefineActionBar getTkActionBar() {
+	public SelfDefineActionBar getSelfDefActionBar() {
 		if (rootView != null) {
 			mTkActionBar = (SelfDefineActionBar) rootView
 					.findViewById(R.id.tkActionBar);
@@ -68,7 +68,7 @@ public class BaseFragment extends Fragment implements IProvideTkActionBar {
 	 * 添加顶部标题栏标题
 	 */
 	public void setTitle(CharSequence title) {
-		getTkActionBar();
+		getSelfDefActionBar();
 		if (mTkActionBar != null) {
 			mTkActionBar.setTitle(title, null);
 		}
@@ -81,7 +81,7 @@ public class BaseFragment extends Fragment implements IProvideTkActionBar {
 	 *            如果为null，就finish
 	 */
 	protected void addBackBtn(final OnClickListener listener) {
-		getTkActionBar();
+		getSelfDefActionBar();
 		if (mTkActionBar != null) {
 			mTkActionBar.addBackText(R.string.back, listener);
 		}
@@ -93,21 +93,21 @@ public class BaseFragment extends Fragment implements IProvideTkActionBar {
 	 * @param listener
 	 */
 	protected void addBackImage(int drawId, final OnClickListener listener) {
-		getTkActionBar();
+		getSelfDefActionBar();
 		if (mTkActionBar != null) {
 			mTkActionBar.addBackImage(drawId, listener);
 		}
 	}
 
 	protected void addRightImage(int drawId, OnClickListener listener) {
-		getTkActionBar();
+		getSelfDefActionBar();
 		if (mTkActionBar != null) {
 			mTkActionBar.addRightImage(drawId, listener);
 		}
 	}
 
 	protected void addRightBtn(int id, OnClickListener listener) {
-		getTkActionBar();
+		getSelfDefActionBar();
 		if (mTkActionBar != null) {
 			mTkActionBar.addRightText(id, listener);
 		}
@@ -240,7 +240,7 @@ public class BaseFragment extends Fragment implements IProvideTkActionBar {
 	 * 如果使用actionbar，需要主动调用一下这个方法，把actionbar容器的的id传入
 	 */
 	@Override
-	public void setupTkActionBar(int resId) {
+	public void setupSelfDefineActionBar(int resId) {
 		mTkActionBar = (SelfDefineActionBar) getView().findViewById(resId);
 	}
 
@@ -251,7 +251,7 @@ public class BaseFragment extends Fragment implements IProvideTkActionBar {
 
 	@Override
 	public void setTitle(CharSequence title, OnClickListener listener) {
-		getTkActionBar();
+		getSelfDefActionBar();
 		if (mTkActionBar != null) {
 			mTkActionBar.setTitle(title, null);
 		}
@@ -259,7 +259,7 @@ public class BaseFragment extends Fragment implements IProvideTkActionBar {
 
 	@Override
 	public void setTitle(int strId, OnClickListener listener) {
-		getTkActionBar();
+		getSelfDefActionBar();
 		if (mTkActionBar != null) {
 			mTkActionBar.setTitle(getString(strId), null);
 		}

@@ -17,7 +17,7 @@ import com.mygame.myfellowship.info.User;
 import com.mygame.myfellowship.log.MyLog;
 import com.mygame.myfellowship.view.RequestDialog;
 import com.mygame.myfellowship.view.SelfDefineActionBar;
-import com.mygame.myfellowship.view.SelfDefineActionBar.IProvideTkActionBar;
+import com.mygame.myfellowship.view.SelfDefineActionBar.IProvideActionBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
@@ -25,19 +25,19 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * 
  */
 public class BaseActivity extends FragmentActivity implements
-		IProvideTkActionBar {
+		IProvideActionBar {
 	public static String tag = BaseActivity.class.getSimpleName();
 	public SharedPreferences preferences;
 	public User user;
 	public ImageLoader imageLoader = ImageLoader.getInstance();
 	private FinalHttp http;
-	protected SelfDefineActionBar mTkActionBar;
+	protected SelfDefineActionBar actionBar;
 	protected RequestDialog requestDialog;
 
 	@Override
-	public SelfDefineActionBar getTkActionBar() {
-		mTkActionBar = (SelfDefineActionBar) findViewById(R.id.tkActionBar);
-		return mTkActionBar;
+	public SelfDefineActionBar getSelfDefActionBar() {
+		actionBar = (SelfDefineActionBar) findViewById(R.id.tkActionBar);
+		return actionBar;
 	}
 	
 	public Activity getActivity() {
@@ -80,24 +80,24 @@ public class BaseActivity extends FragmentActivity implements
 	 */
 	@Override
 	public void setTitle(CharSequence title, OnClickListener listener) {
-		getTkActionBar();
-		if (mTkActionBar != null) {
-			mTkActionBar.setTitle(title, listener);
+		getSelfDefActionBar();
+		if (actionBar != null) {
+			actionBar.setTitle(title, listener);
 		}
 	}
 	
 	@Override
 	public void setTitle(int strId) {
-		getTkActionBar();
-		if (mTkActionBar != null) {
-			mTkActionBar.setTitle(strId, null);
+		getSelfDefActionBar();
+		if (actionBar != null) {
+			actionBar.setTitle(strId, null);
 		}
 	}
 	@Override
 	public void setTitle(CharSequence title) {
-		getTkActionBar();
-		if (mTkActionBar != null) {
-			mTkActionBar.setTitle(title, null);
+		getSelfDefActionBar();
+		if (actionBar != null) {
+			actionBar.setTitle(title, null);
 		}
 	}
  
@@ -109,8 +109,8 @@ public class BaseActivity extends FragmentActivity implements
 	 *            如果为null，就pass Activity activity
 	 */
 	protected void addBackBtn(View.OnClickListener listener) {
-		getTkActionBar();
-		if (mTkActionBar != null) {
+		getSelfDefActionBar();
+		if (actionBar != null) {
 			if (listener == null) {
 				listener = new View.OnClickListener() {
 					@Override
@@ -119,7 +119,7 @@ public class BaseActivity extends FragmentActivity implements
 					}
 				};
 			}
-			mTkActionBar.addBackText(R.string.back, listener);
+			actionBar.addBackText(R.string.back, listener);
 		}
 	}
 
@@ -129,8 +129,8 @@ public class BaseActivity extends FragmentActivity implements
 	 * @param listener
 	 */
 	protected void addBackImage(int drawId, OnClickListener listener) {
-		getTkActionBar();
-		if (mTkActionBar != null) {
+		getSelfDefActionBar();
+		if (actionBar != null) {
 			if (listener == null) {
 				listener = new OnClickListener() {
 					@Override
@@ -139,7 +139,7 @@ public class BaseActivity extends FragmentActivity implements
 					}
 				};
 			}
-			mTkActionBar.addBackImage(drawId, listener);
+			actionBar.addBackImage(drawId, listener);
 		}
 	}
 	
@@ -150,8 +150,8 @@ public class BaseActivity extends FragmentActivity implements
 	 *            如果为null，就pass Activity activity
 	 */
 	protected void addRightBtn(int strId, OnClickListener listener) {
-		getTkActionBar();
-		if (mTkActionBar != null) {
+		getSelfDefActionBar();
+		if (actionBar != null) {
 			if (listener == null) {
 				listener = new OnClickListener() {
 					@Override
@@ -160,7 +160,7 @@ public class BaseActivity extends FragmentActivity implements
 					}
 				};
 			}
-			mTkActionBar.addRightText(strId, listener);
+			actionBar.addRightText(strId, listener);
 		}
 	}
 
@@ -170,8 +170,8 @@ public class BaseActivity extends FragmentActivity implements
 	 * @param listener
 	 */
 	protected void addRightImage(int drawId, OnClickListener listener) {
-		getTkActionBar();
-		if (mTkActionBar != null) {
+		getSelfDefActionBar();
+		if (actionBar != null) {
 			if (listener == null) {
 				listener = new OnClickListener() {
 					@Override
@@ -180,7 +180,7 @@ public class BaseActivity extends FragmentActivity implements
 					}
 				};
 			}
-			mTkActionBar.addRightImage(drawId, listener);
+			actionBar.addRightImage(drawId, listener);
 		}
 	}
 
@@ -242,8 +242,8 @@ public class BaseActivity extends FragmentActivity implements
 	 * 如果使用actionbar，需要主动调用一下这个方法，把actionbar容器的的id传入
 	 */
 	@Override
-	public void setupTkActionBar(int resId) {
-		mTkActionBar = (SelfDefineActionBar) findViewById(resId);
+	public void setupSelfDefineActionBar(int resId) {
+		actionBar = (SelfDefineActionBar) findViewById(resId);
 	}
 
 	/**

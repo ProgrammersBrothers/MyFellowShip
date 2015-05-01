@@ -1,7 +1,6 @@
 package com.mygame.myfellowship.login;
 
 
-import static cn.smssdk.framework.utils.R.getStringRes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,8 +16,6 @@ import cn.smssdk.SMSSDK;
 import com.mygame.myfellowship.BaseActivity;
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.bean.Constant;
-import com.mygame.myfellowship.bean.Urls;
-import com.mygame.myfellowship.http.AjaxCallBack;
 import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.utils.ToastHelper;
 
@@ -154,7 +151,7 @@ public class RegisterActivity extends BaseActivity{
 					return;
 				}
 				
-				if(confirmPwd.equals(pwd)){
+				if(!confirmPwd.equals(pwd)){
 					ToastHelper.ToastSht(R.string.pwd_not_equal_confirm_pwd, getActivity());
 					return;
 				}

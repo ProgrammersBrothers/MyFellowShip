@@ -19,10 +19,10 @@ public class Question {
 	public void setQuesionId(String quesionId) {
 		this.quesionId = quesionId;
 	}
-	public List<String> getQuestions() {
+	public List<String> getAnswers() {
 		return answers;
 	}
-	public void setQuestions(List<String> questions) {
+	public void setAnswers(List<String> questions) {
 		this.answers = questions;
 	}
 }

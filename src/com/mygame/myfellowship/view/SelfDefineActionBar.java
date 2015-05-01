@@ -34,10 +34,10 @@ public class SelfDefineActionBar extends RelativeLayout {
 		this.context = context;
 	}
 
-	public static interface IProvideTkActionBar {
-		SelfDefineActionBar getTkActionBar();
+	public static interface IProvideActionBar {
+		SelfDefineActionBar getSelfDefActionBar();
 
-		void setupTkActionBar(int resId);
+		void setupSelfDefineActionBar(int resId);
 
 		void setTitle(CharSequence title, OnClickListener listener);
 
@@ -48,7 +48,6 @@ public class SelfDefineActionBar extends RelativeLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		mFlNaviLeft = (ViewGroup) findViewById(R.id.flLeft);
-		// setLeftView();
 		mFlNaviRight = (ViewGroup) findViewById(R.id.flRight);
 		mFlNaviMid = (ViewGroup) findViewById(R.id.flMiddle);
 	}

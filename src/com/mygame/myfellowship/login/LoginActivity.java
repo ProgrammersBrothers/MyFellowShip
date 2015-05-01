@@ -162,7 +162,7 @@ public class LoginActivity extends BaseActivity {
 	 * @param view
 	 */
 	public void onRegisterClick(final View view) {
-		Intent intent = new Intent(this, RegisterActivity.class);
+		Intent intent = new Intent(this, BasicInfoActivity.class);
 		startActivity(intent);
 	}
 

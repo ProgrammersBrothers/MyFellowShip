@@ -35,5 +35,9 @@
 	<string name="verify_code_success">验证码已经发送</string>
 	<string name="get_country_list_success">获取国家列表成功</string>
 	<string name="verify_code_error">验证码错误</string>
-	<string name="register_success">注册成功</string> 
+	<string name="register_success">注册成功</string>
+	<string name="next_topic">下一题</string>
+	<string name="_mbti_test_tips">您已答题完毕,即将进入MBTI性格测试，请再接再励^^,找个好对象需要点耐心~</string>
+	<string name="tip">提示</string>
+	<string name="confirm">确定</string> 
 </resources>

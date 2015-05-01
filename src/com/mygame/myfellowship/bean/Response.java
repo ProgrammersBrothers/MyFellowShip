@@ -31,18 +31,18 @@ public class Response<T> {
 	 * @param context
 	 * @return
 	 */
-	public boolean getResultAndTip(Context context) {
-		if ("C0000".equals(code) || "C0010".equals(code)) {
-			return true;
-		}
-		if (null != context) {
-			// 无数据不提示
-			if (!"C0010".equals(code) && !"C0005".equals(code) && !"C0008".equals(code)) {
-				Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-			}
-		}
-		return false;
-	}
+//	public boolean getResultAndTip(Context context) {
+//		if ("C0000".equals(code) || "C0010".equals(code)) {
+//			return true;
+//		}
+//		if (null != context) {
+//			// 无数据不提示
+//			if (!"C0010".equals(code) && !"C0005".equals(code) && !"C0008".equals(code)) {
+//				Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//			}
+//		}
+//		return false;
+//	}
 
 	/**
 	 * 只获取接口返回状态

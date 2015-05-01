@@ -19,5 +19,18 @@ public class Constant {
 	}
 	public static String USER_NAME = "user_name";
 	public static String USER_PWD = "user_pwd";
+	public static String Sex = "Sex";
+	public static String Age = "Age";
+	public static String Height = "Height";
+	public static String IfChild = "IfChild";
+	public static String IfMind = "IfMind";
+	public static String Address = "Address";
+	public static String Coord = "Coord";
+	public static String ThingAsk = "ThingAsk";
+	public static String MarryNum = "MarryNum";
+	public static String Freetime = "Freetime";
+	public static String Faith = "Faith";
+	public static String Nature = "Nature";
+	
 
 }
