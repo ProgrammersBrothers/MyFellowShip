@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rgroup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="left"
+    android:orientation="vertical" >
+
+    <RadioButton
+        android:id="@+id/radioButton1"
+        style="@style/styleForQuestionRadio" 
+        android:text="1年" />
+
+    <RadioButton
+        android:id="@+id/radioButton2"
+        style="@style/styleForQuestionRadio" 
+        android:text="2年" />
+
+    <RadioButton
+        android:id="@+id/radioButton3"
+        style="@style/styleForQuestionRadio" 
+        android:text="3年" />
+
+    <RadioButton
+        android:id="@+id/radioButton4"
+        style="@style/styleForQuestionRadio" 
+        android:text="4年" />
+
+</RadioGroup>
