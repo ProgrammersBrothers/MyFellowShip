@@ -1,4 +1,4 @@
-package com.mygame.myfellowship.activity;
+package com.mygame.myfellowship.login;
 
 
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.mygame.myfellowship.BaseActivity;
 import com.mygame.myfellowship.R;
@@ -20,18 +19,18 @@ public class BasicInfoActivity extends BaseActivity {
 		
 		@Override
 		public void onClick(View v) {
-			getFinalHttp().get(Urls.verify_code, new AjaxCallBack<String>(){
-
-				@Override
-				public void onSuccess(String t) {
-					super.onSuccess(t);
-				}
-
-				@Override
-				public void onFailure(Throwable t, int errorNo, String strMsg) {
-					super.onFailure(t, errorNo, strMsg);
-				}
-			});
+//			getFinalHttp().get(Urls.verify_code, new AjaxCallBack<String>(){
+//
+//				@Override
+//				public void onSuccess(String t) {
+//					super.onSuccess(t);
+//				}
+//
+//				@Override
+//				public void onFailure(Throwable t, int errorNo, String strMsg) {
+//					super.onFailure(t, errorNo, strMsg);
+//				}
+//			});
 		}
 	};
 	
@@ -44,9 +43,9 @@ public class BasicInfoActivity extends BaseActivity {
 	}
 
 	private void addRegisterView() {
-		 View regiterView = View.inflate(this, R.layout.register_verify, null);
-		 EditText etUserName = (EditText) regiterView.findViewById(R.id.editText1);
-		 EditText etVerify = (EditText) regiterView.findViewById(R.id.editText2);
+		 View regiterView = View.inflate(this, R.layout.basic_info_layout, null);
+//		 EditText etUserName = (EditText) regiterView.findViewById(R.id.editText1);
+//		 EditText etVerify = (EditText) regiterView.findViewById(R.id.editText2);
 		 Button btnVerify = (Button)regiterView.findViewById(R.id.button1);
 		 viewGroup.addView(regiterView);
 		 

@@ -5,42 +5,72 @@
     android:background="@color/bg"
     android:gravity="top|center"
     android:orientation="vertical" >
-    <include layout="@layout/include_fragment_navigation_bar"/>
+
+    <include layout="@layout/include_fragment_navigation_bar" />
+
+    <LinearLayout
+        android:id="@+id/llVerify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/phonEditText"
+            style="@style/EtTheme"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:hint="请输入手机号(6-16位)"
+            android:maxLength="16"
+            android:padding="@dimen/ten_dp" >
+
+            <requestFocus />
+        </EditText> 
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/phoneVerify"
+                style="@style/EtTheme"
+                android:layout_weight="1"
+                android:hint="请输入验证码"
+                android:maxLength="6"
+                android:padding="@dimen/ten_dp" />
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:background="@drawable/bg_round_corner"
+                android:padding="@dimen/ten_dp"
+                android:text="获取验证码" />
+        </LinearLayout>
+    </LinearLayout>
     
+    <LinearLayout
+        android:id="@+id/llInputPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/editText1"
-        style="@style/EtTheme"
-        android:layout_marginTop="@dimen/ten_dp"
-        android:padding="@dimen/ten_dp"
-        android:hint="请输入手机号"
-        android:maxLength="11" >
-
-        <requestFocus />
-    </EditText>
-
-    <include android:layout_width="match_parent" layout="@layout/include_split" />
-    
-    <LinearLayout 
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content" 
-	    android:orientation="horizontal" >
+        <EditText
+            android:id="@+id/etPwd"
+            style="@style/EtTheme"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:hint="请输入密码(6-13位数字或字母)"
+            android:maxLength="11"
+            android:padding="@dimen/ten_dp" />
         
         <EditText
-            android:id="@+id/editText2"
-            style="@style/EtTheme" 
-            android:layout_weight="1"
-            android:padding="@dimen/ten_dp"
-            android:maxLength="6"
-            android:hint="请输入验证码" />
+            android:id="@+id/etConfirmPwd"
+            style="@style/EtTheme"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:hint="请确认密码(6-13位数字或字母)"
+            android:maxLength="11"
+            android:padding="@dimen/ten_dp" />
+     </LinearLayout>
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/ten_dp"
-            android:background="@drawable/bg_round_corner"
-            android:padding="@dimen/ten_dp"
-            android:text="获取验证码" />
-</LinearLayout>
 </LinearLayout>

@@ -140,9 +140,8 @@
 
     <style name="ContentBgTheme">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginTop">@dimen/forty_dp</item>
-        <item name="android:gravity">top|center</item>
+        <item name="android:layout_height">match_parent</item> 
+        <item name="android:gravity">left</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -157,15 +156,15 @@
     </style>
 
     <style name="styleOfItemRightText" parent="w_w">
-        <item name="android:drawableRight">@drawable/right_arrow</item>
-        <item name="android:layout_alignParentRight">true</item>
         <item name="android:textSize">@dimen/operate_text_size</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:drawablePadding">5dp</item>
     </style>
 
     <style name="styleOfTitle" parent="w_w">
-        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/operate_text_size</item>
+        <item name="android:paddingRight">@dimen/twenty_dp</item>
     </style>
 
  

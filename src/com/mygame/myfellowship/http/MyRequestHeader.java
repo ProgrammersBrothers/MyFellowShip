@@ -22,7 +22,10 @@ public class MyRequestHeader extends BaseReqeustHeader{
     }
 
     public static String getToken() {
-		return SelfDefineApplication.getInstance().getUser().getToken();
+    	if(SelfDefineApplication.getInstance().getUser() != null){
+    		return SelfDefineApplication.getInstance().getUser().getToken();
+    	}
+    	return null;
     }
 
     @Override
@@ -51,7 +54,10 @@ public class MyRequestHeader extends BaseReqeustHeader{
     }
     
 	public static String getUserName() {
-		return SelfDefineApplication.getInstance().getUser().getUserName();
+		if(SelfDefineApplication.getInstance().getUser() != null){
+			return SelfDefineApplication.getInstance().getUser().getUserName();
+		}
+		return null;
 	}
     
     public static void addHeaders(HttpRequest request, AbsReqeustHeader headers) {

@@ -15,6 +15,7 @@ import com.mygame.myfellowship.bean.Constant.Preference;
 import com.mygame.myfellowship.http.FinalHttp;
 import com.mygame.myfellowship.info.User;
 import com.mygame.myfellowship.log.MyLog;
+import com.mygame.myfellowship.view.RequestDialog;
 import com.mygame.myfellowship.view.SelfDefineActionBar;
 import com.mygame.myfellowship.view.SelfDefineActionBar.IProvideTkActionBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -31,6 +32,7 @@ public class BaseActivity extends FragmentActivity implements
 	public ImageLoader imageLoader = ImageLoader.getInstance();
 	private FinalHttp http;
 	protected SelfDefineActionBar mTkActionBar;
+	protected RequestDialog requestDialog;
 
 	@Override
 	public SelfDefineActionBar getTkActionBar() {
@@ -42,6 +44,32 @@ public class BaseActivity extends FragmentActivity implements
 		return this;
 	}
 
+	/**
+	 * 显示对话框
+	 * @param strId
+	 */
+	public void showReqeustDialog(int strId){
+		if(requestDialog == null){
+			requestDialog = new RequestDialog(this);
+		}
+		requestDialog.setCancelable(false);
+		requestDialog.setMessage(getString(strId));
+		
+		if(!requestDialog.isShowing()){
+			requestDialog.show();
+		}
+	}
+	
+	/**
+	 * 取消对话框
+	 */
+	public void cancelRequestDialog(){
+		if(requestDialog != null && requestDialog.isShowing()){
+			requestDialog.cancel();
+		}
+	}
+	
+	
 	/**
 	 * 添加标题
 	 * 

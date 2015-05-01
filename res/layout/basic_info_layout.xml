@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:gravity="top|center"
+    android:orientation="vertical" >
+
+<!--     <include layout="@layout/include_fragment_navigation_bar" /> -->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ScrollView
+            android:id="@+id/slLogin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            
+            <LinearLayout
+                android:id="@+id/llParent"
+                style="@style/ContentBgTheme"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                android:id="@+id/llParent"
+                style="@style/ContentBgTheme"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+                
+                 <TextView android:id="@+id/tvGenderT"
+                     style="@style/styleOfTitle"
+                     android:text="性别:"/>
+                 
+                 <RadioGroup
+                     android:id="@+id/rgroupGender"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+                     <RadioButton android:id="@+id/rbMale"
+                         style="@style/styleForQuestionRadio"
+                         android:text="男"/>
+                     
+                     <RadioButton android:id="@+id/rbFemale"
+                         style="@style/styleForQuestionRadio"
+                         android:text="女"/>
+                     
+                     
+                 </RadioGroup>
+                     
+                </LinearLayout>
+                
+                
+                <LinearLayout
+                android:id="@+id/llAge"
+                style="@style/ContentBgTheme"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+                
+                 <TextView android:id="@+id/tvAge"
+                     style="@style/styleOfTitle"
+                     android:text="年龄:"/>
+                  
+                 <TextView android:id="@+id/tvChooseAge"
+                     style="@style/w_w"
+                     android:text="28"
+                     android:textSize="@dimen/input_size"
+                     android:textColor="@color/black" />
+                     
+                </LinearLayout>
+                
+                <LinearLayout
+                android:id="@+id/llTall"
+                style="@style/ContentBgTheme"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+                
+                 <TextView android:id="@+id/tvTall"
+                     style="@style/styleOfTitle"
+                     android:text="身高:"/>
+                  
+                 <TextView android:id="@+id/tvChooseTall"
+                     style="@style/w_w"
+                     android:text="170-180cm"
+                     android:textSize="@dimen/input_size"
+                     android:textColor="@color/black" />
+                     
+                </LinearLayout>
+                
+                
+            </LinearLayout>
+            
+            
+            
+        </ScrollView>
+    </FrameLayout>
+
+</LinearLayout>

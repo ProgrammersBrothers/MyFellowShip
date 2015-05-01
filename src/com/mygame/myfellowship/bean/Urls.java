@@ -8,4 +8,6 @@ public class Urls {
 
 	public static String verify_code = "sharesdk_verfy_code";
 
+	public static String register = SERVER_IP + "/regiser";
+
 }

@@ -21,12 +21,12 @@ public class LoginCallBack extends LoadingCallBack<String> {
 
 	Button btnLoad;
 	User user;
-	Login activity;
+	LoginActivity activity;
 	ProgressDialog pDialog;
 	Boolean isBackLogin;
 
 	public LoginCallBack(Boolean isBackLogin, Button btnLoad, User user,
-			Login context, boolean isShowLoading) {
+			LoginActivity context, boolean isShowLoading) {
 		super(context);
 		if(isShowLoading){
 			setShowDialog();

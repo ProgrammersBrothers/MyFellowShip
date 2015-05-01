@@ -1,5 +1,6 @@
 package com.mygame.myfellowship.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -23,7 +24,7 @@ import com.mygame.myfellowship.utils.ToastHelper;
  * @author tom
  * 
  */
-public class Login extends BaseActivity {
+public class LoginActivity extends BaseActivity {
 
 	// 用户名，密码框
 	private EditText etUname, etPwd;
@@ -161,9 +162,8 @@ public class Login extends BaseActivity {
 	 * @param view
 	 */
 	public void onRegisterClick(final View view) {
-//		Intent intent = new Intent(this, Register.class);
-//		intent.putExtra(Register.IS_LOGIN, true);
-//		startActivity(intent);
+		Intent intent = new Intent(this, RegisterActivity.class);
+		startActivity(intent);
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class Login extends BaseActivity {
 //				new LoginCallBack(isBackLogin, btnLoad, user, Login.this, isShowLoading));
 		String logResult = AssetUtils.getDataFromAssets(this, "login.txt");
 		
-		LoginCallBack callback = new LoginCallBack(isBackLogin, btnLoad, user, Login.this, isShowLoading);
+		LoginCallBack callback = new LoginCallBack(isBackLogin, btnLoad, user, LoginActivity.this, isShowLoading);
 		callback.parseData(logResult);
 	}
 
