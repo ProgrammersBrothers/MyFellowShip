@@ -9,8 +9,6 @@ import android.widget.Button;
 
 import com.mygame.myfellowship.BaseActivity;
 import com.mygame.myfellowship.R;
-import com.mygame.myfellowship.bean.Urls;
-import com.mygame.myfellowship.http.AjaxCallBack;
 
 public class BasicInfoActivity extends BaseActivity {
 

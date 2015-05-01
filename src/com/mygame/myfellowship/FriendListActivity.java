@@ -15,8 +15,7 @@ public class FriendListActivity extends BaseActivity{
 	FriendListViewAdapter mFriendListViewAdapter;
 	List<StructFriendInfo> lpStructFriendInfo = new ArrayList<StructFriendInfo>(); 
 	@Override
-	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
+	protected void onCreate(Bundle arg0) { 
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_friend_list);
 		mListViewFriendList = (ListView) findViewById(R.id.ListViewFriendList);
