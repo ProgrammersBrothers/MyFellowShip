@@ -52,6 +52,6 @@
     	"answers":["有", "没有"]
     }
   ], 
-  "currentAnswerIndex":3,
+  "currentAnswerIndex":1,
   "msg": "登录成功"
 }
