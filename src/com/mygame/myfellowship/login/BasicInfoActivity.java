@@ -2,6 +2,8 @@ package com.mygame.myfellowship.login;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +18,9 @@ import com.mygame.myfellowship.BaseActivity;
 import com.mygame.myfellowship.Question;
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.bean.Response;
+import com.mygame.myfellowship.bean.Urls;
+import com.mygame.myfellowship.http.AjaxCallBack;
+import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.utils.AssetUtils;
 
 public class BasicInfoActivity extends BaseActivity {
@@ -64,10 +69,65 @@ public class BasicInfoActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				int checkId = group.getCheckedRadioButtonId();
 				
+				if(currentQId < requestList.size() - 1){
+					saveAnsers(checkId);
+					currentQId ++;
+					mHandler.sendEmptyMessage(currentQId);
+				} else {
+					showTestEMBI();
+				}
 			}
 		});
+	}
+
+
+	/**
+	 * 保存答案
+	 * @param checkId
+	 */
+	protected void saveAnsers(int checkId) {
+		 new AlertDialog.Builder(this).setTitle("提示")
+		 .setMessage("基本信息答完，继续测试MBAI?")
+		 .setPositiveButton("前往", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				 requestMBAIQuestion();
+			}
+		}).create().show();
+	}
+
+
+	protected void requestMBAIQuestion() {
+		getFinalHttp().post(Urls.question_info, new AjaxCallBack<String>(){
+
+			@Override
+			public void onStart() {
+				super.onStart();
+				showReqeustDialog(R.string.requestion_topic);
+			}
+
+			@Override
+			public void onSuccess(String t) {
+				super.onSuccess(t);
+				parseBasicTopic(t);
+				cancelRequestDialog();
+			}
+
+			@Override
+			public void onFailure(Throwable t, int errorNo, String strMsg) {
+				super.onFailure(t, errorNo, strMsg);
+				cancelRequestDialog();
+			}
+			
+		});
+	}
+
+
+	protected void showTestEMBI() {
+		 
 	}
 
 

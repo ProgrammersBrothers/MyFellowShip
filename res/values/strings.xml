@@ -39,5 +39,6 @@
 	<string name="next_topic">下一题</string>
 	<string name="_mbti_test_tips">您已答题完毕,即将进入MBTI性格测试，请再接再励^^,找个好对象需要点耐心~</string>
 	<string name="tip">提示</string>
-	<string name="confirm">确定</string> 
+	<string name="confirm">确定</string>
+	<string name="requestion_topic">请求题目中...</string> 
 </resources>
