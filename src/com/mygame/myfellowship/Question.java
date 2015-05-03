@@ -3,10 +3,10 @@ package com.mygame.myfellowship;
 import java.util.List;
 
 public class Question {
-	String question;
-	String quesionId; 
-	List<String> answers;
-	
+	private String question;
+	private String quesionId; 
+	private List<String> answers;
+	private List<String> answerstype;
 	public String getQuestion() {
 		return question;
 	}
@@ -24,5 +24,11 @@ public class Question {
 	}
 	public void setAnswers(List<String> questions) {
 		this.answers = questions;
+	}
+	public List<String> getAnswerstype() {
+		return answerstype;
+	}
+	public void setAnswerstype(List<String> answerstype) {
+		this.answerstype = answerstype;
 	}
 }

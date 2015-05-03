@@ -1,5 +1,5 @@
 package com.mygame.myfellowship.utils;
-class CharacterParse{
+public class CharacterParse{
 	public static final int E =1;//外向
 	public static final int I =2;//内倾
 	public static final int N =3;//理想
@@ -22,6 +22,37 @@ class CharacterParse{
 	int CharacterbigType = 0;
 	public int [] getCharacterAndNum() {
 		return CharacterAndNum;
+	}
+	public int MTBITypeToInt(String type){
+		int result = 0;
+		if(type == null){
+			return -1;
+		}
+		if(type.equals("E")){
+			return E;
+		}
+		else if(type.equals("I")){
+			return I;
+		}
+		else if(type.equals("N")){
+			return N;
+		}
+		else if(type.equals("S")){
+			return S;
+		}
+		else if(type.equals("T")){
+			return T;
+		}
+		else if(type.equals("F")){
+			return F;
+		}
+		else if(type.equals("J")){
+			return J;
+		}
+		else if(type.equals("P")){
+			return P;
+		}
+		return result;
 	}
 	//每做一题都会调用此函数，用来统计性格
 	public void setCharacterAndNum(int Character) {

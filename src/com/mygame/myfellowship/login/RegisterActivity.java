@@ -16,6 +16,8 @@ import cn.smssdk.SMSSDK;
 import com.mygame.myfellowship.BaseActivity;
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.bean.Constant;
+import com.mygame.myfellowship.bean.Urls;
+import com.mygame.myfellowship.http.AjaxCallBack;
 import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.utils.ToastHelper;
 
@@ -166,29 +168,31 @@ public class RegisterActivity extends BaseActivity{
 
 	protected void requestRegister() {
 		AjaxParams params = new AjaxParams();
-		params.put("phone", phoneVerify.getText().toString());
+		params.put("buss", "reg");
+		params.put("username", phonEditText.getText().toString());
 		params.put("password", etConfirmPwd.getText().toString());
-		preferences.edit().putString(Constant.USER_NAME, phoneVerify.getText().toString());
-		preferences.edit().putString(Constant.USER_PWD, etPwd.getText().toString());
+
 		
-//		getFinalHttp().post(Urls.register, params, new AjaxCallBack<String>(){
-//
-//			@Override
-//			public void onSuccess(String t) {
-//				super.onSuccess(t);
+		getFinalHttp().post(Urls.register, params, new AjaxCallBack<String>(){
+
+			@Override
+			public void onSuccess(String t) {
+				super.onSuccess(t);
 				cancelRequestDialog();
+				preferences.edit().putString(Constant.USER_NAME, phonEditText.getText().toString()).commit();
+				preferences.edit().putString(Constant.USER_PWD, etConfirmPwd.getText().toString()).commit();
 				ToastHelper.ToastSht(R.string.register_success, getActivity());
 				startActivity(new Intent(RegisterActivity.this, BasicInfoActivity.class));
 				finish();
-//			}
-//
-//			@Override
-//			public void onFailure(Throwable t, int errorNo, String strMsg) {
-//				super.onFailure(t, errorNo, strMsg);
-//				ToastHelper.ToastLg(strMsg, getActivity());
-//				cancelRequestDialog();
-//			}
-//		});
+			}
+
+			@Override
+			public void onFailure(Throwable t, int errorNo, String strMsg) {
+				super.onFailure(t, errorNo, strMsg);
+				ToastHelper.ToastLg(strMsg, getActivity());
+				cancelRequestDialog();
+			}
+		});
 	}
 
 	@Override

@@ -16,12 +16,12 @@ import android.widget.Toast;
 public class Response<T> {
 
 	public Response(String code, String msg) {
-		this.code = code;
-		this.msg = msg;
+		this.respCode = code;
+		this.respMsg = msg;
 	}
 
-	String code;
-	String msg;
+	String respCode;
+	String respMsg;
 	String valicode;
 	T data;
 	String token;
@@ -51,14 +51,14 @@ public class Response<T> {
 	 * @return
 	 */
 	public boolean getResult(Context context) {
-		if ("C0000".equals(code)) {
+		if ("C0000".equals(respCode)) {
 			return true;
 		}
 		return false;
 	}
 
 	public String getMessage() {
-		return msg;
+		return respMsg;
 	}
 
 	public T getResponse() {
@@ -88,7 +88,7 @@ public class Response<T> {
 	}
 
 	public String getCode() {
-		return this.code;
+		return this.respCode;
 	}
 
 	public String getToken() {

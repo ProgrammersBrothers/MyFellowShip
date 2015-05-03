@@ -1,10 +1,14 @@
 package com.mygame.myfellowship.login;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +17,9 @@ import com.mygame.myfellowship.BaseActivity;
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.SelfDefineApplication;
 import com.mygame.myfellowship.bean.Constant.Preference;
+import com.mygame.myfellowship.bean.Constant;
+import com.mygame.myfellowship.bean.Urls;
+import com.mygame.myfellowship.http.AjaxCallBack;
 import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.SecurityMD5Util;
@@ -176,7 +183,8 @@ public class LoginActivity extends BaseActivity {
 		uname = ((EditText) findViewById(R.id.etUname)).getText().toString()
 				.trim();
 		pwd = ((EditText) findViewById(R.id.etPwd)).getText().toString().trim();
-
+		uname = preferences.getString(Constant.USER_NAME, null);
+		pwd = preferences.getString(Constant.USER_PWD, null);
 		if (TextUtils.isEmpty(uname)) {
 			ToastHelper.ToastLg(R.string.username_empty, this);
 			return;
@@ -226,12 +234,54 @@ public class LoginActivity extends BaseActivity {
 				return;
 			}
 		}
-//		getFinalHttp().get(Urls.LOGIN_URL, getLoginParams(uname, encryptPwd),
+		
+		AjaxParams params = new AjaxParams();
+		params.put("buss", "getUserid");
+		params.put("username",uname);
+		params.put("password",pwd);
+//		final LoginCallBack callback = new LoginCallBack(isBackLogin, btnLoad, user, LoginActivity.this, isShowLoading);
+		getFinalHttp().post(Urls.login, params, new AjaxCallBack<String>(){
+
+			@Override
+			public void onSuccess(String t) {
+				super.onSuccess(t);
+//				callback.parseData(t);
+				parseData(t);
+				cancelRequestDialog();
+			}
+			private void parseData(String t) {
+				try {
+					JSONObject json = new JSONObject(t);
+					if("00".equals(json.get("respCode"))) {
+						ToastHelper.ToastLg("登录成功!", getApplicationContext());
+						String userId = json.getString("respMsg");
+						Log.i("--tom", "userId:" + userId);
+						preferences.edit().putString(Constant.USER_ID, userId).commit();
+					}
+					else if("E01".equals(json.get("respCode"))){
+						ToastHelper.ToastLg(json.getString("respMsg"), getApplicationContext());
+					}
+					else if("E02".equals(json.get("respCode"))){
+						ToastHelper.ToastLg(json.getString("respMsg"), getApplicationContext());
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			@Override
+			public void onFailure(Throwable t, int errorNo, String strMsg) {
+				super.onFailure(t, errorNo, strMsg);
+				ToastHelper.ToastLg(strMsg, getActivity());
+				cancelRequestDialog();
+			}
+		});
+//		getFinalHttp().get(Urls.login, getLoginParams(uname, encryptPwd),
 //				new LoginCallBack(isBackLogin, btnLoad, user, Login.this, isShowLoading));
 		String logResult = AssetUtils.getDataFromAssets(this, "login.txt");
 		
-		LoginCallBack callback = new LoginCallBack(isBackLogin, btnLoad, user, LoginActivity.this, isShowLoading);
-		callback.parseData(logResult);
+		
+		
 	}
 
 }

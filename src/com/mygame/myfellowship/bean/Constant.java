@@ -17,8 +17,9 @@ public class Constant {
 			return context.getSharedPreferences("MyFellowShipSharePref", Context.MODE_PRIVATE);
 		}
 	}
-	public static String USER_NAME = "user_name";
-	public static String USER_PWD = "user_pwd";
+	public static String USER_NAME = "username";
+	public static String USER_PWD = "password";
+	public static String USER_ID = "userid";
 	public static String Sex = "Sex";
 	public static String Age = "Age";
 	public static String Height = "Height";
