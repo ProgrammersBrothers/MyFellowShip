@@ -47,20 +47,20 @@
     	"question":"你看好中国的经济吗?",
     	"quesionId":"0009",
     	"answers":["看好", "不看好"],
-    	"answerstype":["1", "2"]
+    	"answerstype":["A", "B"]
     	
     },
     {
     	"question":"你认为中国的媒体可信吗?",
     	"quesionId":"0010",
     	"answers":["可信", "不可信"],
-    	"answerstype":["1", "2"]
+    	"answerstype":["A", "B"]
     },
     {
     	"question":"你认为中国有言论自由吗?",
     	"quesionId":"0011",
     	"answers":["有", "没有"],
-    	"answerstype":["1", "2"]
+    	"answerstype":["A", "B"]
     }
   ], 
   "currentAnswerIndex":1,

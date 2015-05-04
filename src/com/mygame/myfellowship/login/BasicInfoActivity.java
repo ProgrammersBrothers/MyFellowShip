@@ -1,6 +1,10 @@
 package com.mygame.myfellowship.login;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -33,6 +37,7 @@ import com.mygame.myfellowship.bean.Urls;
 import com.mygame.myfellowship.gps.LocationUtil;
 import com.mygame.myfellowship.gps.MyLocation;
 import com.mygame.myfellowship.http.AjaxCallBack;
+import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.CharacterParse;
 import com.mygame.myfellowship.utils.ToastHelper;
@@ -49,11 +54,15 @@ public class BasicInfoActivity extends BaseActivity {
 	
 	CharacterParse mCharacterParse;
 	private int questionType = 1;//题目类型 1、代表课选择的基本信息 2、MBTI性格测试题  3、空余时间  4  、坐标
-	private int mMBTIbigType = 0;
-	
+	private String mMBTIbigType = "";
+	//定位参数
 	private MyLocation myLocation = new MyLocation();
 	private LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
+	
+	//用户基本信息结构体
+	StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
+	
 	private void locationInit() {
 		// 定位初始化
 		mLocClient = new LocationClient(this);
@@ -106,11 +115,9 @@ public class BasicInfoActivity extends BaseActivity {
 
 	//解析题目json
 	private void parseBasicTopic(String t) {
-		 
 		Response<List<Question>> response = new Gson().fromJson(t, 
 				
 				new TypeToken<Response<List<Question>>>(){}.getType());
-		
 		if(response.getResult(this)){
 			requestList = response.getResponse();
 			currentQId = 0;
@@ -137,21 +144,32 @@ public class BasicInfoActivity extends BaseActivity {
 					return;
 				}
 				//基本可选择信息填写
-				if(currentQId < requestList.size() - 1){
-					saveAnsers(checkId-1);
-					currentQId ++;
-					Message msg = new Message();
-					msg.what = HANDLE_BASETOPIC;
-					msg.arg1 = currentQId;
-					mHandler.sendMessage(msg);
-				} else {
-					//进行性格测试
-					if(questionType == 1){
+				if(questionType == 1){
+					if(currentQId < requestList.size() - 1){
+						saveAnsers(checkId-1);
+						currentQId ++;
+						Message msg = new Message();
+						msg.what = HANDLE_BASETOPIC;
+						msg.arg1 = currentQId;
+						mHandler.sendMessage(msg);	
+					}else{
 						showTestEMBI();
-					}else if(questionType == 2){//完成性格测试
-						mMBTIbigType = mCharacterParse.getCharacterType();
 					}
-					
+
+				} 
+				else if(questionType == 2){
+					if(currentQId < requestList.size() - 1){
+						saveAnsers(checkId-1);
+						currentQId ++;
+						Message msg = new Message();
+						msg.what = HANDLE_BASETOPIC;
+						msg.arg1 = currentQId;
+						mHandler.sendMessage(msg);	
+					}else{
+						mMBTIbigType = mCharacterParse.getCharacterType();
+						mStructBaseUserInfo.setMBTI(mMBTIbigType);
+					}
+						
 				}
 			}
 		});
@@ -166,36 +184,75 @@ public class BasicInfoActivity extends BaseActivity {
 		Question curQ = requestList.get(currentQId);
 		String qId = curQ.getQuesionId();
 		if("0001".equals(qId)){ // 性别
-			preferences.edit().putString(Constant.Sex, checkId + "").commit();
+			preferences.edit().putString(Constant.Sex,curQ.getAnswerstype().get(checkId)).commit();
+			mStructBaseUserInfo.setSex(curQ.getAnswerstype().get(checkId));
 		} else if("0002".equals(qId)){ // 年龄
-			preferences.edit().putString(Constant.Age, curQ.getAnswers().get(checkId)).commit();
+			preferences.edit().putString(Constant.Age,curQ.getAnswerstype().get(checkId)).commit();
+			mStructBaseUserInfo.setAge(curQ.getAnswerstype().get(checkId));
 		} else if("0003".equals(qId)){ // 身高
-			preferences.edit().putString(Constant.Height, curQ.getAnswers().get(checkId)).commit();
+			preferences.edit().putString(Constant.Height, curQ.getAnswerstype().get(checkId)).commit();
+			mStructBaseUserInfo.setStature(curQ.getAnswerstype().get(checkId));
 		} else if("0004".equals(qId)){ // 小孩
-			preferences.edit().putString(Constant.IfChild, checkId + "").commit();
+			preferences.edit().putString(Constant.IfChild, curQ.getAnswerstype().get(checkId)).commit();
+			mStructBaseUserInfo.setIfHaveChildren(curQ.getAnswerstype().get(checkId));
 		} else if("0005".equals(qId)){ // 匹配对象有孩子?
-			preferences.edit().putString(Constant.IfMind, checkId + "").commit();
+			preferences.edit().putString(Constant.IfMind, curQ.getAnswerstype().get(checkId)).commit();
+			mStructBaseUserInfo.setIfMindHaveChildren(curQ.getAnswerstype().get(checkId));
 		} else if("0006".equals(qId)){ // 物质要求
-			preferences.edit().putString(Constant.ThingAsk, checkId + "").commit();
+			preferences.edit().putString(Constant.ThingAsk, curQ.getAnswerstype().get(checkId)).commit();
+			mStructBaseUserInfo.setSubstanceNeeds(curQ.getAnswerstype().get(checkId));
 		} else if("0007".equals(qId)){ // 谈恋爱时间期限
-			preferences.edit().putString(Constant.MarryNum, curQ.getAnswers().get(checkId)).commit();
+			preferences.edit().putString(Constant.MarryNum, curQ.getAnswerstype().get(checkId)).commit();
+			mStructBaseUserInfo.setInLovePeriod(curQ.getAnswerstype().get(checkId));
 		} else if("0008".equals(qId)){ // 你看好中国的经济吗
-			preferences.edit().putString(Constant.Faith1, checkId + "").commit();
+			preferences.edit().putString(Constant.Faith1, curQ.getAnswerstype().get(checkId)).commit();
 		} else if("0009".equals(qId)){
-			preferences.edit().putString(Constant.Faith2, checkId + "").commit();
+			preferences.edit().putString(Constant.Faith2, curQ.getAnswerstype().get(checkId)).commit();
 		} else if("0010".equals(qId)){
 			// 读取faith1，faith2，去三个最多的
-			preferences.edit().putString(Constant.Faith, checkId + "").commit();
-		} else{ // qId以1开头的，都可以算作MBAI性格测试题 .. 后续继续保存数据，并计算性格测试结果
-			if(questionType == 2){
-				int typeInt = mCharacterParse.MTBITypeToInt(curQ.getAnswerstype().get(checkId));
-				mCharacterParse.setCharacterAndNum(typeInt);
-			}
-				
+			preferences.edit().putString(Constant.Faith3, curQ.getAnswerstype().get(checkId)).commit();
+			String Faith1 = preferences.getString(Constant.Faith1, "A");
+			String Faith2 = preferences.getString(Constant.Faith2, "A");
+			String Faith3 = preferences.getString(Constant.Faith3, "A");
+			String FaithType = getFaithType(Faith1, Faith2, Faith3);
+			mStructBaseUserInfo.setFaith(FaithType);
+		} 
+		// qId以1开头的，都可以算作MBAI性格测试题 .. 后续继续保存数据，并计算性格测试结果
+		if(questionType == 2){
+			int typeInt = mCharacterParse.MTBITypeToInt(curQ.getAnswerstype().get(checkId));
+			mCharacterParse.setCharacterAndNum(typeInt);
 		}
+		//保存坐标
+		if(questionType == 4){
+			List<String> coordinates = new ArrayList<String>();
+			coordinates.add(Double.toString(myLocation.getLongitude()));
+			coordinates.add(Double.toString(myLocation.getLatitude()));
+			mStructBaseUserInfo.setCoordinates(coordinates);
+		}
+				
+		
 	}
-
-
+	//计算信仰类型
+	String getFaithType(String Faith1,String Faith2,String Faith3){
+		int a = 0;
+		int b = 0;
+		if(Faith1.equals("A")){
+			a++;
+		}else{
+			b++;
+		}
+		if(Faith2.equals("A")){
+			a++;
+		}else{
+			b++;
+		}
+		if(Faith3.equals("A")){
+			a++;
+		}else{
+			b++;
+		}
+		return (a>b)?"A":"B";
+	}
 	protected void requestMBAIQuestion() {
 		getFinalHttp().post(Urls.question_info, new AjaxCallBack<String>(){
 
@@ -280,6 +337,18 @@ public class BasicInfoActivity extends BaseActivity {
 			group.addView(rBtn);
 			id++;
 		}
+	}
+	void testJson(){
+		StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
+		mStructBaseUserInfo.setAge("12");
+		mStructBaseUserInfo.setFaith("dfd");
+		List<String> coordinates = new ArrayList<String>();
+		coordinates.add("24.56");
+		coordinates.add("108.2325");
+		mStructBaseUserInfo.setCoordinates(coordinates);
+		
+		String getjson = new Gson().toJson(mStructBaseUserInfo);
+		Log.i("huwei", getjson);
 	}
 }
 

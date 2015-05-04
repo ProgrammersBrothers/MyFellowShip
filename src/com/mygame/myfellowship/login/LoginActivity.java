@@ -1,5 +1,8 @@
 package com.mygame.myfellowship.login;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.mygame.myfellowship.BaseActivity;
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.SelfDefineApplication;
@@ -21,6 +25,7 @@ import com.mygame.myfellowship.bean.Constant;
 import com.mygame.myfellowship.bean.Urls;
 import com.mygame.myfellowship.http.AjaxCallBack;
 import com.mygame.myfellowship.http.AjaxParams;
+import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.SecurityMD5Util;
 import com.mygame.myfellowship.utils.ToastHelper;
@@ -43,7 +48,6 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		// 第一次使用进入引导页
 //		if (!preferences.getBoolean(Preference.SHOW_GUIDE, false)) {
 //			Intent intent = new Intent(this, Guide.class);
@@ -276,9 +280,9 @@ public class LoginActivity extends BaseActivity {
 				cancelRequestDialog();
 			}
 		});
-//		getFinalHttp().get(Urls.login, getLoginParams(uname, encryptPwd),
-//				new LoginCallBack(isBackLogin, btnLoad, user, Login.this, isShowLoading));
-		String logResult = AssetUtils.getDataFromAssets(this, "login.txt");
+/*		getFinalHttp().get(Urls.login, getLoginParams(uname, encryptPwd),
+				new LoginCallBack(isBackLogin, btnLoad, user, Login.this, isShowLoading));
+		String logResult = AssetUtils.getDataFromAssets(this, "login.txt");*/
 		
 		
 		

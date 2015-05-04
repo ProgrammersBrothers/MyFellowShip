@@ -30,10 +30,10 @@ public class Constant {
 	public static String ThingAsk = "ThingAsk";
 	public static String MarryNum = "MarryNum";
 	public static String Freetime = "Freetime";
-	public static String Faith = "Faith";
 	public static String Nature = "Nature";
 	public static String Faith1 = "Faith1";
 	public static String Faith2 = "Faith2";
+	public static String Faith3 = "Faith3";
 	
 
 }
