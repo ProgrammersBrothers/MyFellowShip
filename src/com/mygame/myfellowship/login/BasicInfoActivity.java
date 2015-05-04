@@ -9,23 +9,25 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mygame.myfellowship.BaseActivity;
@@ -34,9 +36,9 @@ import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.bean.Constant;
 import com.mygame.myfellowship.bean.Response;
 import com.mygame.myfellowship.bean.Urls;
-import com.mygame.myfellowship.gps.LocationUtil;
 import com.mygame.myfellowship.gps.MyLocation;
 import com.mygame.myfellowship.http.AjaxCallBack;
+import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.CharacterParse;
@@ -45,15 +47,25 @@ import com.mygame.myfellowship.utils.ToastHelper;
 public class BasicInfoActivity extends BaseActivity {
 
 	RadioGroup group;
+	LinearLayout mLinearLayoutCheckBox;
+	CheckBox CheckBox1;
+	CheckBox CheckBox2;
+	CheckBox CheckBox3;
+	CheckBox CheckBox4;
+	CheckBox CheckBox5;
+	CheckBox CheckBox6;
+	CheckBox CheckBox7;
 	TextView tvQuestion;
 	private List<Question> requestList;
 	private int currentQId;
 	
 	final int HANDLE_BASETOPIC = 0x1001;//基本信息
 	final int HANDLE_MBTI = 0x1002;//MBTI性格测试
+	final int HANDLE_SPARE_TIME = 0x1003;//空余时间
+	final int HANDLE_LOCATION = 0x1004;//坐标
 	
 	CharacterParse mCharacterParse;
-	private int questionType = 1;//题目类型 1、代表课选择的基本信息 2、MBTI性格测试题  3、空余时间  4  、坐标
+	private int questionType = 1;//题目类型 1、代表课选择的基本信息 2、MBTI性格测试题  3、空余时间  4  、坐标 5、完成
 	private String mMBTIbigType = "";
 	//定位参数
 	private MyLocation myLocation = new MyLocation();
@@ -63,6 +75,7 @@ public class BasicInfoActivity extends BaseActivity {
 	//用户基本信息结构体
 	StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
 	
+	int mSpareTime = 0;
 	private void locationInit() {
 		// 定位初始化
 		mLocClient = new LocationClient(this);
@@ -132,19 +145,35 @@ public class BasicInfoActivity extends BaseActivity {
 	private void initView() {
 		
 		 group = (RadioGroup)findViewById(R.id.rgroup);
+		 mLinearLayoutCheckBox = (LinearLayout)findViewById(R.id.LinearLayoutCheckBox);
+		 CheckBox1 = (CheckBox)findViewById(R.id.CheckBox1);
+		 CheckBox2 = (CheckBox)findViewById(R.id.CheckBox2);
+		 CheckBox3 = (CheckBox)findViewById(R.id.CheckBox3);
+		 CheckBox4 = (CheckBox)findViewById(R.id.CheckBox4);
+		 CheckBox5 = (CheckBox)findViewById(R.id.CheckBox5);
+		 CheckBox6= (CheckBox)findViewById(R.id.CheckBox6);
+		 CheckBox7 = (CheckBox)findViewById(R.id.CheckBox7);
+		 CheckBox1.setOnCheckedChangeListener(mOnCheckedListener);
+		 CheckBox2.setOnCheckedChangeListener(mOnCheckedListener);
+		 CheckBox3.setOnCheckedChangeListener(mOnCheckedListener);
+		 CheckBox4.setOnCheckedChangeListener(mOnCheckedListener);
+		 CheckBox5.setOnCheckedChangeListener(mOnCheckedListener);
+		 CheckBox6.setOnCheckedChangeListener(mOnCheckedListener);
+		 CheckBox7.setOnCheckedChangeListener(mOnCheckedListener);
 		 tvQuestion = (TextView)findViewById(R.id.tvQuestion);
 		 
 		 addRightBtn(R.string.next_topic, new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				int checkId = group.getCheckedRadioButtonId();
-				if(checkId <= 0){
-					ToastHelper.ToastLg("没有选择答案", getApplicationContext());
-					return;
-				}
+
 				//基本可选择信息填写
 				if(questionType == 1){
+					int checkId = group.getCheckedRadioButtonId();
+					if(checkId <= 0){
+						ToastHelper.ToastLg("没有选择答案", getApplicationContext());
+						return;
+					}
 					if(currentQId < requestList.size() - 1){
 						saveAnsers(checkId-1);
 						currentQId ++;
@@ -158,6 +187,11 @@ public class BasicInfoActivity extends BaseActivity {
 
 				} 
 				else if(questionType == 2){
+					int checkId = group.getCheckedRadioButtonId();
+					if(checkId <= 0){
+						ToastHelper.ToastLg("没有选择答案", getApplicationContext());
+						return;
+					}
 					if(currentQId < requestList.size() - 1){
 						saveAnsers(checkId-1);
 						currentQId ++;
@@ -168,9 +202,19 @@ public class BasicInfoActivity extends BaseActivity {
 					}else{
 						mMBTIbigType = mCharacterParse.getCharacterType();
 						mStructBaseUserInfo.setMBTI(mMBTIbigType);
+						Message msg = new Message();
+						msg.what = HANDLE_SPARE_TIME;
+						mHandler.sendMessage(msg);	
 					}
 						
 				}
+				else if(questionType == 3){
+						mStructBaseUserInfo.setSpareTime(Integer.toString(mSpareTime));
+						Message msg = new Message();
+						msg.what = HANDLE_LOCATION;
+						mHandler.sendMessage(msg);	
+				}
+				
 			}
 		});
 	}
@@ -222,14 +266,6 @@ public class BasicInfoActivity extends BaseActivity {
 			int typeInt = mCharacterParse.MTBITypeToInt(curQ.getAnswerstype().get(checkId));
 			mCharacterParse.setCharacterAndNum(typeInt);
 		}
-		//保存坐标
-		if(questionType == 4){
-			List<String> coordinates = new ArrayList<String>();
-			coordinates.add(Double.toString(myLocation.getLongitude()));
-			coordinates.add(Double.toString(myLocation.getLatitude()));
-			mStructBaseUserInfo.setCoordinates(coordinates);
-		}
-				
 		
 	}
 	//计算信仰类型
@@ -306,6 +342,17 @@ public class BasicInfoActivity extends BaseActivity {
 			case HANDLE_BASETOPIC:
 				BasicInfoRadioGroupView(msg.arg1);
 				break;
+			case HANDLE_SPARE_TIME:
+				SpareTimeView();
+				break;
+			case HANDLE_LOCATION:
+				questionType = 4;
+				List<String> coordinates = new ArrayList<String>();
+				coordinates.add(Double.toString(myLocation.getLongitude()));
+				coordinates.add(Double.toString(myLocation.getLatitude()));
+				mStructBaseUserInfo.setCoordinates(coordinates);
+				SubmitAllUserInfo();
+				break;
 			default:
 				break;
 			}
@@ -338,6 +385,75 @@ public class BasicInfoActivity extends BaseActivity {
 			id++;
 		}
 	}
+	//提交用户信息
+	void SubmitAllUserInfo(){
+		String getjson = new Gson().toJson(mStructBaseUserInfo);
+		Log.i("huwei", getjson);
+		
+		AjaxParams params = new AjaxParams();
+		params.put("buss", "getUser");
+		params.put("data", getjson);
+
+		
+		getFinalHttp().post(Urls.register, params, new AjaxCallBack<String>(){
+
+			@Override
+			public void onSuccess(String t) {
+				super.onSuccess(t);
+				cancelRequestDialog();
+			}
+
+			@Override
+			public void onFailure(Throwable t, int errorNo, String strMsg) {
+				super.onFailure(t, errorNo, strMsg);
+				ToastHelper.ToastLg(strMsg, getActivity());
+				cancelRequestDialog();
+			}
+		});
+		
+	}
+	
+	//测试空余时间试题
+	protected void SpareTimeView() {
+		questionType = 3;
+		group.setVisibility(View.GONE);
+		mLinearLayoutCheckBox.setVisibility(View.VISIBLE);
+		tvQuestion.setText("你的空余时间有哪些？");
+	}
+	OnCheckedChangeListener mOnCheckedListener = new OnCheckedChangeListener() {
+		
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			// TODO Auto-generated method stub
+			buttonView.getId();
+			switch (buttonView.getId()) {
+			case R.id.CheckBox1:
+				mSpareTime = mSpareTime | (1<<0);
+				break;
+			case R.id.CheckBox2:
+				mSpareTime = mSpareTime | (1<<1);
+				break;
+			case R.id.CheckBox3:
+				mSpareTime = mSpareTime | (1<<2);
+				break;
+			case R.id.CheckBox4:
+				mSpareTime = mSpareTime | (1<<3);
+				break;
+			case R.id.CheckBox5:
+				mSpareTime = mSpareTime | (1<<4);
+				break;
+			case R.id.CheckBox6:
+				mSpareTime = mSpareTime | (1<<5);
+				break;
+			case R.id.CheckBox7:
+				mSpareTime = mSpareTime | (1<<6);
+				break;
+
+			default:
+				break;
+			}
+		}
+	};
 	void testJson(){
 		StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
 		mStructBaseUserInfo.setAge("12");

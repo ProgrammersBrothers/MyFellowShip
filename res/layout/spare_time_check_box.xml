@@ -4,14 +4,9 @@
     android:layout_height="wrap_content" 
     android:layout_marginTop="10dp"
     android:orientation="vertical">
+ 
 	<CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="星期日"
-        android:textColor="@color/black"
-        android:textSize="16sp" />  
-	<CheckBox
+	    android:id="@+id/CheckBox1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -19,6 +14,7 @@
         android:textColor="@color/black"
         android:textSize="16sp" />  
 	<CheckBox
+	    android:id="@+id/CheckBox2"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_weight="1"
@@ -26,6 +22,7 @@
 	    android:textColor="@color/black"
 	    android:textSize="16sp"/> 
 	<CheckBox
+	    android:id="@+id/CheckBox3"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_weight="1"
@@ -33,6 +30,7 @@
 	    android:textColor="@color/black"
 	    android:textSize="16sp"/> 
 	<CheckBox
+	    android:id="@+id/CheckBox4"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_weight="1"
@@ -40,6 +38,7 @@
 	    android:textColor="@color/black"
 	    android:textSize="16sp"/> 
 	<CheckBox
+	    android:id="@+id/CheckBox5"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_weight="1"
@@ -47,10 +46,19 @@
 	    android:textColor="@color/black"
 	    android:textSize="16sp"/> 
 	<CheckBox
+	    android:id="@+id/CheckBox6"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_weight="1"
 	    android:text="星期六"
 	    android:textColor="@color/black"
 	    android:textSize="16sp"/> 
+	<CheckBox
+	    android:id="@+id/CheckBox7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="星期日"
+        android:textColor="@color/black"
+        android:textSize="16sp" /> 
 </LinearLayout>

@@ -27,7 +27,10 @@
 			<FrameLayout 
 			    android:layout_width="match_parent"
 	            android:layout_height="wrap_content">
-			    <include layout="@layout/question_radio_choose" />
+			    <include layout="@layout/question_radio_choose" 
+			        android:visibility="visible"/>
+			    <include layout="@layout/spare_time_check_box" 
+			        android:visibility="gone"/>
 			</FrameLayout>
 	        
 	    </LinearLayout>
