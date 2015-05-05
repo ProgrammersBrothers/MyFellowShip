@@ -3,6 +3,7 @@ package com.mygame.myfellowship.struct;
 import java.util.List;
 
 public class StructBaseUserInfo{
+	private String userid = "adcd";
     private String sex = "";              //性别 1、男 2、女
     private String age = "";               //年龄 
     private String stature = "";          //身高

@@ -30,7 +30,7 @@ public class RegisterActivity extends BaseActivity{
 	protected static final int VERIRY_CODE_ERROR = 5;
 	Button btnRegister;
 	Button btnVerify;
-	private EditText phonEditText, phoneVerify;
+	private EditText nicknameEditText,phonEditText, phoneVerify;
 	private EditText etPwd, etConfirmPwd;
 	
 	@Override
@@ -93,6 +93,7 @@ public class RegisterActivity extends BaseActivity{
 	private void initView() {
 		btnVerify = (Button) findViewById(R.id.button1);
 		phonEditText = (EditText)findViewById(R.id.phonEditText);
+		nicknameEditText = (EditText)findViewById(R.id.nicknameEditText);
 		phoneVerify = (EditText)findViewById(R.id.phoneVerify);
 		etPwd = (EditText)findViewById(R.id.etPwd);
 		etConfirmPwd = (EditText)findViewById(R.id.etConfirmPwd);
@@ -104,6 +105,11 @@ public class RegisterActivity extends BaseActivity{
 				// 目前中国肯定支持的，所以就不验证中国了。
 //				SMSSDK.getSupportedCountries();
 				
+				String nickname = nicknameEditText.getText().toString().trim();
+				if(TextUtils.isEmpty(nickname)){
+					ToastHelper.ToastSht(R.string.input_nick_name, getActivity());
+					return;
+				}
 				String phone = phonEditText.getText().toString().trim();
 				if(TextUtils.isEmpty(phone)){
 					ToastHelper.ToastSht(R.string.input_phone_number, getActivity());
@@ -124,11 +130,18 @@ public class RegisterActivity extends BaseActivity{
 			
 			@Override
 			public void onClick(View v) {
+				String nickname = nicknameEditText.getText().toString().trim();
+				
 				String phone = phonEditText.getText().toString().trim();
 				String verifyCode = phoneVerify.getText().toString().trim();
 				
 				String pwd = etConfirmPwd.getText().toString().trim();
 				String confirmPwd = etPwd.getText().toString().trim();
+				
+				if(TextUtils.isEmpty(nickname)){
+					ToastHelper.ToastSht(R.string.input_nick_name, getActivity());
+					return;
+				}
 				
 				if(TextUtils.isEmpty(phone)){
 					ToastHelper.ToastSht(R.string.input_phone_number, getActivity());
@@ -171,8 +184,8 @@ public class RegisterActivity extends BaseActivity{
 		params.put("buss", "reg");
 		params.put("username", phonEditText.getText().toString());
 		params.put("password", etConfirmPwd.getText().toString());
+		params.put("nickname", nicknameEditText.getText().toString());
 
-		
 		getFinalHttp().post(Urls.register, params, new AjaxCallBack<String>(){
 
 			@Override

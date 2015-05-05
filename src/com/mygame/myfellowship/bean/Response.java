@@ -51,7 +51,7 @@ public class Response<T> {
 	 * @return
 	 */
 	public boolean getResult(Context context) {
-		if ("C0000".equals(respCode)) {
+		if ("G00".equals(respCode)) {
 			return true;
 		}
 		return false;

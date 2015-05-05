@@ -28,6 +28,7 @@
 	<string name="pwd_not_equal_confirm_pwd">密码和确认密码要一致哦</string>
 	<string name="complete">完成</string>
 	<string name="input_phone_number">请输入手机号码</string>
+	<string name="input_nick_name">请输入姓名</string>
 	<string name="input_verify_code">请输入验证码</string>
 	<string name="phone_length_limit">手机号码长度6-16位</string>
 	<string name="sending_data">提交数据中...</string>

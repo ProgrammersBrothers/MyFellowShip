@@ -15,6 +15,15 @@
         android:orientation="vertical" >
 
         <EditText
+            android:id="@+id/nicknameEditText"
+            style="@style/EtTheme"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:hint="真实姓名"
+            android:maxLength="16"
+            android:padding="@dimen/ten_dp" >
+
+        </EditText> 
+        <EditText
             android:id="@+id/phonEditText"
             style="@style/EtTheme"
             android:layout_marginTop="@dimen/ten_dp"
@@ -22,7 +31,6 @@
             android:maxLength="16"
             android:padding="@dimen/ten_dp" >
 
-            <requestFocus />
         </EditText> 
 
         <LinearLayout

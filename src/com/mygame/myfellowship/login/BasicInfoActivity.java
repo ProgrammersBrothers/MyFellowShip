@@ -95,6 +95,9 @@ public class BasicInfoActivity extends BaseActivity {
 				myLocation.setLatitude(location.getLatitude());
 				myLocation.setLongitude(location.getLongitude());
 				if(myLocation.getLatitude() == 0.0 && myLocation.getLongitude() == 0.0){
+					if(mLocClient.isStarted()){
+						mLocClient.stop();
+					}
 				}else{
 					//得到经纬度
 				}
@@ -323,10 +326,10 @@ public class BasicInfoActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-//				 requestMBAIQuestion();
-				 String t = AssetUtils.getDataFromAssets(getApplicationContext(), "MBTI.txt");
-				questionType = 2;
-				parseBasicTopic(t);
+				 requestMBAIQuestion();
+//				 String t = AssetUtils.getDataFromAssets(getApplicationContext(), "MBTI.txt");
+//				questionType = 2;
+//				parseBasicTopic(t);
 				cancelRequestDialog();
 //				String t = AssetUtils.getDataFromAssets(getApplicationContext(), "question.txt");
 //				parseBasicTopic(t);
