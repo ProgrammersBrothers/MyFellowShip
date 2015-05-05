@@ -323,7 +323,11 @@ public class BasicInfoActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				 requestMBAIQuestion();
+//				 requestMBAIQuestion();
+				 String t = AssetUtils.getDataFromAssets(getApplicationContext(), "MBTI.txt");
+				questionType = 2;
+				parseBasicTopic(t);
+				cancelRequestDialog();
 //				String t = AssetUtils.getDataFromAssets(getApplicationContext(), "question.txt");
 //				parseBasicTopic(t);
 			}

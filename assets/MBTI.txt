@@ -1,0 +1,80 @@
+{
+  "respCode": "C0000", 
+  "data": [
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1001", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["E", "EI"]
+    },
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1002", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["E", "I"]
+    },
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1003", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["E", "I"]
+    },
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1004", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["N", "S"]
+    },
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1005", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["N", "S"]
+    },
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1006", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["N", "S"]
+    },
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1007", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["T", "F"]
+    },
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1008", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["T", "F"]
+    },
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1009", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["T", "F"]
+    },
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1010", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["J", "P"]
+    },
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1011", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["J", "P"]
+    },
+    {
+    	"question":"您的性格是什么?",
+    	"quesionId":"1012", 
+    	"answers":["外向", "内向"],
+    	"answerstype":["J", "P"]
+    }
+
+  ], 
+  "currentAnswerIndex":1,
+  "respMsg": "登录成功"
+}
