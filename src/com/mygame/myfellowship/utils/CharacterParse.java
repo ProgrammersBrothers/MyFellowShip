@@ -9,17 +9,17 @@ public class CharacterParse{
 	public static final int J =7;//计划
 	public static final int P =8;//随性
 	//性格大类
-	private final String NT = "NT";
-	private final String NF = "NF";
-	private final String SJ = "SJ";
-	private final String SP = "SP";
+	private final int NT = 1;//"NT";
+	private final int NF = 2;//"NF";
+	private final int SJ = 3;//"SJ";
+	private final int SP = 4;//"SP";
 	
 	
 	//做题之后得到的性格类型以及该性格的数量
 	private int [] CharacterAndNum = new int [8+1];
 	
 	int [] CharacterType = new int [4+1];
-	String CharacterbigType = "";
+	int CharacterbigType = 0;
 	public int [] getCharacterAndNum() {
 		return CharacterAndNum;
 	}
@@ -66,7 +66,7 @@ public class CharacterParse{
 		CharacterType[4] = (CharacterAndNum[J] > CharacterAndNum[P])?J:P;
 	}
 	//获取性格大类
-	public String getCharacterType(){
+	public int getCharacterType(){
 		getCharacterBigType();
 		
 		if(CharacterType[2] == N){

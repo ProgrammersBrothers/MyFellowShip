@@ -66,7 +66,7 @@ public class BasicInfoActivity extends BaseActivity {
 	
 	CharacterParse mCharacterParse;
 	private int questionType = 1;//题目类型 1、代表课选择的基本信息 2、MBTI性格测试题  3、空余时间  4  、坐标 5、完成
-	private String mMBTIbigType = "";
+	private int mMBTIbigType = 0;
 	//定位参数
 	private MyLocation myLocation = new MyLocation();
 	private LocationClient mLocClient;
@@ -204,7 +204,7 @@ public class BasicInfoActivity extends BaseActivity {
 						mHandler.sendMessage(msg);	
 					}else{
 						mMBTIbigType = mCharacterParse.getCharacterType();
-						mStructBaseUserInfo.setMBTI(mMBTIbigType);
+						mStructBaseUserInfo.setMBTI(mMBTIbigType+"");
 						Message msg = new Message();
 						msg.what = HANDLE_SPARE_TIME;
 						mHandler.sendMessage(msg);	

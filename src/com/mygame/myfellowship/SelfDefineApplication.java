@@ -1,6 +1,7 @@
 package com.mygame.myfellowship;
 
 import android.app.Application;
+import cn.jpush.android.api.JPushInterface;
 import cn.smssdk.SMSSDK;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -37,6 +38,8 @@ public class SelfDefineApplication extends Application {
 		finalHttp = getFinalHttp();
 		SDKInitializer.initialize(this);//百度地图初始化
 		SMSSDK.initSDK(this, getString(R.string.sharesdk_sms_app_key), getString(R.string.sharesdk_sms_app_secret));
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
 	}
 	
 	
