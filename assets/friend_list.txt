@@ -1,0 +1,55 @@
+{
+  "respCode": "G00", 
+  "data": [
+    {
+    	"name":"您的性格是什么?",
+    	"age":"1001", 
+    	"distance":"15",
+    	"actionAddress":"世纪广场"
+    },
+    {
+    	"name":"您的性格是什么?",
+    	"age":"1001", 
+    	"distance":"15",
+    	"actionAddress":"世纪广场"
+    },
+    {
+    	"name":"您的性格是什么?",
+    	"age":"1001", 
+    	"distance":"15",
+    	"actionAddress":"世纪广场"
+    },
+    {
+    	"name":"您的性格是什么?",
+    	"age":"1001", 
+    	"distance":"15",
+    	"actionAddress":"世纪广场"
+    },
+    {
+    	"name":"您的性格是什么?",
+    	"age":"1001", 
+    	"distance":"15",
+    	"actionAddress":"世纪广场"
+    },
+    {
+    	"name":"您的性格是什么?",
+    	"age":"1001", 
+    	"distance":"15",
+    	"actionAddress":"世纪广场"
+    },
+    {
+    	"name":"您的性格是什么?",
+    	"age":"1001", 
+    	"distance":"15",
+    	"actionAddress":"世纪广场"
+    },
+    {
+    	"name":"您的性格是什么?",
+    	"age":"1001", 
+    	"distance":"15",
+    	"actionAddress":"世纪广场"
+    }
+  ],
+  "currentAnswerIndex":2,
+  "respMsg": "登录成功"
+}

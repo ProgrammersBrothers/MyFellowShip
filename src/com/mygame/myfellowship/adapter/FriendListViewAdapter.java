@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.struct.StructFriendInfo;
+import com.mygame.myfellowship.struct.StructFriendListShowContent;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -24,23 +25,23 @@ import android.widget.TextView;
 
 public class FriendListViewAdapter extends BaseAdapter {
 	private Context ctx;
-	private List<StructFriendInfo> listItems;
+	private List<StructFriendListShowContent> listItems;
 	private int layout = R.layout.item_list_friend;
 	private OnWareItemClickClass onItemClickClass;
 	public FriendListViewAdapter(Context ctx) {
 		this.ctx = ctx;
 	}
 
-	public FriendListViewAdapter(Context ctx,List<StructFriendInfo> data) {
+	public FriendListViewAdapter(Context ctx,List<StructFriendListShowContent> data) {
 		this.ctx = ctx;
 		this.listItems = data;
 	}
-	public FriendListViewAdapter(Context ctx, int layout,List<StructFriendInfo> data) {
+	public FriendListViewAdapter(Context ctx, int layout,List<StructFriendListShowContent> data) {
 		this.ctx = ctx;
 		this.layout = layout;
 		this.listItems = data;
 	}
-	public void setListItems(List<StructFriendInfo> data){
+	public void setListItems(List<StructFriendListShowContent> data){
 		this.listItems = data;
 	}
 	public int getCount() {
@@ -74,10 +75,10 @@ public class FriendListViewAdapter extends BaseAdapter {
 		} else {
 			hold = (Holder) arg1.getTag();
 		}
-		hold.TextViewFriendName.setText(listItems.get(arg0).getmFriendName());
-		hold.TextViewAge.setText(listItems.get(arg0).getmAge());
-		hold.TextViewDistance.setText(listItems.get(arg0).getmDistance());
-		hold.TextViewActivityAddress.setText(listItems.get(arg0).getmAddress());
+		hold.TextViewFriendName.setText(listItems.get(arg0).getName());
+		hold.TextViewAge.setText(listItems.get(arg0).getAge());
+		hold.TextViewDistance.setText(listItems.get(arg0).getDistance());
+		hold.TextViewActivityAddress.setText(listItems.get(arg0).getActionAddress());
 		
 		return arg1;
 	}
