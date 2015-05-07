@@ -2,9 +2,11 @@ package com.mygame.myfellowship.login;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -31,6 +33,7 @@ import com.baidu.location.LocationClientOption;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mygame.myfellowship.BaseActivity;
+import com.mygame.myfellowship.FriendListActivity;
 import com.mygame.myfellowship.Question;
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.bean.Constant;
@@ -40,6 +43,7 @@ import com.mygame.myfellowship.gps.MyLocation;
 import com.mygame.myfellowship.http.AjaxCallBack;
 import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.struct.StructBaseUserInfo;
+import com.mygame.myfellowship.struct.StructFriendListShowContent;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.CharacterParse;
 import com.mygame.myfellowship.utils.ToastHelper;
@@ -132,7 +136,6 @@ public class BasicInfoActivity extends BaseActivity {
 	//解析题目json
 	private void parseBasicTopic(String t) {
 		Response<List<Question>> response = new Gson().fromJson(t, 
-				
 				new TypeToken<Response<List<Question>>>(){}.getType());
 		if(response.getResult(this)){
 			requestList = response.getResponse();
@@ -205,6 +208,7 @@ public class BasicInfoActivity extends BaseActivity {
 					}else{
 						mMBTIbigType = mCharacterParse.getCharacterType();
 						mStructBaseUserInfo.setMBTI(mMBTIbigType+"");
+						preferences.edit().putString(Constant.Nature,mMBTIbigType+"").commit();
 						Message msg = new Message();
 						msg.what = HANDLE_SPARE_TIME;
 						mHandler.sendMessage(msg);	
@@ -213,6 +217,7 @@ public class BasicInfoActivity extends BaseActivity {
 				}
 				else if(questionType == 3){
 						mStructBaseUserInfo.setSpareTime(Integer.toString(mSpareTime));
+						preferences.edit().putString(Constant.Freetime,Integer.toString(mSpareTime)).commit();
 						Message msg = new Message();
 						msg.what = HANDLE_LOCATION;
 						mHandler.sendMessage(msg);	
@@ -262,7 +267,9 @@ public class BasicInfoActivity extends BaseActivity {
 			String Faith2 = preferences.getString(Constant.Faith2, "A");
 			String Faith3 = preferences.getString(Constant.Faith3, "A");
 			String FaithType = getFaithType(Faith1, Faith2, Faith3);
+			preferences.edit().putString(Constant.Faith, FaithType).commit();
 			mStructBaseUserInfo.setFaith(FaithType);
+			
 		} 
 		// qId以1开头的，都可以算作MBAI性格测试题 .. 后续继续保存数据，并计算性格测试结果
 		if(questionType == 2){
@@ -358,6 +365,11 @@ public class BasicInfoActivity extends BaseActivity {
 				coordinates.add(Double.toString(myLocation.getLongitude()));
 				coordinates.add(Double.toString(myLocation.getLatitude()));
 				mStructBaseUserInfo.setCoordinates(coordinates);
+				Set<String> siteno = new HashSet<String>(); 
+				for(int i=0;i<coordinates.size();i++){
+					siteno.add(coordinates.get(i));
+				}
+				preferences.edit().putStringSet(Constant.Address,siteno).commit();
 				SubmitAllUserInfo();
 				break;
 			default:
@@ -407,6 +419,15 @@ public class BasicInfoActivity extends BaseActivity {
 			@Override
 			public void onSuccess(String t) {
 				super.onSuccess(t);
+				Response<List<StructFriendListShowContent>> response = new Gson().fromJson(t, 
+						
+						new TypeToken<Response<List<StructFriendListShowContent>>>(){}.getType());
+				if(response.getResult(getApplicationContext())){
+					Intent intent = new Intent();
+					intent.setClass(getApplicationContext(), FriendListActivity.class);
+					startActivity(intent);
+						
+				}
 				cancelRequestDialog();
 			}
 
@@ -419,7 +440,6 @@ public class BasicInfoActivity extends BaseActivity {
 		});
 		
 	}
-	
 	//测试空余时间试题
 	protected void SpareTimeView() {
 		questionType = 3;

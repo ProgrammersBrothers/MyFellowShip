@@ -1,18 +1,36 @@
 package com.mygame.myfellowship;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mygame.myfellowship.adapter.FriendListViewAdapter;
+import com.mygame.myfellowship.bean.Constant;
 import com.mygame.myfellowship.bean.Response;
+import com.mygame.myfellowship.bean.Urls;
+import com.mygame.myfellowship.gps.MyLocation;
+import com.mygame.myfellowship.http.AjaxCallBack;
+import com.mygame.myfellowship.http.AjaxParams;
+import com.mygame.myfellowship.login.BasicInfoActivity.MyLocationListenner;
+import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.struct.StructFriendListShowContent;
 import com.mygame.myfellowship.utils.AssetUtils;
+import com.mygame.myfellowship.utils.ToastHelper;
 import com.mygame.myfellowship.view.XListView;
 import com.mygame.myfellowship.view.XListView.IXListViewListener;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 public class FriendListActivity extends BaseActivity implements IXListViewListener{
 	
@@ -22,24 +40,72 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	private onRefreshClass mOnRefreshClass;
 	private final static int XLIST_REFRESH = 1; //下拉刷新
 	private final static int XLIST_LOAD_MORE = 2; //加载更多
+	private StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
+	
+	//定位参数
+	private MyLocation myLocation = new MyLocation();
+	private LocationClient mLocClient;
+	public MyLocationListenner myListener = new MyLocationListenner();
+	
+	public class MyLocationListenner implements BDLocationListener {
+
+		@Override
+		public void onReceiveLocation(BDLocation location) {
+			// map view 销毁后不在处理新接收的位置
+			if (location != null){
+				myLocation.setLatitude(location.getLatitude());
+				myLocation.setLongitude(location.getLongitude());
+				if(myLocation.getLatitude() == 0.0 && myLocation.getLongitude() == 0.0){
+					getUserBaseInfo(mStructBaseUserInfo);
+					SubmitAllUserInfo(mStructBaseUserInfo);
+					if(mLocClient.isStarted()){
+						mLocClient.stop();
+					}
+				}else{
+					//得到经纬度
+				}
+				Log.d("huwei", "地理位置更新，纬度 = " + location.getLatitude()+"，经度 = "+location.getLongitude());
+			}
+		}
+
+		public void onReceivePoi(BDLocation poiLocation) {
+		}
+	}
+	private void locationInit() {
+		// 定位初始化
+		mLocClient = new LocationClient(this);
+		mLocClient.registerLocationListener(myListener);
+		LocationClientOption option = new LocationClientOption();
+		option.setOpenGps(true);// 打开gps
+		option.setCoorType("bd09ll"); // 设置坐标类型
+		option.setScanSpan(1000);
+		mLocClient.setLocOption(option);
+	}
 	@Override
 	protected void onCreate(Bundle arg0) { 
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_friend_list);
 		initXListView(getApplicationContext());
-		paserFriendList();
-		
 	}
-	void paserFriendList(){
+	//解析朋友列表，并显示
+	void paserFriendList(String t){
 		
-		String t = AssetUtils.getDataFromAssets(this, "friend_list.txt");	
+//		String t = AssetUtils.getDataFromAssets(this, "friend_list.txt");	
 		Response<List<StructFriendListShowContent>> response = new Gson().fromJson(t, 
 				
 				new TypeToken<Response<List<StructFriendListShowContent>>>(){}.getType());
 		if(response.getResult(this)){
 			mStructFriendListShowContent = response.getResponse();
-			mFriendListViewAdapter = new FriendListViewAdapter(this, mStructFriendListShowContent);
-			mListViewFriendList.setAdapter(mFriendListViewAdapter);
+			if(mFriendListViewAdapter == null){
+				mFriendListViewAdapter = new FriendListViewAdapter(this, mStructFriendListShowContent);
+				mListViewFriendList.setAdapter(mFriendListViewAdapter);
+			}else{
+				mFriendListViewAdapter.setListItems(mStructFriendListShowContent);
+				mFriendListViewAdapter.notifyDataSetChanged();
+			}
+			
+			mListViewFriendList.stopLoadMore();
+			mListViewFriendList.stopRefresh();
 		}
 		
 	}
@@ -67,26 +133,8 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	}
 	@Override
 	public void onRefresh() {
-		// TODO Auto-generated method stub
-		sendData(XLIST_REFRESH,new onRefreshClass() {
-			
-			@SuppressWarnings("unchecked")
-			@Override
-			public void onSuccess(Object list) {
-				// TODO Auto-generated method stub
-				mStructFriendListShowContent = (List<StructFriendListShowContent>) list;
-				mFriendListViewAdapter = new FriendListViewAdapter(getApplicationContext(), mStructFriendListShowContent);
-				mListViewFriendList.setAdapter(mFriendListViewAdapter);
-				mListViewFriendList.stopLoadMore();
-				mListViewFriendList.stopRefresh();
-			}
-			
-			@Override
-			public void onError(int arg0, String arg1) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		locationInit();
+		
 	}
 	@Override
 	public void onLoadMore() {
@@ -102,5 +150,61 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 			mOnRefreshClass.onSuccess(response.getResponse());
 
 		}
+	}
+	//获取用户信息
+	void SubmitAllUserInfo(StructBaseUserInfo x_StructBaseUserInfo){
+		String getjson = new Gson().toJson(x_StructBaseUserInfo);
+		Log.i("huwei", getjson);
+		
+		AjaxParams params = new AjaxParams();
+		params.put("buss", "getUser");
+		params.put("data", getjson);
+
+		
+		getFinalHttp().post(Urls.register, params, new AjaxCallBack<String>(){
+
+			@Override
+			public void onSuccess(String t) {
+				super.onSuccess(t);
+				paserFriendList(t);
+				cancelRequestDialog();
+			}
+
+			@Override
+			public void onFailure(Throwable t, int errorNo, String strMsg) {
+				super.onFailure(t, errorNo, strMsg);
+				ToastHelper.ToastLg(strMsg, getActivity());
+				cancelRequestDialog();
+			}
+		});
+		
+	}
+	//基本用户信息解析
+	void getUserBaseInfo(StructBaseUserInfo x_StructBaseUserInfo){
+		x_StructBaseUserInfo.setUserid(preferences.getString(Constant.USER_ID, ""));
+		x_StructBaseUserInfo.setSex(preferences.getString(Constant.Sex, ""));
+
+		x_StructBaseUserInfo.setAge(preferences.getString(Constant.Age, ""));
+
+		x_StructBaseUserInfo.setStature(preferences.getString(Constant.Height,  ""));
+
+		x_StructBaseUserInfo.setIfHaveChildren(preferences.getString(Constant.IfChild, ""));
+	
+		x_StructBaseUserInfo.setIfMindHaveChildren(preferences.getString(Constant.IfMind,  ""));
+
+		x_StructBaseUserInfo.setSubstanceNeeds(preferences.getString(Constant.ThingAsk, ""));
+
+		x_StructBaseUserInfo.setInLovePeriod(preferences.getString(Constant.MarryNum, ""));
+
+		x_StructBaseUserInfo.setFaith(preferences.getString(Constant.Faith, ""));
+		
+		List<String> coordinates = new ArrayList<String>();
+		coordinates.add(Double.toString(myLocation.getLongitude()));
+		coordinates.add(Double.toString(myLocation.getLatitude()));
+		x_StructBaseUserInfo.setCoordinates(coordinates);
+		
+		x_StructBaseUserInfo.setSpareTime(preferences.getString(Constant.Freetime,""));
+		
+		x_StructBaseUserInfo.setMBTI(preferences.getString(Constant.Nature,""));
 	}
 }

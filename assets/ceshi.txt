@@ -1,0 +1,14 @@
+{
+	"Coordinates":["114.274776","22.596344"],
+	"Faith":"A",
+	"IfHaveChildren":"1",
+	"IfMindHaveChildren":"1",
+	"InLovePeriod":"1",
+	"MBTI":"2",
+	"SpareTime":"22",
+	"SubstanceNeeds":"1",
+	"age":"21",
+	"sex":"2",
+	"stature":"150",
+	"userid":"adcd"
+}

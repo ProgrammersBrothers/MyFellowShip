@@ -1,7 +1,9 @@
 package com.mygame.myfellowship.login;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.mygame.myfellowship.BaseActivity;
+import com.mygame.myfellowship.FriendListActivity;
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.SelfDefineApplication;
 import com.mygame.myfellowship.bean.Constant.Preference;
@@ -214,7 +217,42 @@ public class LoginActivity extends BaseActivity {
 		saveUser();
 		login(uname, pwd, false, true);
 	}
+	
+	//基本用户信息解析
+	void parseUserBaseInfo(String t){
+		StructBaseUserInfo l_StructBaseUserInfo = new Gson().fromJson(t, StructBaseUserInfo.class);
+		preferences.edit().putString(Constant.USER_ID, l_StructBaseUserInfo.getUserid()).commit();
+		preferences.edit().putString(Constant.Sex,l_StructBaseUserInfo.getSex()).commit();
 
+		preferences.edit().putString(Constant.Age,l_StructBaseUserInfo.getAge()).commit();
+
+		preferences.edit().putString(Constant.Height, l_StructBaseUserInfo.getStature()).commit();
+
+		preferences.edit().putString(Constant.IfChild,l_StructBaseUserInfo.getIfHaveChildren()).commit();
+	
+		preferences.edit().putString(Constant.IfMind, l_StructBaseUserInfo.getIfMindHaveChildren()).commit();
+
+		preferences.edit().putString(Constant.ThingAsk,l_StructBaseUserInfo.getSubstanceNeeds()).commit();
+
+		preferences.edit().putString(Constant.MarryNum, l_StructBaseUserInfo.getInLovePeriod()).commit();
+
+		preferences.edit().putString(Constant.Faith,l_StructBaseUserInfo.getFaith()).commit();
+		
+		Set<String> siteno = new HashSet<String>(); 
+		for(int i=0;i<l_StructBaseUserInfo.getCoordinates().size();i++){
+			siteno.add(l_StructBaseUserInfo.getCoordinates().get(i));
+		}
+		preferences.edit().putStringSet(Constant.Address,siteno).commit();
+		
+		preferences.edit().putString(Constant.Freetime,l_StructBaseUserInfo.getSpareTime()).commit();
+		
+		preferences.edit().putString(Constant.Nature,l_StructBaseUserInfo.getMBTI()).commit();
+		
+		
+		Intent intent = new Intent();
+		intent.setClass(getApplicationContext(), FriendListActivity.class);
+		startActivity(intent);
+	}
 	/**
 	 * 登录
 	 * 
@@ -258,9 +296,8 @@ public class LoginActivity extends BaseActivity {
 					JSONObject json = new JSONObject(t);
 					if("00".equals(json.get("respCode"))) {
 						ToastHelper.ToastLg("登录成功!", getApplicationContext());
-						String userId = json.getString("respMsg");
-						Log.i("--tom", "userId:" + userId);
-						preferences.edit().putString(Constant.USER_ID, userId).commit();
+						String data = json.getString("data");
+						parseUserBaseInfo(data);
 					}
 					else if("E01".equals(json.get("respCode"))){
 						ToastHelper.ToastLg(json.getString("respMsg"), getApplicationContext());

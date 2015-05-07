@@ -81,4 +81,10 @@ public class StructBaseUserInfo{
 	public void setMBTI(String mBTI) {
 		MBTI = mBTI;
 	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 }

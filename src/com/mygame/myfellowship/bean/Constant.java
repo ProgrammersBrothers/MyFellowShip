@@ -25,15 +25,16 @@ public class Constant {
 	public static String Height = "Height";
 	public static String IfChild = "IfChild";
 	public static String IfMind = "IfMind";
-	public static String Address = "Address";
+	public static String Address = "Address";//坐标
 	public static String Coord = "Coord";
 	public static String ThingAsk = "ThingAsk";
 	public static String MarryNum = "MarryNum";
 	public static String Freetime = "Freetime";
-	public static String Nature = "Nature";
+	public static String Nature = "Nature";//性格
 	public static String Faith1 = "Faith1";
 	public static String Faith2 = "Faith2";
 	public static String Faith3 = "Faith3";
+	public static String Faith = "Faith";
 	
 
 }
