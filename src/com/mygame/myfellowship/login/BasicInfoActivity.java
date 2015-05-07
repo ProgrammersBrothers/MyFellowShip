@@ -135,6 +135,7 @@ public class BasicInfoActivity extends BaseActivity {
 
 	//解析题目json
 	private void parseBasicTopic(String t) {
+		
 		Response<List<Question>> response = new Gson().fromJson(t, 
 				new TypeToken<Response<List<Question>>>(){}.getType());
 		if(response.getResult(this)){
@@ -426,7 +427,7 @@ public class BasicInfoActivity extends BaseActivity {
 					Intent intent = new Intent();
 					intent.setClass(getApplicationContext(), FriendListActivity.class);
 					startActivity(intent);
-						
+					finish();
 				}
 				cancelRequestDialog();
 			}

@@ -49,7 +49,7 @@
                             style="@style/EtTheme"
                             android:layout_toRightOf="@+id/ivSanjiao"
                             android:hint="请输入手机号码"
-                            android:inputType="number|phone" >
+                            android:inputType="text" >
 
                             <requestFocus />
                         </EditText>

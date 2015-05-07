@@ -1,15 +1,9 @@
 package com.mygame.myfellowship.struct;
 public class StructFriendListShowContent{
-	private String name;//:"您的性格是什么?",
+	private String nickname;//:"您的性格是什么?",
 	private String age;
 	private String distance;
-	private String actionAddress;
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+	private String address;
 	public String getAge() {
 		return age;
 	}
@@ -22,10 +16,16 @@ public class StructFriendListShowContent{
 	public void setDistance(String distance) {
 		this.distance = distance;
 	}
-	public String getActionAddress() {
-		return actionAddress;
+	public String getNickname() {
+		return nickname;
 	}
-	public void setActionAddress(String actionAddress) {
-		this.actionAddress = actionAddress;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

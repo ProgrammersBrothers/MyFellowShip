@@ -19,12 +19,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mygame.myfellowship.BaseActivity;
 import com.mygame.myfellowship.FriendListActivity;
+import com.mygame.myfellowship.Question;
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.SelfDefineApplication;
 import com.mygame.myfellowship.bean.Constant.Preference;
 import com.mygame.myfellowship.bean.Constant;
+import com.mygame.myfellowship.bean.Response;
 import com.mygame.myfellowship.bean.Urls;
 import com.mygame.myfellowship.http.AjaxCallBack;
 import com.mygame.myfellowship.http.AjaxParams;
@@ -65,13 +68,13 @@ public class LoginActivity extends BaseActivity {
 	public void onFindView(boolean isLoginFail) {
 		uname = preferences.getString(Preference.UNAME, null);
 		pwd = preferences.getString(Preference.PWD, null);
-		if (!TextUtils.isEmpty(uname) && !TextUtils.isEmpty(pwd) && isLoginFail) {
+/*		if (!TextUtils.isEmpty(uname) && !TextUtils.isEmpty(pwd) && isLoginFail) {
 			setContentView(R.layout.activity_welcom);
 //			 默认登陆
 			hideInput();
 			startTime = System.currentTimeMillis();
 			login(uname, pwd, true, false);
-		} else {
+		} else {*/
 			setContentView(R.layout.act_login);
 			setTitle(getString(R.string.login));
 			etUname = (EditText) findViewById(R.id.etUname);
@@ -87,7 +90,7 @@ public class LoginActivity extends BaseActivity {
 			if (!TextUtils.isEmpty(uname)) {
 				etUname.setSelection(uname.length());
 			}
-		}
+//		}
 	}
 
 	private void addTextWatcher(EditText etUname2, EditText etPwd2) {
@@ -128,8 +131,8 @@ public class LoginActivity extends BaseActivity {
 
 	public void saveUser() {
 //		MyLog.i("33333333333333333", pwd);
-//		preferences.edit().putString(Preference.UNAME, uname).commit();
-//		preferences.edit().putString(Preference.PWD, pwd).commit();
+		preferences.edit().putString(Preference.UNAME, uname).commit();
+		preferences.edit().putString(Preference.PWD, pwd).commit();
 //		String pwdsss = preferences.getString(Preference.PWD, "");
 //		MyLog.i("444444444444", pwdsss);
 	}
@@ -176,7 +179,7 @@ public class LoginActivity extends BaseActivity {
 	 * @param view
 	 */
 	public void onRegisterClick(final View view) {
-		Intent intent = new Intent(this, BasicInfoActivity.class);
+		Intent intent = new Intent(this, RegisterActivity.class);
 		startActivity(intent);
 	}
 
@@ -190,8 +193,8 @@ public class LoginActivity extends BaseActivity {
 		uname = ((EditText) findViewById(R.id.etUname)).getText().toString()
 				.trim();
 		pwd = ((EditText) findViewById(R.id.etPwd)).getText().toString().trim();
-		uname = preferences.getString(Constant.USER_NAME, null);
-		pwd = preferences.getString(Constant.USER_PWD, null);
+//		uname = preferences.getString(Constant.USER_NAME, null);
+//		pwd = preferences.getString(Constant.USER_PWD, null);
 		if (TextUtils.isEmpty(uname)) {
 			ToastHelper.ToastLg(R.string.username_empty, this);
 			return;
@@ -208,19 +211,18 @@ public class LoginActivity extends BaseActivity {
 			return;
 		}
 
-		if (uname.length() > 16 || pwd.length() < 6) {
+/*		if (uname.length() > 16 || pwd.length() < 6) {
 			ToastHelper.ToastSht(R.string.pwd_length_limit, getActivity());
 			return;
 		}
-		
+		*/
 		btnLoad.setText("登录中");
 		saveUser();
 		login(uname, pwd, false, true);
 	}
 	
 	//基本用户信息解析
-	void parseUserBaseInfo(String t){
-		StructBaseUserInfo l_StructBaseUserInfo = new Gson().fromJson(t, StructBaseUserInfo.class);
+	void parseUserBaseInfo(StructBaseUserInfo l_StructBaseUserInfo ){
 		preferences.edit().putString(Constant.USER_ID, l_StructBaseUserInfo.getUserid()).commit();
 		preferences.edit().putString(Constant.Sex,l_StructBaseUserInfo.getSex()).commit();
 
@@ -252,6 +254,7 @@ public class LoginActivity extends BaseActivity {
 		Intent intent = new Intent();
 		intent.setClass(getApplicationContext(), FriendListActivity.class);
 		startActivity(intent);
+		finish();
 	}
 	/**
 	 * 登录
@@ -292,23 +295,16 @@ public class LoginActivity extends BaseActivity {
 				cancelRequestDialog();
 			}
 			private void parseData(String t) {
-				try {
-					JSONObject json = new JSONObject(t);
-					if("00".equals(json.get("respCode"))) {
-						ToastHelper.ToastLg("登录成功!", getApplicationContext());
-						String data = json.getString("data");
-						parseUserBaseInfo(data);
+					Response<StructBaseUserInfo> response = new Gson().fromJson(t, 
+							new TypeToken<Response<StructBaseUserInfo>>(){}.getType());
+					if(response.getResult(getApplicationContext())){
+						StructBaseUserInfo aa = response.getResponse();
+						
+						parseUserBaseInfo(aa);
+					}else{
+						ToastHelper.ToastLg(response.getMessage(), getActivity());
 					}
-					else if("E01".equals(json.get("respCode"))){
-						ToastHelper.ToastLg(json.getString("respMsg"), getApplicationContext());
-					}
-					else if("E02".equals(json.get("respCode"))){
-						ToastHelper.ToastLg(json.getString("respMsg"), getApplicationContext());
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
 			}
 			@Override
 			public void onFailure(Throwable t, int errorNo, String strMsg) {

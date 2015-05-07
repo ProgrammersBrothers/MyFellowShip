@@ -56,13 +56,14 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 				myLocation.setLatitude(location.getLatitude());
 				myLocation.setLongitude(location.getLongitude());
 				if(myLocation.getLatitude() == 0.0 && myLocation.getLongitude() == 0.0){
+
+				}else{
+					//得到经纬度
 					getUserBaseInfo(mStructBaseUserInfo);
 					SubmitAllUserInfo(mStructBaseUserInfo);
 					if(mLocClient.isStarted()){
 						mLocClient.stop();
 					}
-				}else{
-					//得到经纬度
 				}
 				Log.d("huwei", "地理位置更新，纬度 = " + location.getLatitude()+"，经度 = "+location.getLongitude());
 			}
@@ -80,6 +81,9 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		option.setCoorType("bd09ll"); // 设置坐标类型
 		option.setScanSpan(1000);
 		mLocClient.setLocOption(option);
+		if(!mLocClient.isStarted()){
+			mLocClient.start();
+		}
 	}
 	@Override
 	protected void onCreate(Bundle arg0) { 
@@ -158,7 +162,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		
 		AjaxParams params = new AjaxParams();
 		params.put("buss", "getUser");
-		params.put("data", getjson);
+		params.put("userMsg", getjson);
 
 		
 		getFinalHttp().post(Urls.register, params, new AjaxCallBack<String>(){

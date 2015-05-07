@@ -75,10 +75,10 @@ public class FriendListViewAdapter extends BaseAdapter {
 		} else {
 			hold = (Holder) arg1.getTag();
 		}
-		hold.TextViewFriendName.setText(listItems.get(arg0).getName());
+		hold.TextViewFriendName.setText(listItems.get(arg0).getNickname());
 		hold.TextViewAge.setText(listItems.get(arg0).getAge());
 		hold.TextViewDistance.setText(listItems.get(arg0).getDistance());
-		hold.TextViewActivityAddress.setText(listItems.get(arg0).getActionAddress());
+		hold.TextViewActivityAddress.setText(listItems.get(arg0).getAddress());
 		
 		return arg1;
 	}
