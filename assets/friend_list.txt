@@ -1,5 +1,5 @@
 {
-  "respCode": "G00", 
+  "respCode": "E00", 
   "data": [
     {
     	"name":"您的性格是什么?",

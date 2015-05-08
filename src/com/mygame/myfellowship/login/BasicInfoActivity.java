@@ -116,6 +116,7 @@ public class BasicInfoActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.question_container);
+		mStructBaseUserInfo.setUserid(preferences.getString(Constant.USER_ID, "adcd"));
 		setTitle("答题");
 		mCharacterParse = new CharacterParse();
 		initView();
@@ -134,18 +135,22 @@ public class BasicInfoActivity extends BaseActivity {
 	}
 
 	//解析题目json
-	private void parseBasicTopic(String t) {
-		
+	private int parseBasicTopic(String t) {
+		int result = 0;
 		Response<List<Question>> response = new Gson().fromJson(t, 
 				new TypeToken<Response<List<Question>>>(){}.getType());
-		if(response.getResult(this)){
+		if(response.getResult()){
 			requestList = response.getResponse();
 			currentQId = 0;
 			Message msg = new Message();
 			msg.what = HANDLE_BASETOPIC;
 			msg.arg1 = currentQId;
 			mHandler.sendMessage(msg);
+		}else{
+			result = -1;
+			ToastHelper.ToastLg(response.getMessage(), getActivity());
 		}
+		return result;
 	}
 
 
@@ -222,6 +227,9 @@ public class BasicInfoActivity extends BaseActivity {
 						Message msg = new Message();
 						msg.what = HANDLE_LOCATION;
 						mHandler.sendMessage(msg);	
+				}
+				else if(questionType == 4){
+					SubmitAllUserInfo();
 				}
 				
 			}
@@ -301,7 +309,9 @@ public class BasicInfoActivity extends BaseActivity {
 		return (a>b)?"A":"B";
 	}
 	protected void requestMBAIQuestion() {
-		getFinalHttp().post(Urls.question_info, new AjaxCallBack<String>(){
+		AjaxParams params = new AjaxParams();
+		params.put("userid", preferences.getString(Constant.USER_ID, "adcd"));
+		getFinalHttp().post(Urls.question_info,params, new AjaxCallBack<String>(){
 
 			@Override
 			public void onStart() {
@@ -312,8 +322,10 @@ public class BasicInfoActivity extends BaseActivity {
 			@Override
 			public void onSuccess(String t) {
 				super.onSuccess(t);
-				questionType = 2;
-				parseBasicTopic(t);
+				
+				if(parseBasicTopic(t) == 0){
+					questionType = 2;
+				}
 				cancelRequestDialog();
 			}
 
@@ -411,11 +423,9 @@ public class BasicInfoActivity extends BaseActivity {
 		Log.i("huwei", getjson);
 		
 		AjaxParams params = new AjaxParams();
-		params.put("buss", "getUser");
-		params.put("data", getjson);
+		params.put("userMsg", getjson);
 
-		
-		getFinalHttp().post(Urls.register, params, new AjaxCallBack<String>(){
+		getFinalHttp().post(Urls.getuser, params, new AjaxCallBack<String>(){
 
 			@Override
 			public void onSuccess(String t) {
@@ -423,7 +433,7 @@ public class BasicInfoActivity extends BaseActivity {
 				Response<List<StructFriendListShowContent>> response = new Gson().fromJson(t, 
 						
 						new TypeToken<Response<List<StructFriendListShowContent>>>(){}.getType());
-				if(response.getResult(getApplicationContext())){
+				if(response.getResult()){
 					Intent intent = new Intent();
 					intent.setClass(getApplicationContext(), FriendListActivity.class);
 					startActivity(intent);

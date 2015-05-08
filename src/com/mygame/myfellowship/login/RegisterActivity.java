@@ -1,6 +1,7 @@
 package com.mygame.myfellowship.login;
 
 
+import net.sf.json.JSONObject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +14,14 @@ import android.widget.EditText;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.mygame.myfellowship.BaseActivity;
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.bean.Constant;
+import com.mygame.myfellowship.bean.Response;
 import com.mygame.myfellowship.bean.Urls;
 import com.mygame.myfellowship.http.AjaxCallBack;
 import com.mygame.myfellowship.http.AjaxParams;
@@ -181,7 +187,6 @@ public class RegisterActivity extends BaseActivity{
 
 	protected void requestRegister() {
 		AjaxParams params = new AjaxParams();
-		params.put("buss", "reg");
 		params.put("username", phonEditText.getText().toString());
 		params.put("password", etConfirmPwd.getText().toString());
 		params.put("nickname", nicknameEditText.getText().toString());
@@ -191,12 +196,24 @@ public class RegisterActivity extends BaseActivity{
 			@Override
 			public void onSuccess(String t) {
 				super.onSuccess(t);
+				
+				Response<String> response = new Gson().fromJson(t, 
+						new TypeToken<Response<String>>(){}.getType());
+				if(response.getResult()){
+					preferences.edit().putString(Constant.USER_NAME, phonEditText.getText().toString()).commit();
+					preferences.edit().putString(Constant.NICK_NAME, nicknameEditText.getText().toString()).commit();
+					preferences.edit().putString(Constant.USER_PWD, etConfirmPwd.getText().toString()).commit();
+					preferences.edit().putString(Constant.USER_ID, response.getMessage()).commit();
+					ToastHelper.ToastSht(R.string.register_success, getActivity());
+					startActivity(new Intent(RegisterActivity.this, BasicInfoActivity.class));
+					finish();
+				}else{
+					ToastHelper.ToastLg(response.getMessage(), getActivity());
+				}
+
 				cancelRequestDialog();
-				preferences.edit().putString(Constant.USER_NAME, phonEditText.getText().toString()).commit();
-				preferences.edit().putString(Constant.USER_PWD, etConfirmPwd.getText().toString()).commit();
-				ToastHelper.ToastSht(R.string.register_success, getActivity());
-				startActivity(new Intent(RegisterActivity.this, BasicInfoActivity.class));
-				finish();
+				
+
 			}
 
 			@Override

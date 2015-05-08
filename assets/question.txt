@@ -1,5 +1,5 @@
 {
-  "respCode": "G00", 
+  "respCode": "E00", 
   "data": [
     {
     	"question":"您的性别?",

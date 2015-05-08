@@ -241,8 +241,10 @@ public class LoginActivity extends BaseActivity {
 		preferences.edit().putString(Constant.Faith,l_StructBaseUserInfo.getFaith()).commit();
 		
 		Set<String> siteno = new HashSet<String>(); 
-		for(int i=0;i<l_StructBaseUserInfo.getCoordinates().size();i++){
-			siteno.add(l_StructBaseUserInfo.getCoordinates().get(i));
+		if(l_StructBaseUserInfo.getCoordinates() != null){
+			for(int i=0;i<l_StructBaseUserInfo.getCoordinates().size();i++){
+				siteno.add(l_StructBaseUserInfo.getCoordinates().get(i));
+			}
 		}
 		preferences.edit().putStringSet(Constant.Address,siteno).commit();
 		
@@ -281,7 +283,6 @@ public class LoginActivity extends BaseActivity {
 		}
 		
 		AjaxParams params = new AjaxParams();
-		params.put("buss", "getUserid");
 		params.put("username",uname);
 		params.put("password",pwd);
 //		final LoginCallBack callback = new LoginCallBack(isBackLogin, btnLoad, user, LoginActivity.this, isShowLoading);
@@ -297,7 +298,7 @@ public class LoginActivity extends BaseActivity {
 			private void parseData(String t) {
 					Response<StructBaseUserInfo> response = new Gson().fromJson(t, 
 							new TypeToken<Response<StructBaseUserInfo>>(){}.getType());
-					if(response.getResult(getApplicationContext())){
+					if(response.getResult()){
 						StructBaseUserInfo aa = response.getResponse();
 						
 						parseUserBaseInfo(aa);

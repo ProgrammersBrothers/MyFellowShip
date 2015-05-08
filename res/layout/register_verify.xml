@@ -69,6 +69,7 @@
             style="@style/EtTheme"
             android:layout_marginTop="@dimen/ten_dp"
             android:hint="请输入密码(6-13位数字或字母)"
+            android:inputType="textPassword"
             android:maxLength="11"
             android:padding="@dimen/ten_dp" />
         
@@ -77,6 +78,7 @@
             style="@style/EtTheme"
             android:layout_marginTop="@dimen/ten_dp"
             android:hint="请确认密码(6-13位数字或字母)"
+            android:inputType="textPassword"
             android:maxLength="11"
             android:padding="@dimen/ten_dp" />
      </LinearLayout>

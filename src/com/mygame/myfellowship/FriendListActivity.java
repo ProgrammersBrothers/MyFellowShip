@@ -98,7 +98,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		Response<List<StructFriendListShowContent>> response = new Gson().fromJson(t, 
 				
 				new TypeToken<Response<List<StructFriendListShowContent>>>(){}.getType());
-		if(response.getResult(this)){
+		if(response.getResult()){
 			mStructFriendListShowContent = response.getResponse();
 			if(mFriendListViewAdapter == null){
 				mFriendListViewAdapter = new FriendListViewAdapter(this, mStructFriendListShowContent);
@@ -110,6 +110,8 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 			
 			mListViewFriendList.stopLoadMore();
 			mListViewFriendList.stopRefresh();
+		}else{
+			ToastHelper.ToastLg(response.getMessage(), getActivity());
 		}
 		
 	}
@@ -150,7 +152,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		Response<List<StructFriendListShowContent>> response = new Gson().fromJson(t, 
 				
 				new TypeToken<Response<List<StructFriendListShowContent>>>(){}.getType());
-		if(response.getResult(this)){
+		if(response.getResult()){
 			mOnRefreshClass.onSuccess(response.getResponse());
 
 		}
@@ -161,11 +163,10 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		Log.i("huwei", getjson);
 		
 		AjaxParams params = new AjaxParams();
-		params.put("buss", "getUser");
 		params.put("userMsg", getjson);
 
 		
-		getFinalHttp().post(Urls.register, params, new AjaxCallBack<String>(){
+		getFinalHttp().post(Urls.getuser, params, new AjaxCallBack<String>(){
 
 			@Override
 			public void onSuccess(String t) {

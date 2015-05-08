@@ -50,8 +50,8 @@ public class Response<T> {
 	 * @param context
 	 * @return
 	 */
-	public boolean getResult(Context context) {
-		if ("G00".equals(respCode)) {
+	public boolean getResult() {
+		if ("E00".equals(respCode)) {
 			return true;
 		}
 		return false;

@@ -18,6 +18,7 @@ public class Constant {
 		}
 	}
 	public static String USER_NAME = "username";
+	public static String NICK_NAME = "nickname";
 	public static String USER_PWD = "password";
 	public static String USER_ID = "userid";
 	public static String Sex = "Sex";
