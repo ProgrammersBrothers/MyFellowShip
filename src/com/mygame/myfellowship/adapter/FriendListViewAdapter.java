@@ -4,17 +4,13 @@ package com.mygame.myfellowship.adapter;
 import java.util.List;
 
 import com.mygame.myfellowship.R;
-import com.mygame.myfellowship.struct.StructFriendInfo;
 import com.mygame.myfellowship.struct.StructFriendListShowContent;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -76,8 +72,8 @@ public class FriendListViewAdapter extends BaseAdapter {
 			hold = (Holder) arg1.getTag();
 		}
 		hold.TextViewFriendName.setText(listItems.get(arg0).getNickname());
-		hold.TextViewAge.setText(listItems.get(arg0).getAge());
-		hold.TextViewDistance.setText(listItems.get(arg0).getDistance());
+		hold.TextViewAge.setText(listItems.get(arg0).getAge()+"岁");
+		hold.TextViewDistance.setText(listItems.get(arg0).getDistance()+"km");
 		hold.TextViewActivityAddress.setText(listItems.get(arg0).getAddress());
 		
 		return arg1;

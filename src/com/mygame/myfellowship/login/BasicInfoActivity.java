@@ -424,7 +424,7 @@ public class BasicInfoActivity extends BaseActivity {
 		
 		AjaxParams params = new AjaxParams();
 		params.put("userMsg", getjson);
-
+		showReqeustDialog(R.string.sending_data);
 		getFinalHttp().post(Urls.getuser, params, new AjaxCallBack<String>(){
 
 			@Override
@@ -438,6 +438,8 @@ public class BasicInfoActivity extends BaseActivity {
 					intent.setClass(getApplicationContext(), FriendListActivity.class);
 					startActivity(intent);
 					finish();
+				}else{
+					ToastHelper.ToastLg(response.getMessage(), getActivity());
 				}
 				cancelRequestDialog();
 			}

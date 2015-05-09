@@ -89,6 +89,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	protected void onCreate(Bundle arg0) { 
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_friend_list);
+		setTitle("朋友列表");
 		initXListView(getApplicationContext());
 	}
 	//解析朋友列表，并显示
@@ -161,7 +162,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	void SubmitAllUserInfo(StructBaseUserInfo x_StructBaseUserInfo){
 		String getjson = new Gson().toJson(x_StructBaseUserInfo);
 		Log.i("huwei", getjson);
-		
+		showReqeustDialog(R.string.matching_for_you);
 		AjaxParams params = new AjaxParams();
 		params.put("userMsg", getjson);
 
