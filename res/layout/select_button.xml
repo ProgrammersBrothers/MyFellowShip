@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android" 
+       android:id="@+id/radioButton1"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="点击选择年龄"
+       android:padding="10dp"
+       android:background="@drawable/edit_shape_bg"
+       android:drawableRight="@drawable/arrow_down" />
