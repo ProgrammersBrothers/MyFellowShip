@@ -1,10 +1,7 @@
 package com.mygame.myfellowship;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -16,10 +13,10 @@ import com.mygame.myfellowship.adapter.FriendListViewAdapter;
 import com.mygame.myfellowship.bean.Constant;
 import com.mygame.myfellowship.bean.Response;
 import com.mygame.myfellowship.bean.Urls;
+import com.mygame.myfellowship.custom.SlidingMenu;
 import com.mygame.myfellowship.gps.MyLocation;
 import com.mygame.myfellowship.http.AjaxCallBack;
 import com.mygame.myfellowship.http.AjaxParams;
-import com.mygame.myfellowship.login.BasicInfoActivity.MyLocationListenner;
 import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.struct.StructFriendListShowContent;
 import com.mygame.myfellowship.utils.AssetUtils;
@@ -27,11 +24,16 @@ import com.mygame.myfellowship.utils.ToastHelper;
 import com.mygame.myfellowship.view.XListView;
 import com.mygame.myfellowship.view.XListView.IXListViewListener;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-
+import android.view.View;
+import android.widget.TextView;
 public class FriendListActivity extends BaseActivity implements IXListViewListener{
 	
 	XListView mListViewFriendList;
@@ -41,12 +43,13 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	private final static int XLIST_REFRESH = 1; //下拉刷新
 	private final static int XLIST_LOAD_MORE = 2; //加载更多
 	private StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
-	
+	private TextView mTextViewUserName;
 	//定位参数
 	private MyLocation myLocation = new MyLocation();
 	private LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
 	
+	private SlidingMenu mMenu;
 	public class MyLocationListenner implements BDLocationListener {
 
 		@Override
@@ -89,8 +92,41 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	protected void onCreate(Bundle arg0) { 
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_friend_list);
+        mMenu = (SlidingMenu) findViewById(R.id.id_menu);
+        mTextViewUserName = (TextView) findViewById(R.id.TextViewUserName);
+		mMenu.setSlideEnable(true);
 		setTitle("朋友列表");
 		initXListView(getApplicationContext());
+	}
+	
+	public void OnclickButtonQuitLogin(View v){
+		AlertDialog.Builder builder;
+		if(Build.VERSION.SDK_INT < 11){
+			builder = new Builder(this);
+		}else{
+			builder = new Builder(this,R.style.dialog);
+		}
+		builder.setTitle(R.string.title_quitlogin);
+		
+		builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.dismiss();
+				finish();
+			}
+		});
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.dismiss();
+			}
+		});
+		Dialog noticeDialog = builder.create();
+		noticeDialog.show();
 	}
 	//解析朋友列表，并显示
 	void paserFriendList(String t){

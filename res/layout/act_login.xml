@@ -35,7 +35,9 @@
 
                     <RelativeLayout
                         style="@style/InputParentTheme"
-                        android:layout_width="match_parent" >
+                        android:layout_width="match_parent" 
+                        android:focusable="true"   
+						android:focusableInTouchMode="true">
 
                         <ImageView
                             android:id="@+id/ivSanjiao"
@@ -50,8 +52,6 @@
                             android:layout_toRightOf="@+id/ivSanjiao"
                             android:hint="请输入手机号码"
                             android:inputType="text" >
-
-                            <requestFocus />
                         </EditText>
                     </RelativeLayout>
 

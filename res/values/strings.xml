@@ -41,6 +41,8 @@
 	<string name="_mbti_test_tips">您已答题完毕,即将进入MBTI性格测试，请再接再励^^,找个好对象需要点耐心~</string>
 	<string name="tip">提示</string>
 	<string name="confirm">确定</string>
+	<string name="cancel">取消</string>
+	<string name="title_quitlogin">退出登录</string>
 	<string name="requestion_topic">请求题目中...</string> 
 	<string name="matching_for_you">正在为你匹配...</string> 
 </resources>

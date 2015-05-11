@@ -1,6 +1,8 @@
 package com.mygame.myfellowship.login;
 
 
+import java.io.UnsupportedEncodingException;
+
 import net.sf.json.JSONObject;
 import android.content.Intent;
 import android.os.Bundle;
@@ -187,9 +189,17 @@ public class RegisterActivity extends BaseActivity{
 
 	protected void requestRegister() {
 		AjaxParams params = new AjaxParams();
-		params.put("username", phonEditText.getText().toString());
-		params.put("password", etConfirmPwd.getText().toString());
-		params.put("nickname", nicknameEditText.getText().toString());
+		try {
+			params.put("username", phonEditText.getText().toString());
+			params.put("password", etConfirmPwd.getText().toString());
+			
+			String newStr = new String(nicknameEditText.getText().toString().getBytes(), "UTF-8");
+			params.put("nickname", newStr);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+
 
 		getFinalHttp().post(Urls.register, params, new AjaxCallBack<String>(){
 

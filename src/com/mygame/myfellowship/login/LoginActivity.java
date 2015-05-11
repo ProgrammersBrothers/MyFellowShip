@@ -256,7 +256,6 @@ public class LoginActivity extends BaseActivity {
 		Intent intent = new Intent();
 		intent.setClass(getApplicationContext(), FriendListActivity.class);
 		startActivity(intent);
-		finish();
 	}
 	/**
 	 * 登录

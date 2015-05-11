@@ -37,7 +37,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="dialog" parent="@android:style/Theme.Dialog">
+    <style name="dialog" parent="@android:style/Theme.Holo.Dialog">
         <item name="android:windowIsFloating">true</item>
         <!-- 设置未浮动窗口 -->
         <item name="android:windowFrame">@null</item>
