@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -33,6 +34,7 @@ import com.mygame.myfellowship.BaseActivity;
 import com.mygame.myfellowship.FriendListActivity;
 import com.mygame.myfellowship.Question;
 import com.mygame.myfellowship.R;
+import com.mygame.myfellowship.bean.CfgCommonType;
 import com.mygame.myfellowship.bean.Constant;
 import com.mygame.myfellowship.bean.Response;
 import com.mygame.myfellowship.bean.Urls;
@@ -44,11 +46,14 @@ import com.mygame.myfellowship.struct.StructFriendListShowContent;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.CharacterParse;
 import com.mygame.myfellowship.utils.ToastHelper;
+import com.mygame.myfellowship.utils.WheelViewUtil;
+import com.mygame.myfellowship.utils.WheelViewUtil.OnCfgWheelListener;
+import com.mygame.myfellowship.utils.WheelViewUtil.OnWheelViewListener;
 
 public class BasicInfoActivity extends BaseActivity {
 
 	RadioGroup group;
-	LinearLayout mLinearLayoutCheckBox;
+	LinearLayout mLinearLayoutCheckBox, llContainer;
 	CheckBox CheckBox1;
 	CheckBox CheckBox2;
 	CheckBox CheckBox3;
@@ -57,7 +62,9 @@ public class BasicInfoActivity extends BaseActivity {
 	CheckBox CheckBox6;
 	CheckBox CheckBox7;
 	TextView tvQuestion;
+	Button btnChoose;
 	private List<Question> requestList;
+	List<CfgCommonType> highCcts = new ArrayList<CfgCommonType>();
 	private int currentQId;
 	
 	final int HANDLE_BASETOPIC = 0x1001;//基本信息
@@ -72,21 +79,12 @@ public class BasicInfoActivity extends BaseActivity {
 	private MyLocation myLocation = new MyLocation();
 	private LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
+	int mSpareTime = 0;
 	
 	//用户基本信息结构体
 	StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
 	
-	int mSpareTime = 0;
-	private void locationInit() {
-		// 定位初始化
-		mLocClient = new LocationClient(this);
-		mLocClient.registerLocationListener(myListener);
-		LocationClientOption option = new LocationClientOption();
-		option.setOpenGps(true);// 打开gps
-		option.setCoorType("bd09ll"); // 设置坐标类型
-		option.setScanSpan(1000);
-		mLocClient.setLocOption(option);
-	}
+	
 	public class MyLocationListenner implements BDLocationListener {
 
 		@Override
@@ -118,12 +116,33 @@ public class BasicInfoActivity extends BaseActivity {
 		mCharacterParse = new CharacterParse();
 		initView();
 		locationInit();
+		initData();
 		if(!mLocClient.isStarted()){
 			mLocClient.start();
 		}
 		requestBasicTopic();
 	}
 	
+	
+	private void initData() {
+		for(int i = 0; i < 50; i++){
+			CfgCommonType cfg = new CfgCommonType();
+			cfg.setName("" + (150 + i));
+			highCcts.add(cfg);
+		}
+	}
+
+
+	private void locationInit() {
+		// 定位初始化
+		mLocClient = new LocationClient(this);
+		mLocClient.registerLocationListener(myListener);
+		LocationClientOption option = new LocationClientOption();
+		option.setOpenGps(true);// 打开gps
+		option.setCoorType("bd09ll"); // 设置坐标类型
+		option.setScanSpan(1000);
+		mLocClient.setLocOption(option);
+	}
 	
 	private void requestBasicTopic() {
 		 String t = AssetUtils.getDataFromAssets(this, "question.txt");
@@ -155,6 +174,7 @@ public class BasicInfoActivity extends BaseActivity {
 		
 		 group = (RadioGroup)findViewById(R.id.rgroup);
 		 mLinearLayoutCheckBox = (LinearLayout)findViewById(R.id.LinearLayoutCheckBox);
+		 llContainer = (LinearLayout)findViewById(R.id.llContainer);
 		 CheckBox1 = (CheckBox)findViewById(R.id.CheckBox1);
 		 CheckBox2 = (CheckBox)findViewById(R.id.CheckBox2);
 		 CheckBox3 = (CheckBox)findViewById(R.id.CheckBox3);
@@ -170,6 +190,7 @@ public class BasicInfoActivity extends BaseActivity {
 		 CheckBox6.setOnCheckedChangeListener(mOnCheckedListener);
 		 CheckBox7.setOnCheckedChangeListener(mOnCheckedListener);
 		 tvQuestion = (TextView)findViewById(R.id.tvQuestion);
+		 btnChoose = (Button)findViewById(R.id.btnClickChoose);
 		 
 		 addRightBtn(R.string.next_topic, new OnClickListener() {
 			
@@ -179,11 +200,16 @@ public class BasicInfoActivity extends BaseActivity {
 				//基本可选择信息填写
 				if(questionType == 1){
 					int checkId = group.getCheckedRadioButtonId();
-					if(checkId <= 0){
-						ToastHelper.ToastLg("没有选择答案", getApplicationContext());
-						return;
-					}
+					
 					if(currentQId < requestList.size() - 1){
+						// 跳过身高和年龄
+						if(requestList.get(currentQId).getQuesionId().equals("0002")
+								|| requestList.get(currentQId).getQuesionId().equals("0003")){
+							
+						} else if(checkId <= 0){
+							ToastHelper.ToastLg("没有选择答案", getApplicationContext());
+							return;
+						}
 						saveAnsers(checkId-1);
 						currentQId ++;
 						Message msg = new Message();
@@ -245,11 +271,15 @@ public class BasicInfoActivity extends BaseActivity {
 			preferences.edit().putString(Constant.Sex,curQ.getAnswerstype().get(checkId)).commit();
 			mStructBaseUserInfo.setSex(curQ.getAnswerstype().get(checkId));
 		} else if("0002".equals(qId)){ // 年龄
-			preferences.edit().putString(Constant.Age,curQ.getAnswerstype().get(checkId)).commit();
-			mStructBaseUserInfo.setAge(curQ.getAnswerstype().get(checkId));
+//			preferences.edit().putString(Constant.Age,curQ.getAnswerstype().get(checkId)).commit();
+//			mStructBaseUserInfo.setAge(curQ.getAnswerstype().get(checkId));
+			preferences.edit().putString(Constant.Age,btnChoose.getText().toString()).commit();
+			mStructBaseUserInfo.setAge(btnChoose.getText().toString());
 		} else if("0003".equals(qId)){ // 身高
-			preferences.edit().putString(Constant.Height, curQ.getAnswerstype().get(checkId)).commit();
-			mStructBaseUserInfo.setStature(curQ.getAnswerstype().get(checkId));
+//			preferences.edit().putString(Constant.Height, curQ.getAnswerstype().get(checkId)).commit();
+//			mStructBaseUserInfo.setStature(curQ.getAnswerstype().get(checkId));
+			preferences.edit().putString(Constant.Height, btnChoose.getText().toString()).commit();
+			mStructBaseUserInfo.setStature(btnChoose.getText().toString());
 		} else if("0004".equals(qId)){ // 小孩
 			preferences.edit().putString(Constant.IfChild, curQ.getAnswerstype().get(checkId)).commit();
 			mStructBaseUserInfo.setIfHaveChildren(curQ.getAnswerstype().get(checkId));
@@ -399,19 +429,75 @@ public class BasicInfoActivity extends BaseActivity {
 		mLocClient.unRegisterLocationListener(myListener);
 	}
 
+	
+	OnWheelViewListener ageListener = new OnWheelViewListener() {
+		
+		@Override
+		public void doubleConfirm(String selectLeft, String selectRight) {
+			 
+		}
+		
+		@Override
+		public void dateConfirm(String selectyear, String selectmonth,
+				String selectday, int year, int month, int day) {
+			 btnChoose.setText(selectyear + "-" + selectmonth + "-" + selectday);
+		}
+		
+		@Override
+		public void Confirm(String select, int index) {
+		}
+	};
+	
+	
+	OnCfgWheelListener highListener = new OnCfgWheelListener() {
+		
+		@Override
+		public void CustomSalayConfirm(String min, String max) {
+			 
+		}
+		
+		@Override
+		public void Confirm(CfgCommonType select, int index) {
+			btnChoose.setText(select.getName());
+		}
+	};
+	
 	//下一个题目显示
 	protected void BasicInfoRadioGroupView(int curId) {
-		Question q = requestList.get(curId);
+		final Question q = requestList.get(curId);
 		int id = 0;
-		group.removeAllViews();
-		group.clearCheck();
-		tvQuestion.setText(q.getQuestion());
-		for(String answer : q.getAnswers()){
-			RadioButton rBtn = (RadioButton) View.inflate(this, R.layout.radio_button, null);
-			rBtn.setId(id+1);
-			rBtn.setText(answer);
-			group.addView(rBtn);
-			id++;
+		
+		if("0002".equals(q.getQuesionId())
+		|| "0003".equals(q.getQuesionId())) {
+			tvQuestion.setVisibility(View.GONE);
+			group.setVisibility(View.GONE);
+			llContainer.setVisibility(View.VISIBLE);
+			btnChoose.setText(q.getQuestion());
+			btnChoose.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					if("0002".equals(q.getQuesionId())){
+						WheelViewUtil.showWheelView(getActivity(), v, ageListener, "1990-01-01", "选择年龄", false);
+					} else if("0003".equals(q.getQuesionId())) {
+						WheelViewUtil.showSingleWheel(getActivity(), v, highCcts, highListener, "选择身高", "身高");
+					}
+				}
+			});
+		} else {
+			tvQuestion.setVisibility(View.VISIBLE);
+			group.setVisibility(View.VISIBLE);
+			llContainer.setVisibility(View.GONE);
+			group.removeAllViews();
+			group.clearCheck();
+			tvQuestion.setText(q.getQuestion());
+			for(String answer : q.getAnswers()){
+				RadioButton rBtn = (RadioButton) View.inflate(this, R.layout.radio_button, null);
+				rBtn.setId(id+1);
+				rBtn.setText(answer);
+				group.addView(rBtn);
+				id++;
+			}
 		}
 	}
 	//提交用户信息

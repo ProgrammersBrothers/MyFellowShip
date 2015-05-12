@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import cn.jpush.android.api.JPushInterface;
 
+import com.avos.avoscloud.AVAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mygame.myfellowship.bean.Constant.Preference;
@@ -188,6 +189,7 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		AVAnalytics.trackAppOpened(getIntent());
 		tag = getClass().getSimpleName();
 		// 禁止横屏
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

@@ -31,6 +31,8 @@
 			        android:visibility="visible"/>
 			    <include layout="@layout/spare_time_check_box" 
 			        android:visibility="gone"/>
+			    <include layout="@layout/linear_layout" 
+			        android:visibility="gone"/>
 			</FrameLayout>
 	        
 	    </LinearLayout>
