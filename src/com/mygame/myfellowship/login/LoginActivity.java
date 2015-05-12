@@ -226,7 +226,7 @@ public class LoginActivity extends BaseActivity {
 		preferences.edit().putString(Constant.USER_ID, l_StructBaseUserInfo.getUserid()).commit();
 		preferences.edit().putString(Constant.Sex,l_StructBaseUserInfo.getSex()).commit();
 
-		preferences.edit().putString(Constant.Age,l_StructBaseUserInfo.getAge()).commit();
+		preferences.edit().putString(Constant.Age,l_StructBaseUserInfo.getBirthday()).commit();
 
 		preferences.edit().putString(Constant.Height, l_StructBaseUserInfo.getStature()).commit();
 

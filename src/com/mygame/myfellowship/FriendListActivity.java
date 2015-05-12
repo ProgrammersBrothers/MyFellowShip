@@ -226,7 +226,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		x_StructBaseUserInfo.setUserid(preferences.getString(Constant.USER_ID, ""));
 		x_StructBaseUserInfo.setSex(preferences.getString(Constant.Sex, ""));
 
-		x_StructBaseUserInfo.setAge(preferences.getString(Constant.Age, ""));
+		x_StructBaseUserInfo.setBirthday(preferences.getString(Constant.Age, ""));
 
 		x_StructBaseUserInfo.setStature(preferences.getString(Constant.Height,  ""));
 

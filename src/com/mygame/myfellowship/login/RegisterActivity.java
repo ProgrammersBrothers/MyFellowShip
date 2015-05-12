@@ -1,9 +1,6 @@
 package com.mygame.myfellowship.login;
 
 
-import java.io.UnsupportedEncodingException;
-
-import net.sf.json.JSONObject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,8 +14,6 @@ import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.mygame.myfellowship.BaseActivity;
 import com.mygame.myfellowship.R;
@@ -179,28 +174,19 @@ public class RegisterActivity extends BaseActivity{
 					return;
 				}
 				
-				
-				showReqeustDialog(R.string.sending_data);
+				requestRegister();
+		/*		showReqeustDialog(R.string.sending_data);
 				 // 提交验证码，成功，就跳到基本信息界面
-				SMSSDK.submitVerificationCode("86", phone, verifyCode);
+				SMSSDK.submitVerificationCode("86", phone, verifyCode);*/
 			}
 		});
 	}
 
 	protected void requestRegister() {
 		AjaxParams params = new AjaxParams();
-		try {
-			params.put("username", phonEditText.getText().toString());
-			params.put("password", etConfirmPwd.getText().toString());
-			
-			String newStr = new String(nicknameEditText.getText().toString().getBytes(), "UTF-8");
-			params.put("nickname", newStr);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
-
-
+		params.put("username", phonEditText.getText().toString());
+		params.put("password", etConfirmPwd.getText().toString());
+		params.put("nickname", nicknameEditText.getText().toString());
 		getFinalHttp().post(Urls.register, params, new AjaxCallBack<String>(){
 
 			@Override
@@ -222,8 +208,6 @@ public class RegisterActivity extends BaseActivity{
 				}
 
 				cancelRequestDialog();
-				
-
 			}
 
 			@Override

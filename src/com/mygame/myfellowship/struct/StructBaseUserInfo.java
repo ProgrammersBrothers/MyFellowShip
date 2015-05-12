@@ -5,7 +5,7 @@ import java.util.List;
 public class StructBaseUserInfo{
 	private String userid = "";
     private String sex = "";              //性别 1、男 2、女
-    private String age = "";               //年龄 
+    private String birthday = "";               //年龄 
     private String stature = "";          //身高
     private String IfHaveChildren = "";     //是否有孩子 1、有小孩 2、没小孩
     private String IfMindHaveChildren = "";    //是否介意有孩子  1.介意 2、不介意
@@ -20,12 +20,6 @@ public class StructBaseUserInfo{
 	}
 	public void setSex(String sex) {
 		this.sex = sex;
-	}
-	public String getAge() {
-		return age;
-	}
-	public void setAge(String age) {
-		this.age = age;
 	}
 	public String getStature() {
 		return stature;
@@ -86,5 +80,11 @@ public class StructBaseUserInfo{
 	}
 	public void setUserid(String userid) {
 		this.userid = userid;
+	}
+	public String getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
 	}
 }

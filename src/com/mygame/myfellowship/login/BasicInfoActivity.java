@@ -279,7 +279,7 @@ public class BasicInfoActivity extends BaseActivity {
 //			preferences.edit().putString(Constant.Age,curQ.getAnswerstype().get(checkId)).commit();
 //			mStructBaseUserInfo.setAge(curQ.getAnswerstype().get(checkId));
 			preferences.edit().putString(Constant.Age,btnChoose.getText().toString()).commit();
-			mStructBaseUserInfo.setAge(btnChoose.getText().toString());
+			mStructBaseUserInfo.setBirthday(btnChoose.getText().toString());
 		} else if("0003".equals(qId)){ // 身高
 //			preferences.edit().putString(Constant.Height, curQ.getAnswerstype().get(checkId)).commit();
 //			mStructBaseUserInfo.setStature(curQ.getAnswerstype().get(checkId));
@@ -587,7 +587,7 @@ public class BasicInfoActivity extends BaseActivity {
 	};
 	void testJson(){
 		StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
-		mStructBaseUserInfo.setAge("12");
+		mStructBaseUserInfo.setBirthday("12");
 		mStructBaseUserInfo.setFaith("dfd");
 		List<String> coordinates = new ArrayList<String>();
 		coordinates.add("24.56");

@@ -59,7 +59,7 @@ import org.apache.http.message.BasicNameValuePair;
  * </pre>
  */
 public class AjaxParams {
-	private static String ENCODING = "UTF-8";
+	private static String ENCODING = "utf-8";
 
 	protected ConcurrentHashMap<String, String> urlParams;
 	protected ConcurrentHashMap<String, FileWrapper> fileParams;
