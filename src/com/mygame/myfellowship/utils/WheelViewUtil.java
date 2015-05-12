@@ -152,7 +152,7 @@ public class WheelViewUtil {
 
             // 从开始年份给yearList添加"xxxx年"
             for (int startYear = defautYear - 79; startYear <= defautYear; startYear++) {
-                String currentYear = startYear + "年";
+                String currentYear = startYear + "";
                 yearList.add(currentYear);
             }
 

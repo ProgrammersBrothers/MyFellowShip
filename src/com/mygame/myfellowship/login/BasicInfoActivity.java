@@ -455,7 +455,6 @@ public class BasicInfoActivity extends BaseActivity {
 		public void CustomSalayConfirm(String min, String max) {
 			 
 		}
-		
 		@Override
 		public void Confirm(CfgCommonType select, int index) {
 			btnChoose.setText(select.getName());

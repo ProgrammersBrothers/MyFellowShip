@@ -87,7 +87,7 @@
         
         <activity android:name=".login.RegisterActivity" android:launchMode="singleTop"/>
         
-<!--         <activity android:name=".login.BasicInfoActivity" /> -->
+<!--          <activity android:name=".login.BasicInfoActivity" /> -->
         <activity android:name=".FriendListActivity" />
         <activity android:name=".MainActivity" android:launchMode="singleTop"/>
         <!-- 定位后台服务 -->
