@@ -1,6 +1,8 @@
 package com.mygame.myfellowship.login;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import cn.smssdk.framework.utils.Data;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -428,7 +433,6 @@ public class BasicInfoActivity extends BaseActivity {
 		}
 		mLocClient.unRegisterLocationListener(myListener);
 	}
-
 	
 	OnWheelViewListener ageListener = new OnWheelViewListener() {
 		
@@ -460,7 +464,12 @@ public class BasicInfoActivity extends BaseActivity {
 			btnChoose.setText(select.getName());
 		}
 	};
-	
+	public String getNowYear() {
+		   Date currentTime = new Date();
+		   SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		   String dateString = formatter.format(currentTime);
+		   return dateString;
+	}
 	//下一个题目显示
 	protected void BasicInfoRadioGroupView(int curId) {
 		final Question q = requestList.get(curId);
@@ -477,7 +486,7 @@ public class BasicInfoActivity extends BaseActivity {
 				@Override
 				public void onClick(View v) {
 					if("0002".equals(q.getQuesionId())){
-						WheelViewUtil.showWheelView(getActivity(), v, ageListener, "1990-01-01", "选择年龄", false);
+						WheelViewUtil.showWheelView(getActivity(), v, ageListener, getNowYear(), "选择年龄", false);
 					} else if("0003".equals(q.getQuesionId())) {
 						WheelViewUtil.showSingleWheel(getActivity(), v, highCcts, highListener, "选择身高", "身高");
 					}

@@ -1129,9 +1129,9 @@ public class WheelViewUtil {
             monthIndex = 5;
             dayIndex = 0;
         } else {
-            yearIndex = yearList.indexOf(year + "年");
-            monthIndex = monthList.indexOf(month + "月");
-            dayIndex = dayList.indexOf(day + "日");
+            yearIndex = yearList.indexOf(year);
+            monthIndex = monthList.indexOf(month);
+            dayIndex = dayList.indexOf(day);
         }
 
         if (yearIndex == -1) {
