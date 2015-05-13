@@ -31,6 +31,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -50,6 +52,17 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	public MyLocationListenner myListener = new MyLocationListenner();
 	
 	private SlidingMenu mMenu;
+	
+	public Handler handler = new Handler(){
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 1:
+				mTextViewUserName.setText(mStructBaseUserInfo.getNickname());
+				break;
+				default:break;
+			}
+		}
+	};
 	public class MyLocationListenner implements BDLocationListener {
 
 		@Override
@@ -63,6 +76,9 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 				}else{
 					//得到经纬度
 					getUserBaseInfo(mStructBaseUserInfo);
+					Message msg = new Message();
+					msg.what = 1;
+					handler.sendMessage(msg);
 					SubmitAllUserInfo(mStructBaseUserInfo);
 					if(mLocClient.isStarted()){
 						mLocClient.stop();
@@ -224,6 +240,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	//基本用户信息解析
 	void getUserBaseInfo(StructBaseUserInfo x_StructBaseUserInfo){
 		x_StructBaseUserInfo.setUserid(preferences.getString(Constant.USER_ID, ""));
+		x_StructBaseUserInfo.setNickname(preferences.getString(Constant.NICK_NAME, ""));
 		x_StructBaseUserInfo.setSex(preferences.getString(Constant.Sex, ""));
 
 		x_StructBaseUserInfo.setBirthday(preferences.getString(Constant.Age, ""));

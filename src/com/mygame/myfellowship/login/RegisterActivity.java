@@ -173,11 +173,9 @@ public class RegisterActivity extends BaseActivity{
 					ToastHelper.ToastSht(R.string.pwd_not_equal_confirm_pwd, getActivity());
 					return;
 				}
-				
-				requestRegister();
-		/*		showReqeustDialog(R.string.sending_data);
+				showReqeustDialog(R.string.sending_data);
 				 // 提交验证码，成功，就跳到基本信息界面
-				SMSSDK.submitVerificationCode("86", phone, verifyCode);*/
+				SMSSDK.submitVerificationCode("86", phone, verifyCode);
 			}
 		});
 	}

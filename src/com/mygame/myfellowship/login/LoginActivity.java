@@ -224,6 +224,7 @@ public class LoginActivity extends BaseActivity {
 	//基本用户信息解析
 	void parseUserBaseInfo(StructBaseUserInfo l_StructBaseUserInfo ){
 		preferences.edit().putString(Constant.USER_ID, l_StructBaseUserInfo.getUserid()).commit();
+		preferences.edit().putString(Constant.NICK_NAME, l_StructBaseUserInfo.getNickname()).commit();
 		preferences.edit().putString(Constant.Sex,l_StructBaseUserInfo.getSex()).commit();
 
 		preferences.edit().putString(Constant.Age,l_StructBaseUserInfo.getBirthday()).commit();

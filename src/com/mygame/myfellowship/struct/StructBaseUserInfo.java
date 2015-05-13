@@ -4,8 +4,10 @@ import java.util.List;
 
 public class StructBaseUserInfo{
 	private String userid = "";
+	private String nickname = "";//昵称
     private String sex = "";              //性别 1、男 2、女
-    private String birthday = "";               //年龄 
+    private String age = "";               //年龄
+    private String birthday = "";               //生日
     private String stature = "";          //身高
     private String IfHaveChildren = "";     //是否有孩子 1、有小孩 2、没小孩
     private String IfMindHaveChildren = "";    //是否介意有孩子  1.介意 2、不介意
@@ -86,5 +88,17 @@ public class StructBaseUserInfo{
 	}
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	public String getAge() {
+		return age;
+	}
+	public void setAge(String age) {
+		this.age = age;
 	}
 }

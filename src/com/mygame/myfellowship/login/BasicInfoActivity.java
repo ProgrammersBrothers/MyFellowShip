@@ -116,7 +116,8 @@ public class BasicInfoActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.question_container);
-		mStructBaseUserInfo.setUserid(preferences.getString(Constant.USER_ID, "adcd"));
+		mStructBaseUserInfo.setUserid(preferences.getString(Constant.USER_ID, ""));
+		mStructBaseUserInfo.setNickname(preferences.getString(Constant.NICK_NAME, ""));
 		setTitle("答题");
 		mCharacterParse = new CharacterParse();
 		initView();
@@ -210,7 +211,10 @@ public class BasicInfoActivity extends BaseActivity {
 						// 跳过身高和年龄
 						if(requestList.get(currentQId).getQuesionId().equals("0002")
 								|| requestList.get(currentQId).getQuesionId().equals("0003")){
-							
+							if(btnChoose.getText().toString().equals(requestList.get(currentQId).getQuestion())){
+								ToastHelper.ToastLg("没有选择"+requestList.get(currentQId).getQuestion(), getApplicationContext());
+								return;
+							}
 						} else if(checkId <= 0){
 							ToastHelper.ToastLg("没有选择答案", getApplicationContext());
 							return;

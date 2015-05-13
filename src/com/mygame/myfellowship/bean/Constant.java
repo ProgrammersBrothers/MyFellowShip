@@ -22,7 +22,7 @@ public class Constant {
 	public static String USER_PWD = "password";
 	public static String USER_ID = "userid";
 	public static String Sex = "Sex";
-	public static String Age = "Age";
+	public static String Age = "Age";//代表出生日期
 	public static String Height = "Height";
 	public static String IfChild = "IfChild";
 	public static String IfMind = "IfMind";
