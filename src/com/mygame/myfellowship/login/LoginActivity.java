@@ -35,6 +35,7 @@ import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.SecurityMD5Util;
 import com.mygame.myfellowship.utils.ToastHelper;
+import com.pgyersdk.update.PgyUpdateManager;
 
 /**
  * 过渡界面/登录界面
@@ -61,6 +62,8 @@ public class LoginActivity extends BaseActivity {
 //			startActivity(intent);
 //			finish();
 //		} else {
+		//检查更新
+		PgyUpdateManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
 			onFindView(true);
 //		}
 	}

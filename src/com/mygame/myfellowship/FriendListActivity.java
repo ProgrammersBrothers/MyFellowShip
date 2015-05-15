@@ -23,6 +23,7 @@ import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.ToastHelper;
 import com.mygame.myfellowship.view.XListView;
 import com.mygame.myfellowship.view.XListView.IXListViewListener;
+import com.pgyersdk.update.PgyUpdateManager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

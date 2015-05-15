@@ -7,8 +7,10 @@ import cn.smssdk.SMSSDK;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.baidu.mapapi.SDKInitializer;
+import com.mygame.myfellowship.bean.Constant;
 import com.mygame.myfellowship.http.FinalHttp;
 import com.mygame.myfellowship.info.User;
+import com.pgyersdk.crash.PgyCrashManager;
 
 public class SelfDefineApplication extends Application {
 
@@ -47,6 +49,8 @@ public class SelfDefineApplication extends Application {
         AVObject testObject = new AVObject("TestObject");
         testObject.put("foo", "bar");
         testObject.saveInBackground();
+        PgyCrashManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
+        
 	}
 	
 	

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mygame.myfellowship"
-    android:versionCode="1"
-    android:versionName="1.0.0" >
+    android:versionCode="2"
+    android:versionName="2.0.0" >
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -56,8 +56,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    
-    
+        <!-- 可选 -->
+    <uses-permission android:name="android.permission.READ_LOGS" /> <!-- 获取logcat日志 -->
     
     <supports-screens
         android:anyDensity="true"
