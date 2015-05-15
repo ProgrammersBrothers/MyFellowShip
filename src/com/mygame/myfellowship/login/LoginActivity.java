@@ -15,8 +15,10 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -47,7 +49,7 @@ public class LoginActivity extends BaseActivity {
 
 	// 用户名，密码框
 	private EditText etUname, etPwd;
-	private Button btnLoad;
+	private Button btnLoad,mButtonLogin;
 	long startTime;
 	String uname, pwd;
 
@@ -63,8 +65,9 @@ public class LoginActivity extends BaseActivity {
 //			finish();
 //		} else {
 		//检查更新
+		
 		PgyUpdateManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
-			onFindView(true);
+		onFindView(true);
 //		}
 	}
 
@@ -79,10 +82,27 @@ public class LoginActivity extends BaseActivity {
 			login(uname, pwd, true, false);
 		} else {*/
 			setContentView(R.layout.act_login);
-			setTitle(getString(R.string.login));
+			addRightBtn(R.string.sisn_up, new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+					startActivity(intent);
+				}
+			});
+			addBackBtn(R.string.welcome, new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 			etUname = (EditText) findViewById(R.id.etUname);
 			etPwd = (EditText) findViewById(R.id.etPwd);
 			btnLoad = (Button) findViewById(R.id.btnLoad);
+			mButtonLogin = (Button) findViewById(R.id.ButtonLogin);
 			
 			addTextWatcher(etUname, etPwd);
 			
@@ -174,16 +194,6 @@ public class LoginActivity extends BaseActivity {
 		parameters.put("pwd", this.pwd);
 		parameters.put("appType", "android");
 		return parameters;
-	}
-
-	/**
-	 * 跳转到注册界面
-	 * 
-	 * @param view
-	 */
-	public void onRegisterClick(final View view) {
-		Intent intent = new Intent(this, RegisterActivity.class);
-		startActivity(intent);
 	}
 
 	/**

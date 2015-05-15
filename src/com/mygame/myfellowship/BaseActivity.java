@@ -113,7 +113,7 @@ public class BaseActivity extends FragmentActivity implements
 	 * @param listener
 	 *            如果为null，就pass Activity activity
 	 */
-	protected void addBackBtn(View.OnClickListener listener) {
+	protected void addBackBtn(int strId,View.OnClickListener listener) {
 		getSelfDefActionBar();
 		if (actionBar != null) {
 			if (listener == null) {
@@ -124,7 +124,7 @@ public class BaseActivity extends FragmentActivity implements
 					}
 				};
 			}
-			actionBar.addBackText(R.string.back, listener);
+			actionBar.addBackText(strId, listener);
 		}
 	}
 
