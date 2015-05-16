@@ -23,6 +23,7 @@ import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.ToastHelper;
 import com.mygame.myfellowship.view.XListView;
 import com.mygame.myfellowship.view.XListView.IXListViewListener;
+import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 import com.pgyersdk.update.PgyUpdateManager;
 
 import android.app.AlertDialog;
@@ -276,5 +277,17 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		x_StructBaseUserInfo.setSpareTime(preferences.getString(Constant.Freetime,""));
 		
 		x_StructBaseUserInfo.setMBTI(preferences.getString(Constant.Nature,""));
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		PgyFeedbackShakeManager.register(this, Constant.PgyerAPPID);
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		PgyFeedbackShakeManager.unregister();
 	}
 }

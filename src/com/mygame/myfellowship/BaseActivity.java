@@ -323,14 +323,12 @@ public class BaseActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		super.onPause();
 		JPushInterface.onPause(this);
-		PgyFeedbackShakeManager.unregister();
 	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		JPushInterface.onResume(this);
-		PgyFeedbackShakeManager.register(this, Constant.PgyerAPPID);
 	}
 //	/**
 //	 * 弹出提示对话框

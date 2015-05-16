@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mygame.myfellowship.BaseActivity;
@@ -37,6 +39,7 @@ import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.SecurityMD5Util;
 import com.mygame.myfellowship.utils.ToastHelper;
+import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 import com.pgyersdk.update.PgyUpdateManager;
 
 /**
@@ -177,6 +180,11 @@ public class LoginActivity extends BaseActivity {
 			finish();
 		}
 		super.onResume();
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
 	}
 	/**
 	 * 请求登陆的相关接口
