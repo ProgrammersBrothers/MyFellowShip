@@ -2,7 +2,7 @@
 <resources>
 
     <color name="radio_pay_checked">#f7fff2</color>
-    <color name="top_bg">#ee0000</color>
+    <color name="top_bg">#3c72df</color>
     <color name="login_btn_n">#ee0000</color>
     <color name="login_btn_p">#ff0000</color>
     <color name="crystalwhite">#00ffffff</color>
@@ -43,5 +43,6 @@
     <color name="dimgrey">#696969</color>
     <color name="red_for_money">#ec400e</color>
     <color name="yellow_for_tip">#ffd83c</color>
+    <color name="theme_blue_color">#3c72df</color>
 
 </resources>

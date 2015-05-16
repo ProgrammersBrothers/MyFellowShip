@@ -16,7 +16,7 @@
 	        android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
 	    	android:text="幸福快车"
-	    	android:textColor="@color/black"
+	    	android:textColor="@color/theme_blue_color"
 	    	android:textSize="26sp"
 	    	android:layout_centerHorizontal="true"
 	    	android:layout_marginTop="80dp"/>
