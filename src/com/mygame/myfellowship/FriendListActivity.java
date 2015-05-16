@@ -36,6 +36,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 public class FriendListActivity extends BaseActivity implements IXListViewListener{
 	
@@ -113,6 +114,15 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
         mTextViewUserName = (TextView) findViewById(R.id.TextViewUserName);
 		mMenu.setSlideEnable(true);
 		setTitle("朋友列表");
+		addBackImage(R.drawable.ic_slid, new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(mMenu != null)
+					mMenu.toggle();
+			}
+		});
 		initXListView(getApplicationContext());
 	}
 	

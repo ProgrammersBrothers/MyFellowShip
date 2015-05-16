@@ -35,13 +35,6 @@
                 android:textSize="17sp" />
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="#6eba64" />
     </RelativeLayout>
 
     <RelativeLayout

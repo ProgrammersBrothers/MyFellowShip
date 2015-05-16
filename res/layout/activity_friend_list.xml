@@ -3,7 +3,7 @@
     android:id="@+id/id_menu"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
-    android:background="@drawable/setting_background"
+    android:background="#2b2e38"
     android:scrollbars="none"
     zhy:rightPadding="100dp">
     <LinearLayout
