@@ -1,0 +1,74 @@
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@+id/llParent"
+     style="@style/ContentBgTheme"
+     android:layout_width="match_parent"
+     android:clickable="true"
+     android:onClick="onHideInputClick"
+     android:orientation="vertical" >
+
+     <LinearLayout
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:background="@drawable/table_bg"
+         android:orientation="vertical" 
+         android:layout_marginLeft="20dp"
+         android:layout_marginRight="20dp">
+
+         <include layout="@layout/include_split" />
+
+            <RelativeLayout
+                style="@style/InputParentTheme"
+                android:layout_width="match_parent" 
+                android:focusable="true"   
+				android:focusableInTouchMode="true">
+
+                <ImageView
+                    android:id="@+id/ivSanjiao"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/login_uname" />
+
+                <EditText
+                    android:id="@+id/etUname"
+                    style="@style/EtTheme"
+                    android:layout_toRightOf="@+id/ivSanjiao"
+                    android:hint="请输入手机号码"
+                    android:inputType="text" >
+                </EditText>
+            </RelativeLayout>
+
+            
+            <include layout="@layout/include_split" /> 
+
+            <RelativeLayout
+                style="@style/InputParentTheme"
+                android:layout_width="match_parent" >
+
+                <ImageView
+                    android:id="@+id/ivQuickSearch"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/login_pwd" />
+
+                <EditText
+                    android:id="@+id/etPwd"
+                    style="@style/EtTheme"
+                    android:layout_toRightOf="@+id/ivQuickSearch"
+                    android:hint="密码"
+                    android:inputType="textPassword" />
+            </RelativeLayout>
+            
+            <include layout="@layout/include_split" />
+             
+        </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnLoad"
+        style="@style/BtnCommitTheme"
+        android:onClick="onLoginClick"
+        android:background="@drawable/login_button_background"
+        android:text="登录" />
+</LinearLayout>

@@ -19,7 +19,7 @@
             style="@style/EtTheme"
             android:layout_marginTop="@dimen/ten_dp"
             android:hint="真实姓名"
-            android:maxLength="16"
+            android:inputType="text"
             android:padding="@dimen/ten_dp" >
 
         </EditText> 
@@ -28,6 +28,7 @@
             style="@style/EtTheme"
             android:layout_marginTop="@dimen/ten_dp"
             android:hint="请输入手机号(6-16位)"
+            android:inputType="phone"
             android:maxLength="16"
             android:padding="@dimen/ten_dp" >
 

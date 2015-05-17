@@ -10,8 +10,10 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import cn.jpush.android.api.JPushInterface;
 
+import com.avos.avoscloud.AVAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mygame.myfellowship.bean.Constant;
 import com.mygame.myfellowship.bean.Constant.Preference;
 import com.mygame.myfellowship.http.FinalHttp;
 import com.mygame.myfellowship.info.User;
@@ -20,6 +22,8 @@ import com.mygame.myfellowship.view.RequestDialog;
 import com.mygame.myfellowship.view.SelfDefineActionBar;
 import com.mygame.myfellowship.view.SelfDefineActionBar.IProvideActionBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 
 /**
  * @author 
@@ -109,7 +113,7 @@ public class BaseActivity extends FragmentActivity implements
 	 * @param listener
 	 *            如果为null，就pass Activity activity
 	 */
-	protected void addBackBtn(View.OnClickListener listener) {
+	protected void addBackBtn(int strId,View.OnClickListener listener) {
 		getSelfDefActionBar();
 		if (actionBar != null) {
 			if (listener == null) {
@@ -120,7 +124,7 @@ public class BaseActivity extends FragmentActivity implements
 					}
 				};
 			}
-			actionBar.addBackText(R.string.back, listener);
+			actionBar.addBackText(strId, listener);
 		}
 	}
 
@@ -188,6 +192,7 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		AVAnalytics.trackAppOpened(getIntent());
 		tag = getClass().getSimpleName();
 		// 禁止横屏
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

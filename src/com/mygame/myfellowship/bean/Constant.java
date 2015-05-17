@@ -22,7 +22,7 @@ public class Constant {
 	public static String USER_PWD = "password";
 	public static String USER_ID = "userid";
 	public static String Sex = "Sex";
-	public static String Age = "Age";
+	public static String Age = "Age";//代表出生日期
 	public static String Height = "Height";
 	public static String IfChild = "IfChild";
 	public static String IfMind = "IfMind";
@@ -36,6 +36,6 @@ public class Constant {
 	public static String Faith2 = "Faith2";
 	public static String Faith3 = "Faith3";
 	public static String Faith = "Faith";
-	
+	public static final String PgyerAPPID="3a05e1af690dbc648dd964b293ddc7a2";// 集成蒲公英sdk应用的appId
 
 }

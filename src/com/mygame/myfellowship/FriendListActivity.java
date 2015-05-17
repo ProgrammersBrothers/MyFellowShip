@@ -23,6 +23,8 @@ import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.ToastHelper;
 import com.mygame.myfellowship.view.XListView;
 import com.mygame.myfellowship.view.XListView.IXListViewListener;
+import com.pgyersdk.feedback.PgyFeedbackShakeManager;
+import com.pgyersdk.update.PgyUpdateManager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -31,8 +33,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 public class FriendListActivity extends BaseActivity implements IXListViewListener{
 	
@@ -50,6 +55,17 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	public MyLocationListenner myListener = new MyLocationListenner();
 	
 	private SlidingMenu mMenu;
+	
+	public Handler handler = new Handler(){
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 1:
+				mTextViewUserName.setText(mStructBaseUserInfo.getNickname());
+				break;
+				default:break;
+			}
+		}
+	};
 	public class MyLocationListenner implements BDLocationListener {
 
 		@Override
@@ -63,6 +79,9 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 				}else{
 					//得到经纬度
 					getUserBaseInfo(mStructBaseUserInfo);
+					Message msg = new Message();
+					msg.what = 1;
+					handler.sendMessage(msg);
 					SubmitAllUserInfo(mStructBaseUserInfo);
 					if(mLocClient.isStarted()){
 						mLocClient.stop();
@@ -96,6 +115,15 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
         mTextViewUserName = (TextView) findViewById(R.id.TextViewUserName);
 		mMenu.setSlideEnable(true);
 		setTitle("朋友列表");
+		addBackImage(R.drawable.ic_slid, new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(mMenu != null)
+					mMenu.toggle();
+			}
+		});
 		initXListView(getApplicationContext());
 	}
 	
@@ -224,9 +252,10 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	//基本用户信息解析
 	void getUserBaseInfo(StructBaseUserInfo x_StructBaseUserInfo){
 		x_StructBaseUserInfo.setUserid(preferences.getString(Constant.USER_ID, ""));
+		x_StructBaseUserInfo.setNickname(preferences.getString(Constant.NICK_NAME, ""));
 		x_StructBaseUserInfo.setSex(preferences.getString(Constant.Sex, ""));
 
-		x_StructBaseUserInfo.setAge(preferences.getString(Constant.Age, ""));
+		x_StructBaseUserInfo.setBirthday(preferences.getString(Constant.Age, ""));
 
 		x_StructBaseUserInfo.setStature(preferences.getString(Constant.Height,  ""));
 
@@ -248,5 +277,17 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		x_StructBaseUserInfo.setSpareTime(preferences.getString(Constant.Freetime,""));
 		
 		x_StructBaseUserInfo.setMBTI(preferences.getString(Constant.Nature,""));
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		PgyFeedbackShakeManager.register(this, Constant.PgyerAPPID);
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		PgyFeedbackShakeManager.unregister();
 	}
 }

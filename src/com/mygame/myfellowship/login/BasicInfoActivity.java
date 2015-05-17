@@ -1,6 +1,8 @@
 package com.mygame.myfellowship.login;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import cn.smssdk.framework.utils.Data;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -111,7 +116,8 @@ public class BasicInfoActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.question_container);
-		mStructBaseUserInfo.setUserid(preferences.getString(Constant.USER_ID, "adcd"));
+		mStructBaseUserInfo.setUserid(preferences.getString(Constant.USER_ID, ""));
+		mStructBaseUserInfo.setNickname(preferences.getString(Constant.NICK_NAME, ""));
 		setTitle("答题");
 		mCharacterParse = new CharacterParse();
 		initView();
@@ -205,7 +211,10 @@ public class BasicInfoActivity extends BaseActivity {
 						// 跳过身高和年龄
 						if(requestList.get(currentQId).getQuesionId().equals("0002")
 								|| requestList.get(currentQId).getQuesionId().equals("0003")){
-							
+							if(btnChoose.getText().toString().equals(requestList.get(currentQId).getQuestion())){
+								ToastHelper.ToastLg("没有选择"+requestList.get(currentQId).getQuestion(), getApplicationContext());
+								return;
+							}
 						} else if(checkId <= 0){
 							ToastHelper.ToastLg("没有选择答案", getApplicationContext());
 							return;
@@ -274,7 +283,7 @@ public class BasicInfoActivity extends BaseActivity {
 //			preferences.edit().putString(Constant.Age,curQ.getAnswerstype().get(checkId)).commit();
 //			mStructBaseUserInfo.setAge(curQ.getAnswerstype().get(checkId));
 			preferences.edit().putString(Constant.Age,btnChoose.getText().toString()).commit();
-			mStructBaseUserInfo.setAge(btnChoose.getText().toString());
+			mStructBaseUserInfo.setBirthday(btnChoose.getText().toString());
 		} else if("0003".equals(qId)){ // 身高
 //			preferences.edit().putString(Constant.Height, curQ.getAnswerstype().get(checkId)).commit();
 //			mStructBaseUserInfo.setStature(curQ.getAnswerstype().get(checkId));
@@ -428,7 +437,6 @@ public class BasicInfoActivity extends BaseActivity {
 		}
 		mLocClient.unRegisterLocationListener(myListener);
 	}
-
 	
 	OnWheelViewListener ageListener = new OnWheelViewListener() {
 		
@@ -455,13 +463,17 @@ public class BasicInfoActivity extends BaseActivity {
 		public void CustomSalayConfirm(String min, String max) {
 			 
 		}
-		
 		@Override
 		public void Confirm(CfgCommonType select, int index) {
 			btnChoose.setText(select.getName());
 		}
 	};
-	
+	public String getNowYear() {
+		   Date currentTime = new Date();
+		   SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		   String dateString = formatter.format(currentTime);
+		   return dateString;
+	}
 	//下一个题目显示
 	protected void BasicInfoRadioGroupView(int curId) {
 		final Question q = requestList.get(curId);
@@ -478,7 +490,7 @@ public class BasicInfoActivity extends BaseActivity {
 				@Override
 				public void onClick(View v) {
 					if("0002".equals(q.getQuesionId())){
-						WheelViewUtil.showWheelView(getActivity(), v, ageListener, "1990-01-01", "选择年龄", false);
+						WheelViewUtil.showWheelView(getActivity(), v, ageListener, getNowYear(), "选择年龄", false);
 					} else if("0003".equals(q.getQuesionId())) {
 						WheelViewUtil.showSingleWheel(getActivity(), v, highCcts, highListener, "选择身高", "身高");
 					}
@@ -579,7 +591,7 @@ public class BasicInfoActivity extends BaseActivity {
 	};
 	void testJson(){
 		StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
-		mStructBaseUserInfo.setAge("12");
+		mStructBaseUserInfo.setBirthday("12");
 		mStructBaseUserInfo.setFaith("dfd");
 		List<String> coordinates = new ArrayList<String>();
 		coordinates.add("24.56");

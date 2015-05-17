@@ -4,9 +4,13 @@ import android.app.Application;
 import cn.jpush.android.api.JPushInterface;
 import cn.smssdk.SMSSDK;
 
+import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.AVObject;
 import com.baidu.mapapi.SDKInitializer;
+import com.mygame.myfellowship.bean.Constant;
 import com.mygame.myfellowship.http.FinalHttp;
 import com.mygame.myfellowship.info.User;
+import com.pgyersdk.crash.PgyCrashManager;
 
 public class SelfDefineApplication extends Application {
 
@@ -40,6 +44,13 @@ public class SelfDefineApplication extends Application {
 		SMSSDK.initSDK(this, getString(R.string.sharesdk_sms_app_key), getString(R.string.sharesdk_sms_app_secret));
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
+        //如果使用美国节点，请加上这行代码 AVOSCloud.useAVCloudUS();
+        AVOSCloud.initialize(this, "5mim4lf83bmmk9n3gqnxnxeb2mlj5zmqdztcj92jf3l8mbo3", "xq1za9q5d9efrqkts0a14sxs0zry7zhzm34bd6ihxqfu49gs");
+        AVObject testObject = new AVObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
+        PgyCrashManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
+        
 	}
 	
 	

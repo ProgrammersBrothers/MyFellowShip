@@ -15,8 +15,12 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+
+import cn.jpush.android.api.JPushInterface;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,6 +39,8 @@ import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.SecurityMD5Util;
 import com.mygame.myfellowship.utils.ToastHelper;
+import com.pgyersdk.feedback.PgyFeedbackShakeManager;
+import com.pgyersdk.update.PgyUpdateManager;
 
 /**
  * 过渡界面/登录界面
@@ -46,7 +52,7 @@ public class LoginActivity extends BaseActivity {
 
 	// 用户名，密码框
 	private EditText etUname, etPwd;
-	private Button btnLoad;
+	private Button btnLoad,mButtonLogin;
 	long startTime;
 	String uname, pwd;
 
@@ -61,7 +67,10 @@ public class LoginActivity extends BaseActivity {
 //			startActivity(intent);
 //			finish();
 //		} else {
-			onFindView(true);
+		//检查更新
+		
+		PgyUpdateManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
+		onFindView(true);
 //		}
 	}
 
@@ -76,10 +85,27 @@ public class LoginActivity extends BaseActivity {
 			login(uname, pwd, true, false);
 		} else {*/
 			setContentView(R.layout.act_login);
-			setTitle(getString(R.string.login));
+			addRightBtn(R.string.sisn_up, new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+					startActivity(intent);
+				}
+			});
+			addBackBtn(R.string.welcome, new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 			etUname = (EditText) findViewById(R.id.etUname);
 			etPwd = (EditText) findViewById(R.id.etPwd);
 			btnLoad = (Button) findViewById(R.id.btnLoad);
+			mButtonLogin = (Button) findViewById(R.id.ButtonLogin);
 			
 			addTextWatcher(etUname, etPwd);
 			
@@ -155,6 +181,11 @@ public class LoginActivity extends BaseActivity {
 		}
 		super.onResume();
 	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
 	/**
 	 * 请求登陆的相关接口
 	 * 
@@ -171,16 +202,6 @@ public class LoginActivity extends BaseActivity {
 		parameters.put("pwd", this.pwd);
 		parameters.put("appType", "android");
 		return parameters;
-	}
-
-	/**
-	 * 跳转到注册界面
-	 * 
-	 * @param view
-	 */
-	public void onRegisterClick(final View view) {
-		Intent intent = new Intent(this, RegisterActivity.class);
-		startActivity(intent);
 	}
 
 	/**
@@ -224,9 +245,10 @@ public class LoginActivity extends BaseActivity {
 	//基本用户信息解析
 	void parseUserBaseInfo(StructBaseUserInfo l_StructBaseUserInfo ){
 		preferences.edit().putString(Constant.USER_ID, l_StructBaseUserInfo.getUserid()).commit();
+		preferences.edit().putString(Constant.NICK_NAME, l_StructBaseUserInfo.getNickname()).commit();
 		preferences.edit().putString(Constant.Sex,l_StructBaseUserInfo.getSex()).commit();
 
-		preferences.edit().putString(Constant.Age,l_StructBaseUserInfo.getAge()).commit();
+		preferences.edit().putString(Constant.Age,l_StructBaseUserInfo.getBirthday()).commit();
 
 		preferences.edit().putString(Constant.Height, l_StructBaseUserInfo.getStature()).commit();
 
