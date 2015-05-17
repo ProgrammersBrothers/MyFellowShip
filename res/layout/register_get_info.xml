@@ -1,0 +1,220 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llRigGetInfo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/twenty_dp"
+    android:background="@color/bg"
+    android:orientation="vertical"
+    android:visibility="visible" >
+
+    <LinearLayout
+        style="@style/m_w"
+        android:orientation="vertical"
+        android:padding="@dimen/ten_dp" >
+
+        <TextView
+            android:id="@+id/tvLabel1"
+            style="@style/styleOfLabel" 
+            android:text="性别" />
+
+        <RadioGroup
+            android:id="@+id/rgGender"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:checkedButton="@+id/rbFemale"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rbFemale"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_left"
+                android:text="女生" />
+
+            <RadioButton
+                android:id="@+id/rbMale"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_right"
+                android:text="男生" />
+        </RadioGroup>
+
+        <include layout="@layout/include_split" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/m_w"
+        android:orientation="vertical"
+        android:padding="@dimen/ten_dp" >
+
+        <TextView
+            android:id="@+id/tvLabel3"
+            style="@style/styleOfLabel" 
+            android:text="常住地" />
+
+        <include layout="@layout/include_split" />
+
+        <TextView
+            android:id="@+id/tvLocation"
+            style="@style/EtTheme"
+            android:drawableRight="@drawable/arrow_down"
+            android:hint="选择我的位置..." />
+
+        <include layout="@layout/include_split" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/m_w"
+        android:orientation="vertical"
+        android:padding="@dimen/ten_dp" >
+
+        <TextView
+            android:id="@+id/tvLabel4"
+            style="@style/styleOfLabel" 
+            android:text="出生日期和身高" />
+
+        <include layout="@layout/include_split" />
+
+        <LinearLayout
+            android:id="@+id/llBirthday"
+            style="@style/m_w"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvBirthday"
+                style="@style/EtTheme"
+                android:background="@drawable/bg_item_click"
+                android:drawableRight="@drawable/arrow_down"
+                android:duplicateParentState="false"
+                android:hint="选择生日" />
+
+            <TextView
+                android:id="@+id/tvTipForAge"
+                style="@style/w_w"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="必须满18岁哦"
+                android:textColor="@color/gray_tip"
+                android:textSize="@dimen/size_for_tip" />
+
+            <TextView
+                android:id="@+id/tvHeight"
+                style="@style/EtTheme"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:background="@drawable/bg_item_click"
+                android:drawableRight="@drawable/arrow_down"
+                android:duplicateParentState="false"
+                android:hint="选择身高" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/m_w"
+        android:orientation="vertical"
+        android:padding="@dimen/ten_dp" >
+
+        <TextView
+            android:id="@+id/tvLabel5"
+            style="@style/styleOfLabel"
+            android:text="昵称" />
+
+        <include layout="@layout/include_split" />
+
+        <EditText
+            android:id="@+id/etUserName"
+            style="@style/EtTheme"
+            android:hint="请输入昵称" />
+
+        <include layout="@layout/include_split" />
+
+        <TextView
+            android:id="@+id/tvTipForAge"
+            style="@style/w_w"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:text="这将作为公开展示哦"
+            android:textColor="@color/gray_tip"
+            android:textSize="@dimen/size_for_tip" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/m_w"
+        android:orientation="vertical"
+        android:padding="@dimen/ten_dp" >
+
+        <TextView
+            android:id="@+id/tvLabel6"
+            style="@style/styleOfLabel" 
+            android:text="邮箱" />
+
+        <include layout="@layout/include_split" />
+
+        <LinearLayout
+            android:id="@+id/llEmail"
+            style="@style/m_w"
+            android:background="@drawable/bg_item_click"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/etEmail"
+                style="@style/EtTheme"
+                android:layout_weight="1"
+                android:hint="请输入邮箱" />
+        </LinearLayout>
+
+        <include layout="@layout/include_split" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/m_w"
+        android:orientation="vertical"
+        android:padding="@dimen/ten_dp" >
+
+        <TextView
+            android:id="@+id/tvLabel6"
+            style="@style/styleOfLabel"
+            android:text="EMBI测试" />
+
+        <include layout="@layout/include_split" />
+
+        <LinearLayout
+            android:id="@+id/llMBTI"
+            style="@style/m_w"
+            android:background="@drawable/bg_item_click"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvMBTI"
+                style="@style/EtTheme"
+                android:layout_weight="1"
+                android:drawableRight="@drawable/arrow_down"
+                android:hint="点击进行MBTI测试" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTipForAge"
+            style="@style/w_w"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:text="必须进行MBTI测试哦"
+            android:textColor="@color/gray_tip"
+            android:textSize="@dimen/size_for_tip" />
+
+        <include layout="@layout/include_split" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        style="@style/BtnCommitTheme"
+        android:text="提交" />
+
+    <TextView
+        android:id="@+id/tvTipForAge"
+        style="@style/w_w"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/twenty_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:text="点击提交表示你同意我们的用户服务条款"
+        android:textColor="@color/gray_tip"
+        android:textSize="@dimen/size_for_tip" />
+
+</LinearLayout>

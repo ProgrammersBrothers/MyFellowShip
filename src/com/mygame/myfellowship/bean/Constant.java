@@ -36,6 +36,7 @@ public class Constant {
 	public static String Faith2 = "Faith2";
 	public static String Faith3 = "Faith3";
 	public static String Faith = "Faith";
+	public static String USER_INFO = "USER_INFO";
 	public static final String PgyerAPPID="3a05e1af690dbc648dd964b293ddc7a2";// 集成蒲公英sdk应用的appId
 
 }

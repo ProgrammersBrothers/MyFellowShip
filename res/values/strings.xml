@@ -31,12 +31,14 @@
 	<string name="input_nick_name">请输入姓名</string>
 	<string name="input_verify_code">请输入验证码</string>
 	<string name="phone_length_limit">手机号码长度6-16位</string>
+	<string name="create_accounting">正在为您创建账户，稍等...</string>
 	<string name="sending_data">提交数据中...</string>
 	<string name="send_verify_code">发送验证码中...</string>
 	<string name="verify_code_success">验证码已经发送</string>
 	<string name="get_country_list_success">获取国家列表成功</string>
 	<string name="verify_code_error">验证码错误</string>
 	<string name="register_success">注册成功</string>
+	<string name="create_account_success">创建账户成功</string>
 	<string name="next_topic">下一题</string>
 	<string name="_mbti_test_tips">您已答题完毕,即将进入MBTI性格测试，请再接再励^^,找个好对象需要点耐心~</string>
 	<string name="tip">提示</string>
@@ -47,5 +49,13 @@
 	<string name="matching_for_you">正在为你匹配...</string> 
 	<string name="sisn_up">注册</string> 
 	<string name="welcome">欢迎</string> 
+	<string name="please_fill_basic_info">请填写一些基本信息</string> 
+	<string name="location">定位中...</string> 
+	<string name="please_get_location">没有定位，请打开定位设置</string> 
+	<string name="choose_birthday">请选择生日</string> 
+	<string name="please_choose_height">请选择身高</string> 
+	<string name="please_input_nickname">请输入昵称</string> 
+	<string name="please_input_email">请输入邮箱</string> 
+	<string name="get_emti_test">请进行MBTI测试</string> 
 	
 </resources>

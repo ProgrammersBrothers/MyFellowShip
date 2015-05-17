@@ -22,9 +22,7 @@ import com.mygame.myfellowship.struct.StructFriendListShowContent;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.ToastHelper;
 import com.mygame.myfellowship.view.XListView;
-import com.mygame.myfellowship.view.XListView.IXListViewListener;
-import com.pgyersdk.feedback.PgyFeedbackShakeManager;
-import com.pgyersdk.update.PgyUpdateManager;
+import com.mygame.myfellowship.view.XListView.IXListViewListener; 
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -259,22 +257,22 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 
 		x_StructBaseUserInfo.setStature(preferences.getString(Constant.Height,  ""));
 
-		x_StructBaseUserInfo.setIfHaveChildren(preferences.getString(Constant.IfChild, ""));
-	
-		x_StructBaseUserInfo.setIfMindHaveChildren(preferences.getString(Constant.IfMind,  ""));
-
-		x_StructBaseUserInfo.setSubstanceNeeds(preferences.getString(Constant.ThingAsk, ""));
-
-		x_StructBaseUserInfo.setInLovePeriod(preferences.getString(Constant.MarryNum, ""));
-
-		x_StructBaseUserInfo.setFaith(preferences.getString(Constant.Faith, ""));
+//		x_StructBaseUserInfo.setIfHaveChildren(preferences.getString(Constant.IfChild, ""));
+//	
+//		x_StructBaseUserInfo.setIfMindHaveChildren(preferences.getString(Constant.IfMind,  ""));
+//
+//		x_StructBaseUserInfo.setSubstanceNeeds(preferences.getString(Constant.ThingAsk, ""));
+//
+//		x_StructBaseUserInfo.setInLovePeriod(preferences.getString(Constant.MarryNum, ""));
+//
+//		x_StructBaseUserInfo.setFaith(preferences.getString(Constant.Faith, ""));
 		
 		List<String> coordinates = new ArrayList<String>();
 		coordinates.add(Double.toString(myLocation.getLongitude()));
 		coordinates.add(Double.toString(myLocation.getLatitude()));
 		x_StructBaseUserInfo.setCoordinates(coordinates);
 		
-		x_StructBaseUserInfo.setSpareTime(preferences.getString(Constant.Freetime,""));
+//		x_StructBaseUserInfo.setSpareTime(preferences.getString(Constant.Freetime,""));
 		
 		x_StructBaseUserInfo.setMBTI(preferences.getString(Constant.Nature,""));
 	}
@@ -282,12 +280,12 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		PgyFeedbackShakeManager.register(this, Constant.PgyerAPPID);
+//		PgyFeedbackShakeManager.register(this, Constant.PgyerAPPID);
 	}
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		PgyFeedbackShakeManager.unregister();
+//		PgyFeedbackShakeManager.unregister();
 	}
 }

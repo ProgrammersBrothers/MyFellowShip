@@ -3,8 +3,8 @@
 
     <color name="radio_pay_checked">#f7fff2</color>
     <color name="top_bg">#3c72df</color>
-    <color name="login_btn_n">#ee0000</color>
-    <color name="login_btn_p">#ff0000</color>
+    <color name="login_btn_n">#3c72df</color>
+    <color name="login_btn_p">#3050d0</color>
     <color name="crystalwhite">#00ffffff</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
@@ -21,7 +21,8 @@
     <color name="operate_bottom_bg">#1b212d</color>
     <color name="operate_title">#f7f7f7</color>
     <color name="wheel_text_value">#3985fe</color>
-    <color name="text_gray">#474747</color>
+    <color name="text_gray">#585858</color>
+    <color name="gray_tip">#585858</color>
     <color name="text_green">#4fbb0f</color>
     <color name="text_yellow">#bbbb00</color>
     <color name="gray">#b3b3b3</color>
@@ -44,5 +45,7 @@
     <color name="red_for_money">#ec400e</color>
     <color name="yellow_for_tip">#ffd83c</color>
     <color name="theme_blue_color">#3c72df</color>
+    <color name="primary_text_default_material_light">#ffb0f40c</color>
+    <color name="primary_text_default_material_dark">#ffb0f40c</color>
 
 </resources>

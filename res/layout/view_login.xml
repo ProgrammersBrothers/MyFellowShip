@@ -10,9 +10,7 @@
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
          android:background="@drawable/table_bg"
-         android:orientation="vertical" 
-         android:layout_marginLeft="20dp"
-         android:layout_marginRight="20dp">
+         android:orientation="vertical">
 
          <include layout="@layout/include_split" />
 
@@ -21,13 +19,6 @@
                 android:layout_width="match_parent" 
                 android:focusable="true"   
 				android:focusableInTouchMode="true">
-
-                <ImageView
-                    android:id="@+id/ivSanjiao"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/login_uname" />
 
                 <EditText
                     android:id="@+id/etUname"
@@ -45,13 +36,6 @@
                 style="@style/InputParentTheme"
                 android:layout_width="match_parent" >
 
-                <ImageView
-                    android:id="@+id/ivQuickSearch"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/login_pwd" />
-
                 <EditText
                     android:id="@+id/etPwd"
                     style="@style/EtTheme"
@@ -64,11 +48,9 @@
              
         </LinearLayout>
 
-
     <Button
         android:id="@+id/btnLoad"
         style="@style/BtnCommitTheme"
         android:onClick="onLoginClick"
-        android:background="@drawable/login_button_background"
         android:text="登录" />
 </LinearLayout>

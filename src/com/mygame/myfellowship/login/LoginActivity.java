@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import cn.jpush.android.api.JPushInterface;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,8 +38,6 @@ import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.SecurityMD5Util;
 import com.mygame.myfellowship.utils.ToastHelper;
-import com.pgyersdk.feedback.PgyFeedbackShakeManager;
-import com.pgyersdk.update.PgyUpdateManager;
 
 /**
  * 过渡界面/登录界面
@@ -69,7 +66,7 @@ public class LoginActivity extends BaseActivity {
 //		} else {
 		//检查更新
 		
-		PgyUpdateManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
+//		PgyUpdateManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
 		onFindView(true);
 //		}
 	}
@@ -252,15 +249,15 @@ public class LoginActivity extends BaseActivity {
 
 		preferences.edit().putString(Constant.Height, l_StructBaseUserInfo.getStature()).commit();
 
-		preferences.edit().putString(Constant.IfChild,l_StructBaseUserInfo.getIfHaveChildren()).commit();
-	
-		preferences.edit().putString(Constant.IfMind, l_StructBaseUserInfo.getIfMindHaveChildren()).commit();
-
-		preferences.edit().putString(Constant.ThingAsk,l_StructBaseUserInfo.getSubstanceNeeds()).commit();
-
-		preferences.edit().putString(Constant.MarryNum, l_StructBaseUserInfo.getInLovePeriod()).commit();
-
-		preferences.edit().putString(Constant.Faith,l_StructBaseUserInfo.getFaith()).commit();
+//		preferences.edit().putString(Constant.IfChild,l_StructBaseUserInfo.getIfHaveChildren()).commit();
+//	
+//		preferences.edit().putString(Constant.IfMind, l_StructBaseUserInfo.getIfMindHaveChildren()).commit();
+//
+//		preferences.edit().putString(Constant.ThingAsk,l_StructBaseUserInfo.getSubstanceNeeds()).commit();
+//
+//		preferences.edit().putString(Constant.MarryNum, l_StructBaseUserInfo.getInLovePeriod()).commit();
+//
+//		preferences.edit().putString(Constant.Faith,l_StructBaseUserInfo.getFaith()).commit();
 		
 		Set<String> siteno = new HashSet<String>(); 
 		if(l_StructBaseUserInfo.getCoordinates() != null){
@@ -270,7 +267,7 @@ public class LoginActivity extends BaseActivity {
 		}
 		preferences.edit().putStringSet(Constant.Address,siteno).commit();
 		
-		preferences.edit().putString(Constant.Freetime,l_StructBaseUserInfo.getSpareTime()).commit();
+//		preferences.edit().putString(Constant.Freetime,l_StructBaseUserInfo.getSpareTime()).commit();
 		
 		preferences.edit().putString(Constant.Nature,l_StructBaseUserInfo.getMBTI()).commit();
 		

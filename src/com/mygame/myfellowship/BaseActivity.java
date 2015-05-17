@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
-import cn.jpush.android.api.JPushInterface;
-
-import com.avos.avoscloud.AVAnalytics;
+import android.view.inputmethod.InputMethodManager; 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mygame.myfellowship.bean.Constant;
@@ -21,9 +18,7 @@ import com.mygame.myfellowship.log.MyLog;
 import com.mygame.myfellowship.view.RequestDialog;
 import com.mygame.myfellowship.view.SelfDefineActionBar;
 import com.mygame.myfellowship.view.SelfDefineActionBar.IProvideActionBar;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.pgyersdk.crash.PgyCrashManager;
-import com.pgyersdk.feedback.PgyFeedbackShakeManager;
+import com.nostra13.universalimageloader.core.ImageLoader; 
 
 /**
  * @author 
@@ -192,7 +187,7 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		AVAnalytics.trackAppOpened(getIntent());
+//		AVAnalytics.trackAppOpened(getIntent());
 		tag = getClass().getSimpleName();
 		// 禁止横屏
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -322,13 +317,13 @@ public class BaseActivity extends FragmentActivity implements
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		JPushInterface.onPause(this);
+//		JPushInterface.onPause(this);
 	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		JPushInterface.onResume(this);
+//		JPushInterface.onResume(this);
 	}
 //	/**
 //	 * 弹出提示对话框
