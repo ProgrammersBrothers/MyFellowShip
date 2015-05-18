@@ -166,7 +166,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		        startImageCrop(uri, 200, 200, CROP_REQUEST);
 		      } else if (requestCode == CROP_REQUEST) {
 		    	  final String path = saveCropAvatar(data);
-		          new SimpleNetTask(getApplicationContext()) {
+		          new SimpleNetTask(this) {
 		              @Override
 		              protected void doInBack() throws Exception {
 		              }
