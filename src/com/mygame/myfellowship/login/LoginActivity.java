@@ -59,63 +59,41 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// 第一次使用进入引导页
-//		if (!preferences.getBoolean(Preference.SHOW_GUIDE, false)) {
-//			Intent intent = new Intent(this, Guide.class);
-//			intent.putExtra(Extra.BOOLEAN_KEY, true);
-//			startActivity(intent);
-//			finish();
-//		} else {
-		//检查更新
-		
-		PgyUpdateManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
+//		PgyUpdateManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
 		onFindView(true);
-//		}
 	}
 
 	public void onFindView(boolean isLoginFail) {
 		uname = preferences.getString(Preference.UNAME, null);
 		pwd = preferences.getString(Preference.PWD, null);
-/*		if (!TextUtils.isEmpty(uname) && !TextUtils.isEmpty(pwd) && isLoginFail) {
-			setContentView(R.layout.activity_welcom);
-//			 默认登陆
-			hideInput();
-			startTime = System.currentTimeMillis();
-			login(uname, pwd, true, false);
-		} else {*/
-			setContentView(R.layout.act_login);
-			addRightBtn(R.string.sisn_up, new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-					startActivity(intent);
-				}
-			});
-			addBackBtn(R.string.welcome, new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			etUname = (EditText) findViewById(R.id.etUname);
-			etPwd = (EditText) findViewById(R.id.etPwd);
-			btnLoad = (Button) findViewById(R.id.btnLoad);
-			mButtonLogin = (Button) findViewById(R.id.ButtonLogin);
+		setContentView(R.layout.act_login);
+		addRightBtn(R.string.sisn_up, new OnClickListener() {
 			
-			addTextWatcher(etUname, etPwd);
-			
-//			getFinalHttp().configTimeout(10*1000);
-			
-			etPwd.setText(pwd);
-			etUname.setText(uname);
-			if (!TextUtils.isEmpty(uname)) {
-				etUname.setSelection(uname.length());
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+				startActivity(intent);
 			}
-//		}
+		});
+		addBackBtn(R.string.welcome, new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) { 
+				
+			}
+		});
+		etUname = (EditText) findViewById(R.id.etUname);
+		etPwd = (EditText) findViewById(R.id.etPwd);
+		btnLoad = (Button) findViewById(R.id.btnLoad);
+		mButtonLogin = (Button) findViewById(R.id.ButtonLogin);
+		
+		addTextWatcher(etUname, etPwd);
+		
+		etPwd.setText(pwd);
+		etUname.setText(uname);
+		if (!TextUtils.isEmpty(uname)) {
+			etUname.setSelection(uname.length());
+		}
 	}
 
 	private void addTextWatcher(EditText etUname2, EditText etPwd2) {
@@ -155,11 +133,8 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	public void saveUser() {
-//		MyLog.i("33333333333333333", pwd);
 		preferences.edit().putString(Preference.UNAME, uname).commit();
 		preferences.edit().putString(Preference.PWD, pwd).commit();
-//		String pwdsss = preferences.getString(Preference.PWD, "");
-//		MyLog.i("444444444444", pwdsss);
 	}
 
 	// 跳转到忘记密码界面
@@ -179,13 +154,13 @@ public class LoginActivity extends BaseActivity {
 			finish();
 		}
 		super.onResume();
-		PgyFeedbackShakeManager.register(this, Constant.PgyerAPPID);
+//		PgyFeedbackShakeManager.register(this, Constant.PgyerAPPID);
 	}
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		PgyFeedbackShakeManager.unregister();
+//		PgyFeedbackShakeManager.unregister();
 	}
 	/**
 	 * 请求登陆的相关接口

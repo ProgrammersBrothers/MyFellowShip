@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/activity_title_text_size"
             android:text="消息列表"/>
         

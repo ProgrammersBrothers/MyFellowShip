@@ -2,7 +2,7 @@
     android:id="@+id/llRigGetInfo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/twenty_dp"
+    android:paddingBottom="@dimen/ten_dp"
     android:background="@color/bg"
     android:orientation="vertical"
     android:visibility="visible" >
@@ -56,6 +56,7 @@
         <TextView
             android:id="@+id/tvLocation"
             style="@style/EtTheme"
+            android:maxLength="40"
             android:drawableRight="@drawable/arrow_down"
             android:hint="选择我的位置..." />
 

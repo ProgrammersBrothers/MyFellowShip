@@ -1,6 +1,7 @@
 package com.mygame.myfellowship;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 import cn.smssdk.SMSSDK;
 
@@ -56,12 +57,11 @@ public class SelfDefineApplication extends Application {
 			if (location != null){
 				myLocation.setLatitude(location.getLatitude());
 				myLocation.setLongitude(location.getLongitude());
-				if(myLocation.getLatitude() == 0.0 && myLocation.getLongitude() == 0.0){
-					if(mLocClient.isStarted()){
-						mLocClient.stop();
-						mLocClient.unRegisterLocationListener(this);
-					}
-				} 
+				myLocation.setDetailAddress("longtitude:" + location.getLatitude() + ",latitude" + location.getLongitude());
+				if(mLocClient.isStarted()){
+					mLocClient.stop();
+					mLocClient.unRegisterLocationListener(this);
+				}
 				Log.d("huwei", "地理位置更新，纬度 = " + location.getLatitude()+"，经度 = "+location.getLongitude());
 				//得到经纬度
 				if(listener != null){
@@ -87,27 +87,34 @@ public class SelfDefineApplication extends Application {
 //        AVObject testObject = new AVObject("TestObject");
 //        testObject.put("foo", "bar");
 //        testObject.saveInBackground();
+		
+		// 定位初始化
         PgyCrashManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
 	}
 	
 	
-	public void startLocation(LocationListener listener) {
-		locationInit(listener);
+	public void startLocation(Context context, LocationListener listener) {
+		locationInit(context, listener);
 		if(!mLocClient.isStarted()){
 			mLocClient.start();
 		}
 	}
 	
-	private void locationInit(LocationListener listener) {
-		// 定位初始化
-		mLocClient = new LocationClient(this);
+	private void locationInit(Context context, LocationListener listener) {
 		MyLocationListenner myListener = new MyLocationListenner();
-		mLocClient.registerLocationListener(myListener);
-		LocationClientOption option = new LocationClientOption();
-		option.setOpenGps(true);// 打开gps
-		option.setCoorType("bd09ll"); // 设置坐标类型
-		option.setScanSpan(1000);
-		mLocClient.setLocOption(option);
+		mLocClient = new LocationClient(context);
+		if(mLocClient != null){
+			this.listener = listener;
+			mLocClient.registerLocationListener(myListener);
+			LocationClientOption option = new LocationClientOption();
+			option.setOpenGps(true);// 打开gps
+			option.setCoorType("bd09ll"); // 设置坐标类型
+			option.setScanSpan(1000);
+			mLocClient.setLocOption(option);
+		} else {
+			listener.onReceiveLocation(null);
+		}
+		
 	}
 
 }

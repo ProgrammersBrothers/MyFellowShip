@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,11 +40,13 @@ import com.mygame.myfellowship.bean.Urls;
 import com.mygame.myfellowship.gps.MyLocation;
 import com.mygame.myfellowship.http.AjaxCallBack;
 import com.mygame.myfellowship.http.AjaxParams;
+import com.mygame.myfellowship.log.MyLog;
 import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.struct.StructFriendListShowContent;
 import com.mygame.myfellowship.utils.AssetUtils;
 import com.mygame.myfellowship.utils.CharacterParse;
 import com.mygame.myfellowship.utils.ToastHelper;
+import com.mygame.myfellowship.utils.WheelViewUtil;
 import com.mygame.myfellowship.utils.WheelViewUtil.OnCfgWheelListener;
 import com.mygame.myfellowship.utils.WheelViewUtil.OnWheelViewListener;
 
@@ -77,6 +81,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 	protected int checkId;
 	private List<Question> requestList;
 	private ScrollView scrollview;
+	private Dialog chooseDlg;
+	List<CfgCommonType> highCcts = new ArrayList<CfgCommonType>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,22 +98,30 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 	
 	private void initData() {
 		mCharacterParse = new CharacterParse();
+		
+		for(int i = 0; i < 50; i++){
+			CfgCommonType cfg = new CfgCommonType();
+			cfg.setName("" + (150 + i));
+			highCcts.add(cfg);
+		}
 	}
 
+	LocationListener listener = new LocationListener() {
+		
+		@Override
+		public void onReceiveLocation(MyLocation myLocation) {
+			coordinates.clear();
+			coordinates.add(Double.toString(myLocation.getLongitude()));
+			coordinates.add(Double.toString(myLocation.getLatitude()));
+			cancelRequestDialog();
+			tvLocation.setText(myLocation.getDetailAddress());
+		}
+	};
+	
 
 	private void initLocation() {
-		
 		showReqeustDialog(R.string.location);
-		SelfDefineApplication.getInstance().startLocation(new LocationListener() {
-			
-			@Override
-			public void onReceiveLocation(MyLocation myLocation) {
-				coordinates.add(Double.toString(myLocation.getLongitude()));
-				coordinates.add(Double.toString(myLocation.getLatitude()));
-				cancelRequestDialog();
-				tvLocation.setText(myLocation.getDetailAddress());
-			}
-		});
+		SelfDefineApplication.getInstance().startLocation(this, listener);
 	}
 
 
@@ -135,20 +149,21 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 	
 	private void showBMTIDlg(Message msg) {
 		final Question curQ = (Question) msg.obj;
-		int typeInt = mCharacterParse.MTBITypeToInt(curQ.getAnswerstype().get(checkId));
-		mCharacterParse.setCharacterAndNum(typeInt);
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.dialog);
 		builder.setTitle(curQ.getQuestion()); 
 		String[] nItems = new String[]{};
 		nItems = curQ.getAnswers().toArray(nItems);
-		//  设置多选项  
+		//  设置多选项
 		int checkedItem = 0;
+		
 		builder.setSingleChoiceItems(nItems, checkedItem, new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				int typeInt = mCharacterParse.MTBITypeToInt(curQ.getAnswerstype().get(checkId));
+				
+				chooseDlg.cancel();
+				int typeInt = mCharacterParse.MTBITypeToInt(curQ.getAnswerstype().get(which));
+				MyLog.i("--tom", "you choose which:" + which);
 				mCharacterParse.setCharacterAndNum(typeInt);
 				checkId ++;
 				
@@ -165,8 +180,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 				}
 			}
 		});
-		
-		builder.create().show();
+		chooseDlg = builder.create();
+		chooseDlg.show();
 	}
 	
 	private void setMessageVerify(Message msg) {
@@ -239,8 +254,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		
 		btnNext.setOnClickListener(this);
 		tvLocation.setOnClickListener(this);
-		llBirthday.setOnClickListener(this);
 		btnVerify.setOnClickListener(this); 
+		tvBirthday.setOnClickListener(this);
+		tvHeight.setOnClickListener(this);
 	}
 	
 	
@@ -330,8 +346,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 					preferences.edit().putString(Constant.USER_ID, response.getMessage()).commit();
 					mStructBaseUserInfo.setUserid(preferences.getString(Constant.USER_ID, response.getMessage()));
 					ToastHelper.ToastSht(R.string.register_success, getActivity());
-					llRigGetInfo.setVisibility(View.VISIBLE);
-					llRigGetVerify.setVisibility(View.GONE);
+					changeView(true);
 					initLocation();
 				}else{
 					ToastHelper.ToastLg(response.getMessage(), getActivity());
@@ -355,14 +370,39 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		SMSSDK.unregisterEventHandler(event);
 	}
 
+	/**
+	 * 根据标识显示和隐藏视图
+	 * @param showInfo true 显示个人信息，隐藏注册, false 显示注册，隐藏个人信息
+	 */
+	private void changeView(boolean showInfo) {
+		if(showInfo){
+			llRigGetInfo.setVisibility(View.VISIBLE);
+			llRigGetVerify.setVisibility(View.GONE);
+		} else {
+			llRigGetInfo.setVisibility(View.GONE);
+			llRigGetVerify.setVisibility(View.VISIBLE);
+		}
+		scrollview.smoothScrollTo(0, 0);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
+		case R.id.tvBirthday: // 获取验证码 
+			WheelViewUtil.showWheelView(v.getContext(), (View)tvBirthday, ageListener, 
+					"1988-01-01", "选择生日", false);
+			break;
+		case R.id.tvHeight: // 获取验证码 
+			WheelViewUtil.showSingleWheel(getActivity(), v, highCcts, highListener, "选择身高", "身高");
+			break;
+		case R.id.tvLocation: // 获取验证码
+			showReqeustDialog(R.string.location);
+			SelfDefineApplication.getInstance().startLocation(this, listener);
+			break;
 		case R.id.btnVerify: // 获取验证码
 			getVerifyCode();
 			break;
 		case R.id.btnNext: // 下一步，提交验证码，成功后再提交手机和密码
-//			submitVerificationCode();
 			llRigGetInfo.setVisibility(View.VISIBLE);
 			llRigGetVerify.setVisibility(View.GONE);
 			scrollview.smoothScrollTo(0, 0);
@@ -371,9 +411,14 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 			SubmitAllUserInfo();
 			break;
 		case R.id.llMBTI:
-			// 显示MBTI对话框
-			String data = AssetUtils.getDataFromAssets(getActivity(), "MBTI.txt");
-			parseBasicTopic(data);
+			String mbti = tvMBTI.getText().toString();
+			if (TextUtils.isEmpty(mbti)) {
+				// 显示MBTI对话框
+//				String data = AssetUtils.getDataFromAssets(getActivity(), "MBTI.txt");
+//				parseBasicTopic(data);
+				
+				requestMBAIQuestion();
+			}
 			break;
 		}
 	}
@@ -412,7 +457,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 	
 	
 	//解析题目json
-	private int parseBasicTopic(String t) {
+	private int parseMbtiTopic(String t) {
 		int result = 0;
 		Response<List<Question>> response = new Gson().fromJson(t, 
 				new TypeToken<Response<List<Question>>>(){}.getType());
@@ -444,8 +489,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 			@Override
 			public void onSuccess(String t) {
 				super.onSuccess(t);
-				parseBasicTopic(t);
 				cancelRequestDialog();
+				parseMbtiTopic(t);
 			}
 
 			@Override
