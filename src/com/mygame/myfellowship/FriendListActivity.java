@@ -1,7 +1,11 @@
 package com.mygame.myfellowship;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -20,22 +24,32 @@ import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.struct.StructFriendListShowContent;
 import com.mygame.myfellowship.utils.AssetUtils;
+import com.mygame.myfellowship.utils.PathUtils;
+import com.mygame.myfellowship.utils.PhotoUtils;
+import com.mygame.myfellowship.utils.SimpleNetTask;
 import com.mygame.myfellowship.utils.ToastHelper;
 import com.mygame.myfellowship.view.XListView;
 import com.mygame.myfellowship.view.XListView.IXListViewListener; 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 public class FriendListActivity extends BaseActivity implements IXListViewListener{
 	
@@ -47,12 +61,16 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	private final static int XLIST_LOAD_MORE = 2; //加载更多
 	private StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
 	private TextView mTextViewUserName;
+	
+	public static final int IMAGE_PICK_REQUEST = 10001;
+	public static final int CROP_REQUEST = 10002;
 	//定位参数
 	private MyLocation myLocation = new MyLocation();
 	private LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
 	
 	private SlidingMenu mMenu;
+	private ImageView mImageViewUserPicture;
 	
 	public Handler handler = new Handler(){
 		public void handleMessage(Message msg) {
@@ -64,6 +82,10 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 			}
 		}
 	};
+	
+	void ImageViewUserPicture(View v){
+		
+	}
 	public class MyLocationListenner implements BDLocationListener {
 
 		@Override
@@ -111,6 +133,17 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		setContentView(R.layout.activity_friend_list);
         mMenu = (SlidingMenu) findViewById(R.id.id_menu);
         mTextViewUserName = (TextView) findViewById(R.id.TextViewUserName);
+        mImageViewUserPicture = (ImageView) findViewById(R.id.ImageViewUserPicture);
+        mImageViewUserPicture.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+			      Intent intent = new Intent(Intent.ACTION_PICK, null);
+			      intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+			      startActivityForResult(intent, IMAGE_PICK_REQUEST);
+			}
+		});
 		mMenu.setSlideEnable(true);
 		setTitle("朋友列表");
 		addBackImage(R.drawable.ic_slid, new OnClickListener() {
@@ -124,7 +157,78 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		});
 		initXListView(getApplicationContext());
 	}
-	
+	  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		    Log.d("","on Activity result " + requestCode + " " + resultCode);
+		    super.onActivityResult(requestCode, resultCode, data);
+		    if (resultCode == Activity.RESULT_OK) {
+		      if (requestCode == IMAGE_PICK_REQUEST) {
+		        Uri uri = data.getData();
+		        startImageCrop(uri, 200, 200, CROP_REQUEST);
+		      } else if (requestCode == CROP_REQUEST) {
+		    	  final String path = saveCropAvatar(data);
+		          new SimpleNetTask(getApplicationContext()) {
+		              @Override
+		              protected void doInBack() throws Exception {
+		              }
+
+		              @Override
+		              protected void onSucceed() {
+		              }
+		            }.execute();
+		      }
+		    }
+		  }
+	  public Uri startImageCrop(Uri uri, int outputX, int outputY,
+              int requestCode) {
+			Intent intent = null;
+			intent = new Intent("com.android.camera.action.CROP");
+			intent.setDataAndType(uri, "image/*");
+			intent.putExtra("crop", "true");
+			intent.putExtra("aspectX", 1);
+			intent.putExtra("aspectY", 1);
+			intent.putExtra("outputX", outputX);
+			intent.putExtra("outputY", outputY);
+			intent.putExtra("scale", true);
+			String outputPath = PathUtils.getAvatarTmpPath();
+			Uri outputUri = Uri.fromFile(new File(outputPath));
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+			intent.putExtra("return-data", true);
+			intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+			intent.putExtra("noFaceDetection", false); // face detection
+			startActivityForResult(intent, requestCode);
+			return outputUri;
+	  }
+		  public static String getSDcardDir() {
+		    return Environment.getExternalStorageDirectory().getPath() + "/";
+		  }
+
+		  public static String checkAndMkdirs(String dir) {
+		    File file = new File(dir);
+		    if (file.exists() == false) {
+		      file.mkdirs();
+		    }
+		    return dir;
+		  }
+		  private String saveCropAvatar(Intent data) {
+			    Bundle extras = data.getExtras();
+			    String path = null;
+			    if (extras != null) {
+			      Bitmap bitmap = extras.getParcelable("data");
+			      if (bitmap != null) {
+			        bitmap = PhotoUtils.toRoundCorner(bitmap, 10);
+			        String filename = new SimpleDateFormat("yyMMddHHmmss")
+			            .format(new Date());
+			        path = PathUtils.getAvatarDir() + filename;
+			        Log.d("huwei","save bitmap to " + path);
+			        PhotoUtils.saveBitmap(PathUtils.getAvatarDir(), filename,
+			            bitmap, true);
+			        if (bitmap != null && bitmap.isRecycled() == false) {
+			          //bitmap.recycle();
+			        }
+			      }
+			    }
+			    return path;
+			  }
 	public void OnclickButtonQuitLogin(View v){
 		AlertDialog.Builder builder;
 		if(Build.VERSION.SDK_INT < 11){

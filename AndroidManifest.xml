@@ -76,7 +76,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="258601FEHwbI1Y5X40EfWrfb" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".FriendListActivity"
             android:launchMode="singleTop"
             android:label="@string/app_name" >
             <intent-filter>
@@ -89,7 +89,7 @@
       	<activity android:name=".login.RegisterActivity" android:launchMode="singleTop"/>
         
         <activity android:name=".login.BasicInfoActivity" android:launchMode="singleTop"/>  
-        <activity android:name=".FriendListActivity" android:launchMode="singleTop"/>
+      <!--   <activity android:name=".FriendListActivity" android:launchMode="singleTop"/> -->
         <activity android:name=".MainActivity" android:launchMode="singleTop"/>
         <!-- 定位后台服务 -->
         <service

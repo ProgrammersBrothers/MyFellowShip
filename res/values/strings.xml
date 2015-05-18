@@ -57,5 +57,5 @@
 	<string name="please_input_nickname">请输入昵称</string> 
 	<string name="please_input_email">请输入邮箱</string> 
 	<string name="get_emti_test">请进行MBTI测试</string> 
-	
+	<string name="chat_utils_hardLoading">努力加载中...</string>
 </resources>
