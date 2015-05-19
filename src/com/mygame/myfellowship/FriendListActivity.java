@@ -187,72 +187,72 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		File cacheDir = StorageUtils.getCacheDirectory(this);
 		Log.e("huwei", "cacheDir path="+cacheDir.getAbsolutePath());
 	}
-	  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		    Log.d("","on Activity result " + requestCode + " " + resultCode);
-		    super.onActivityResult(requestCode, resultCode, data);
-		    if (resultCode == Activity.RESULT_OK) {
-		      if (requestCode == IMAGE_PICK_REQUEST) {
-		        Uri uri = data.getData();
-		        startImageCrop(uri, 200, 200, CROP_REQUEST);
-		      } else if (requestCode == CROP_REQUEST) {
-		    	  
-		    	  mUploadFilePathName = saveCropAvatar(data);
-		    	  Log.i("huwei","上传文件："+ mUploadFilePathName+"到服务器");
-		    	  new UploadPhotoTask().execute();
-		      }
-		    }
-		  }
-	  public Uri startImageCrop(Uri uri, int outputX, int outputY,
-              int requestCode) {
-			Intent intent = null;
-			intent = new Intent("com.android.camera.action.CROP");
-			intent.setDataAndType(uri, "image/*");
-			intent.putExtra("crop", "true");
-			intent.putExtra("aspectX", 1);
-			intent.putExtra("aspectY", 1);
-			intent.putExtra("outputX", outputX);
-			intent.putExtra("outputY", outputY);
-			intent.putExtra("scale", true);
-			String outputPath = PathUtils.getAvatarTmpPath();
-			Uri outputUri = Uri.fromFile(new File(outputPath));
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-			intent.putExtra("return-data", true);
-			intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-			intent.putExtra("noFaceDetection", false); // face detection
-			startActivityForResult(intent, requestCode);
-			return outputUri;
-	  }
-		  public static String getSDcardDir() {
-		    return Environment.getExternalStorageDirectory().getPath() + "/";
-		  }
-
-		  public static String checkAndMkdirs(String dir) {
-		    File file = new File(dir);
-		    if (file.exists() == false) {
-		      file.mkdirs();
-		    }
-		    return dir;
-		  }
-		  private String saveCropAvatar(Intent data) {
-			    Bundle extras = data.getExtras();
-			    String path = null;
-			    if (extras != null) {
-			      Bitmap bitmap = extras.getParcelable("data");
-			      if (bitmap != null) {
-			        bitmap = PhotoUtils.toRoundCorner(bitmap, 10);
-			        String filename = new SimpleDateFormat("yyMMddHHmmss")
-			            .format(new Date());
-			        path = PathUtils.getAvatarDir() + filename;
-			        Log.d("huwei","save bitmap to " + path);
-			        PhotoUtils.saveBitmap(PathUtils.getAvatarDir(), filename,
-			            bitmap, true);
-			        if (bitmap != null && bitmap.isRecycled() == false) {
-			          //bitmap.recycle();
-			        }
-			      }
-			    }
-			    return path;
-			  }
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    Log.d("","on Activity result " + requestCode + " " + resultCode);
+	    super.onActivityResult(requestCode, resultCode, data);
+	    if (resultCode == Activity.RESULT_OK) {
+	    	if (requestCode == IMAGE_PICK_REQUEST) {
+	    		Uri uri = data.getData();
+	    		startImageCrop(uri, 200, 200, CROP_REQUEST);
+	    	} else if (requestCode == CROP_REQUEST) {
+	    	  
+	    	  	mUploadFilePathName = saveCropAvatar(data);
+	    	  	Log.i("huwei","上传文件："+ mUploadFilePathName+"到服务器");
+	    	  	new UploadPhotoTask().execute();
+	      }
+	    }
+	}
+	public Uri startImageCrop(Uri uri, int outputX, int outputY,
+          int requestCode) {
+		Intent intent = null;
+		intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		intent.putExtra("crop", "true");
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		intent.putExtra("outputX", outputX);
+		intent.putExtra("outputY", outputY);
+		intent.putExtra("scale", true);
+		String outputPath = PathUtils.getAvatarTmpPath();
+		Uri outputUri = Uri.fromFile(new File(outputPath));
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+		intent.putExtra("return-data", true);
+		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		intent.putExtra("noFaceDetection", false); // face detection
+		startActivityForResult(intent, requestCode);
+		return outputUri;
+	}
+	public static String getSDcardDir() {
+	    return Environment.getExternalStorageDirectory().getPath() + "/";
+	}
+	
+	public static String checkAndMkdirs(String dir) {
+	    File file = new File(dir);
+	    if (file.exists() == false) {
+	    	file.mkdirs();
+	    }
+	    return dir;
+	}
+	private String saveCropAvatar(Intent data) {
+	    Bundle extras = data.getExtras();
+	    String path = null;
+	    if (extras != null) {
+	    	Bitmap bitmap = extras.getParcelable("data");
+	    	if (bitmap != null) {
+	    		bitmap = PhotoUtils.toRoundCorner(bitmap, 10);
+	    		String filename = new SimpleDateFormat("yyMMddHHmmss")
+	            	.format(new Date());
+	    		path = PathUtils.getAvatarDir() + filename;
+	    		Log.d("huwei","save bitmap to " + path);
+	    		PhotoUtils.saveBitmap(PathUtils.getAvatarDir(), filename,
+	    				bitmap, true);
+	    		if (bitmap != null && bitmap.isRecycled() == false) {
+	          //bitmap.recycle();
+	    		}
+	    	}
+	    }
+	    return path;
+	}
 	public void OnclickButtonQuitLogin(View v){
 		AlertDialog.Builder builder;
 		if(Build.VERSION.SDK_INT < 11){
