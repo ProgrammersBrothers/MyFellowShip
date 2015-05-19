@@ -1,16 +1,25 @@
 package com.mygame.myfellowship.adapter;
 
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.struct.StructFriendListShowContent;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -24,18 +33,19 @@ public class FriendListViewAdapter extends BaseAdapter {
 	private List<StructFriendListShowContent> listItems;
 	private int layout = R.layout.item_list_friend;
 	private OnWareItemClickClass onItemClickClass;
+	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
+	private DisplayImageOptions options;
+	private ImageLoader mImageLoader;
 	public FriendListViewAdapter(Context ctx) {
 		this.ctx = ctx;
 	}
 
-	public FriendListViewAdapter(Context ctx,List<StructFriendListShowContent> data) {
-		this.ctx = ctx;
-		this.listItems = data;
-	}
-	public FriendListViewAdapter(Context ctx, int layout,List<StructFriendListShowContent> data) {
+	public FriendListViewAdapter(Context ctx, int layout,List<StructFriendListShowContent> data,DisplayImageOptions options,ImageLoader mImageLoader) {
 		this.ctx = ctx;
 		this.layout = layout;
 		this.listItems = data;
+		this.options = options;
+		this.mImageLoader = mImageLoader;
 	}
 	public void setListItems(List<StructFriendListShowContent> data){
 		this.listItems = data;
@@ -67,6 +77,8 @@ public class FriendListViewAdapter extends BaseAdapter {
 					.findViewById(R.id.TextViewDistance);
 			hold.TextViewActivityAddress = (TextView) arg1
 					.findViewById(R.id.TextViewActivityAddress);
+			hold.ImageViewUserImage = (ImageView) arg1
+					.findViewById(R.id.ImageViewUserImage);
 			arg1.setTag(hold);
 		} else {
 			hold = (Holder) arg1.getTag();
@@ -75,12 +87,13 @@ public class FriendListViewAdapter extends BaseAdapter {
 		hold.TextViewAge.setText(listItems.get(arg0).getAge()+"岁");
 		hold.TextViewDistance.setText(listItems.get(arg0).getDistance()+"km");
 		hold.TextViewActivityAddress.setText(listItems.get(arg0).getAddress());
-		
+		mImageLoader.displayImage(listItems.get(arg0).getUserimage(), hold.ImageViewUserImage, options, animateFirstListener);
 		return arg1;
 	}
 
 
 	private static class Holder {
+		ImageView ImageViewUserImage;
 		TextView TextViewFriendName;
 		TextView TextViewAge;
 		TextView TextViewDistance;
@@ -104,5 +117,22 @@ public class FriendListViewAdapter extends BaseAdapter {
 			}
 		}
 	
+	}
+	private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+
+		static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+
+		@Override
+		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+			if (loadedImage != null) {
+				ImageView imageView = (ImageView) view;
+				boolean firstDisplay = !displayedImages.contains(imageUri);
+				if (firstDisplay) {
+					FadeInBitmapDisplayer.animate(imageView, 500);
+//					FadeInBitmapDisplayer.animate(imageView, 500);
+					displayedImages.add(imageUri);
+				}
+			}
+		}
 	}
 }

@@ -2,6 +2,7 @@ package com.mygame.myfellowship;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap.CompressFormat;
 import android.util.Log;
 import cn.smssdk.SMSSDK;
 
@@ -14,9 +15,19 @@ import com.mygame.myfellowship.bean.Constant;
 import com.mygame.myfellowship.gps.MyLocation;
 import com.mygame.myfellowship.http.FinalHttp;
 import com.mygame.myfellowship.info.User;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.pgyersdk.crash.PgyCrashManager;
 
 public class SelfDefineApplication extends Application {
+	private static int DISK_IMAGECACHE_SIZE = 1024*1024*10;
+	private static CompressFormat DISK_IMAGECACHE_COMPRESS_FORMAT = CompressFormat.PNG;
+	private static int DISK_IMAGECACHE_QUALITY = 100;  //PNG is lossless so quality is ignored but must be provided
+	
+	
 
 	public static boolean finishLogin;
 	private static SelfDefineApplication application;
@@ -90,9 +101,28 @@ public class SelfDefineApplication extends Application {
 		
 		// 定位初始化
         PgyCrashManager.register(this,Constant.PgyerAPPID);// 集成蒲公英sdk应用的appId
+        initImageLoader(getApplicationContext());
 	}
-	
-	
+	public static void initImageLoader(Context context) {
+		// Create default options which will be used for every
+		// displayImage(...) call if no options will be passed to this method
+		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+				.cacheInMemory(true)
+				.cacheOnDisc(true)
+				.build();
+		
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+				.threadPoolSize(3)// default
+				.threadPriority(Thread.NORM_PRIORITY - 1)// default
+				.tasksProcessingOrder(QueueProcessingType.LIFO)
+				.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+				.memoryCacheSizePercentage(13) // default
+				.defaultDisplayImageOptions(defaultOptions)
+				.writeDebugLogs() // Remove for release app
+				.build();
+		// Initialize ImageLoader with configuration.
+		ImageLoader.getInstance().init(config);
+	}
 	public void startLocation(Context context, LocationListener listener) {
 		locationInit(context, listener);
 		if(!mLocClient.isStarted()){

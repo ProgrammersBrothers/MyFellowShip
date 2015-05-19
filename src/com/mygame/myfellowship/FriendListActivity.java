@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
-
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -24,12 +22,18 @@ import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.struct.StructFriendListShowContent;
 import com.mygame.myfellowship.utils.AssetUtils;
+import com.mygame.myfellowship.utils.HttpUploadedFile;
 import com.mygame.myfellowship.utils.PathUtils;
 import com.mygame.myfellowship.utils.PhotoUtils;
 import com.mygame.myfellowship.utils.SimpleNetTask;
 import com.mygame.myfellowship.utils.ToastHelper;
 import com.mygame.myfellowship.view.XListView;
 import com.mygame.myfellowship.view.XListView.IXListViewListener; 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -40,6 +44,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -51,6 +56,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.TableLayout.LayoutParams;
 public class FriendListActivity extends BaseActivity implements IXListViewListener{
 	
 	XListView mListViewFriendList;
@@ -71,7 +78,10 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	
 	private SlidingMenu mMenu;
 	private ImageView mImageViewUserPicture;
+	private String mUploadFilePathName = "";
 	
+	private DisplayImageOptions options;
+	private ImageLoader mImageLoader;
 	public Handler handler = new Handler(){
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -156,6 +166,26 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 			}
 		});
 		initXListView(getApplicationContext());
+		initDisplayOptions();
+	}
+	private void initDisplayOptions() {
+		options = new DisplayImageOptions.Builder()
+		.showStubImage(R.drawable.ic_stub)	//设置正在加载图片
+//		.showImageOnLoading(R.drawable.ic_stub) //1.8.7新增
+		.showImageForEmptyUri(R.drawable.ic_empty)	
+		.showImageOnFail(R.drawable.ic_error)	//设置加载失败图片
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+		.displayer(new RoundedBitmapDisplayer(20))	//设置图片角度,0为方形，360为圆角
+		.build();
+		
+		mImageLoader = ImageLoader.getInstance();
+		
+		//缓存目录
+		//有SD卡 path=/sdcard/Android/data/com.example.universalimageloadertest/cache
+		//无SD卡 path=/data/data/com.example.universalimageloadertest/cache
+		File cacheDir = StorageUtils.getCacheDirectory(this);
+		Log.e("huwei", "cacheDir path="+cacheDir.getAbsolutePath());
 	}
 	  public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		    Log.d("","on Activity result " + requestCode + " " + resultCode);
@@ -165,16 +195,10 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		        Uri uri = data.getData();
 		        startImageCrop(uri, 200, 200, CROP_REQUEST);
 		      } else if (requestCode == CROP_REQUEST) {
-		    	  final String path = saveCropAvatar(data);
-		          new SimpleNetTask(this) {
-		              @Override
-		              protected void doInBack() throws Exception {
-		              }
-
-		              @Override
-		              protected void onSucceed() {
-		              }
-		            }.execute();
+		    	  
+		    	  mUploadFilePathName = saveCropAvatar(data);
+		    	  Log.i("huwei","上传文件："+ mUploadFilePathName+"到服务器");
+		    	  new UploadPhotoTask().execute();
 		      }
 		    }
 		  }
@@ -268,7 +292,9 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		if(response.getResult()){
 			mStructFriendListShowContent = response.getResponse();
 			if(mFriendListViewAdapter == null){
-				mFriendListViewAdapter = new FriendListViewAdapter(this, mStructFriendListShowContent);
+				mFriendListViewAdapter = new FriendListViewAdapter(this, R.layout.item_list_friend,mStructFriendListShowContent,options,mImageLoader);
+				//设置scroll时停止加载图片
+				mListViewFriendList.setOnScrollListener(new PauseOnScrollListener(mImageLoader, true, false));
 				mListViewFriendList.setAdapter(mFriendListViewAdapter);
 			}else{
 				mFriendListViewAdapter.setListItems(mStructFriendListShowContent);
@@ -379,6 +405,40 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 //		x_StructBaseUserInfo.setSpareTime(preferences.getString(Constant.Freetime,""));
 		
 		x_StructBaseUserInfo.setMBTI(preferences.getString(Constant.Nature,""));
+	}
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case HttpUploadedFile.POST_PROGRESS_NOTIFY:
+				int completePercent = msg.arg1;
+				Toast.makeText(FriendListActivity.this, R.string.upload_photo_success, Toast.LENGTH_SHORT).show();
+				break;
+			default:
+				break;
+			}
+		}
+	};
+	
+	private class UploadPhotoTask extends AsyncTask<String, Void, Boolean>{
+		
+    	@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+
+		protected Boolean doInBackground(String... params) {
+    		return HttpUploadedFile.getInstance().doUploadPhoto(getApplicationContext(), mUploadFilePathName, mHandler);
+    	}  
+    	
+    	protected void onPostExecute(Boolean result){
+			if(result){
+				Toast.makeText(FriendListActivity.this, R.string.upload_photo_fail, Toast.LENGTH_SHORT).show();
+			}else{
+				Toast.makeText(FriendListActivity.this, R.string.upload_photo_fail, Toast.LENGTH_SHORT).show();
+
+			}
+    	}
 	}
 	@Override
 	protected void onResume() {
