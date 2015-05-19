@@ -123,7 +123,7 @@
         <EditText
             android:id="@+id/etUserName"
             style="@style/EtTheme"
-            android:hint="请输入昵称" />
+            android:hint="请输入昵称(20个字符)" />
 
         <include layout="@layout/include_split" />
 
@@ -159,7 +159,8 @@
                 android:id="@+id/etEmail"
                 style="@style/EtTheme"
                 android:layout_weight="1"
-                android:hint="请输入邮箱" />
+                android:maxLength="50"
+                android:hint="请输入邮箱(50个字符以内)" />
         </LinearLayout>
 
         <include layout="@layout/include_split" />

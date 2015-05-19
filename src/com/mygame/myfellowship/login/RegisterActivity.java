@@ -4,6 +4,8 @@ package com.mygame.myfellowship.login;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.message.BasicNameValuePair;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -247,11 +249,10 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		tvMBTI = (TextView)findViewById(R.id.tvMBTI);
 		scrollview = (ScrollView)findViewById(R.id.scrollview);
 		
-		llMBTI.setOnClickListener(this);
-		
 		llRigGetVerify.setVisibility(View.VISIBLE);
 		llRigGetInfo.setVisibility(View.GONE);
-		
+		llMBTI.setOnClickListener(this);
+		btnSubmit.setOnClickListener(this);
 		btnNext.setOnClickListener(this);
 		tvLocation.setOnClickListener(this);
 		btnVerify.setOnClickListener(this); 
@@ -286,6 +287,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 	 * 提交注册账号
 	 */
 	private void submitVerificationCode() {
+		requestRegister();
 		String phone = phonEditText.getText().toString().trim();
 		String verifyCode = phoneVerify.getText().toString().trim();
 		
@@ -331,8 +333,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		AjaxParams params = new AjaxParams();
 		params.put("username", phonEditText.getText().toString());
 		params.put("password", etConfirmPwd.getText().toString());
-		
-		getFinalHttp().post(Urls.register, params, new AjaxCallBack<String>(){
+		String rig = Urls.getUrlAppendPath(Urls.register, new BasicNameValuePair("username", phonEditText.getText().toString()),
+				new BasicNameValuePair("password", etConfirmPwd.getText().toString()));
+		getFinalHttp().get(rig, new AjaxCallBack<String>(){
 
 			@Override
 			public void onSuccess(String t) {
@@ -403,9 +406,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 			getVerifyCode();
 			break;
 		case R.id.btnNext: // 下一步，提交验证码，成功后再提交手机和密码
-			llRigGetInfo.setVisibility(View.VISIBLE);
-			llRigGetVerify.setVisibility(View.GONE);
-			scrollview.smoothScrollTo(0, 0);
+			submitVerificationCode();
 			break;
 		case R.id.btnSubmit: // 提交个人信息
 			SubmitAllUserInfo();
@@ -414,9 +415,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 			String mbti = tvMBTI.getText().toString();
 			if (TextUtils.isEmpty(mbti)) {
 				// 显示MBTI对话框
-//				String data = AssetUtils.getDataFromAssets(getActivity(), "MBTI.txt");
-//				parseBasicTopic(data);
-				
 				requestMBAIQuestion();
 			}
 			break;
@@ -546,8 +544,13 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		mStructBaseUserInfo.setNickname(nickName);
 		// 邮箱
 		String email = etEmail.getText().toString();
+		
+		
 		if(TextUtils.isEmpty(email)){
 			ToastHelper.ToastSht(R.string.please_input_email, getActivity());
+			return;
+		} else if(!email.contains("@")){
+			ToastHelper.ToastSht("请输入合法邮箱", getActivity());
 			return;
 		}
 		
@@ -575,6 +578,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 			@Override
 			public void onSuccess(String t) {
 				super.onSuccess(t);
+				cancelRequestDialog();
 				Response<List<StructFriendListShowContent>> response = new Gson().fromJson(t, 
 						
 						new TypeToken<Response<List<StructFriendListShowContent>>>(){}.getType());
@@ -586,7 +590,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 				}else{
 					ToastHelper.ToastLg(response.getMessage(), getActivity());
 				}
-				cancelRequestDialog();
 			}
 
 			@Override

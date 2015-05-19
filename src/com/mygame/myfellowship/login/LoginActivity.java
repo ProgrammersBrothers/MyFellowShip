@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -282,8 +283,11 @@ public class LoginActivity extends BaseActivity {
 		AjaxParams params = new AjaxParams();
 		params.put("username",uname);
 		params.put("password",pwd);
+		
+		String login = Urls.getUrlAppendPath(Urls.login, new BasicNameValuePair("username",uname),
+				new BasicNameValuePair("password",pwd));
 //		final LoginCallBack callback = new LoginCallBack(isBackLogin, btnLoad, user, LoginActivity.this, isShowLoading);
-		getFinalHttp().post(Urls.login, params, new AjaxCallBack<String>(){
+		getFinalHttp().get(login, new AjaxCallBack<String>(){
 
 			@Override
 			public void onSuccess(String t) {
