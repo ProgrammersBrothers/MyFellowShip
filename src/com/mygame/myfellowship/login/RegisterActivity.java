@@ -139,6 +139,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 				break;
 			case MBTI_TEST:
 				showBMTIDlg(msg);
+				break;
 			case FINISH_ASK:
 				ToastHelper.ToastSht("可以提交个人信息了", getActivity());
 				break;
@@ -287,7 +288,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 	 * 提交注册账号
 	 */
 	private void submitVerificationCode() {
-		requestRegister();
 		String phone = phonEditText.getText().toString().trim();
 		String verifyCode = phoneVerify.getText().toString().trim();
 		

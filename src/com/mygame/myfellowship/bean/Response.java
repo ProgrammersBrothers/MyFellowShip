@@ -51,7 +51,7 @@ public class Response<T> {
 	 * @return
 	 */
 	public boolean getResult() {
-		if ("E00".equals(respCode) || "E01".equals(respCode)) {
+		if ("E00".equals(respCode)) {
 			return true;
 		}
 		return false;

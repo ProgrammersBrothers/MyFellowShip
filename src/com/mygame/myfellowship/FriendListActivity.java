@@ -347,7 +347,6 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 				new TypeToken<Response<List<StructFriendListShowContent>>>(){}.getType());
 		if(response.getResult()){
 			mOnRefreshClass.onSuccess(response.getResponse());
-
 		}
 	}
 	//获取用户信息
@@ -412,6 +411,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 			switch (msg.what) {
 			case HttpUploadedFile.POST_PROGRESS_NOTIFY:
 				int completePercent = msg.arg1;
+				if(completePercent == 100)
 				Toast.makeText(FriendListActivity.this, R.string.upload_photo_success, Toast.LENGTH_SHORT).show();
 				break;
 			default:
