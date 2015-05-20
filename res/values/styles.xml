@@ -217,6 +217,16 @@
         <item name="android:padding">@dimen/five_dp</item>
         <item name="android:textSize">@dimen/input_size</item>
     </style>
+    
+    <style name="styleForRadioBtn" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/five_dp</item>
+        <item name="android:textSize">@dimen/input_size</item>
+        <item name="android:textColor">@color/text_gray</item>
+    </style>
     <style name="styleForListItem" parent="m_w">
         <item name="android:background">@drawable/bg_item_click</item>
         <item name="android:paddingBottom">@dimen/ten_dp</item>
@@ -227,7 +237,12 @@
     <style name="styleOfLabel" parent="w_w">
         <item name="android:layout_marginBottom">@dimen/five_dp</item>
         <item name="android:layout_marginLeft">@dimen/ten_dp</item>
+        <item name="android:layout_marginTop">@dimen/ten_dp</item>
         <item name="android:textColor">@color/top_bg</item>
+        <item name="android:textSize">@dimen/input_size</item>
+    </style>
+    <style name="styleCheckBtn" parent="w_w">
+        <item name="android:textColor">@color/text_gray</item>
         <item name="android:textSize">@dimen/input_size</item>
     </style>
 </resources>

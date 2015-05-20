@@ -1,64 +1,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/LinearLayoutCheckBox"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" 
+    android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:orientation="vertical">
- 
-	<CheckBox
-	    android:id="@+id/CheckBox1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="星期一"
-        android:textColor="@color/black"
-        android:textSize="16sp" />  
-	<CheckBox
-	    android:id="@+id/CheckBox2"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="1"
-	    android:text="星期二"
-	    android:textColor="@color/black"
-	    android:textSize="16sp"/> 
-	<CheckBox
-	    android:id="@+id/CheckBox3"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="1"
-	    android:text="星期三"
-	    android:textColor="@color/black"
-	    android:textSize="16sp"/> 
-	<CheckBox
-	    android:id="@+id/CheckBox4"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="1"
-	    android:text="星期四"
-	    android:textColor="@color/black"
-	    android:textSize="16sp"/> 
-	<CheckBox
-	    android:id="@+id/CheckBox5"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="1"
-	    android:text="星期五"
-	    android:textColor="@color/black"
-	    android:textSize="16sp"/> 
-	<CheckBox
-	    android:id="@+id/CheckBox6"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="1"
-	    android:text="星期六"
-	    android:textColor="@color/black"
-	    android:textSize="16sp"/> 
-	<CheckBox
-	    android:id="@+id/CheckBox7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="星期日"
-        android:textColor="@color/black"
-        android:textSize="16sp" /> 
+    android:orientation="vertical" >
+
+    <CheckBox
+        android:id="@+id/CheckBox1"
+        style="@style/styleCheckBtn"
+        android:text="星期一" />
+
+    <CheckBox
+        android:id="@+id/CheckBox2"
+        style="@style/styleCheckBtn"    
+        android:text="星期二"  />
+
+    <CheckBox
+        android:id="@+id/CheckBox3"
+        style="@style/styleCheckBtn"         
+        android:text="星期三" />
+
+    <CheckBox
+        android:id="@+id/CheckBox4"
+        style="@style/styleCheckBtn"    
+        android:text="星期四" />
+
+    <CheckBox
+        android:id="@+id/CheckBox5"
+        style="@style/styleCheckBtn"    
+        android:text="星期五" />
+
+    <CheckBox
+        android:id="@+id/CheckBox6"
+        style="@style/styleCheckBtn"    
+        android:text="星期六" />
+
+    <CheckBox
+        android:id="@+id/CheckBox7"
+        style="@style/styleCheckBtn"    
+        android:text="星期日" />
+
 </LinearLayout>

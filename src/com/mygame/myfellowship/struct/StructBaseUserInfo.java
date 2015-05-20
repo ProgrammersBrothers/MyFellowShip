@@ -3,21 +3,42 @@ package com.mygame.myfellowship.struct;
 import java.util.List;
 
 public class StructBaseUserInfo{
-//    private String IfHaveChildren = "";     //是否有孩子 1、有小孩 2、没小孩
-//    private String IfMindHaveChildren = "";    //是否介意有孩子  1.介意 2、不介意
-//    private String SubstanceNeeds = "";  		//物质要求  1、有房 2、没房
-//    private String InLovePeriod = "";      //恋爱期限  1、闪婚，2、三个月左右，3、半年左右，4、 一年左右，5、不着急结婚。
-//    private String Faith = "";      //信仰
-//    private String SpareTime = "";        	                 //空余时间  二进制表示00000001,共八位二进制数，前七位代表星期，比如第一位是1代表星期一，第二位为1代表星期二。
-	private String userid = "";
-	private String nickname = "";//昵称
+	public  String userid = "";
     private String sex = "";              //性别 1、男 2、女
-    private String age = "";               //年龄
-    private String birthday = "";               //生日
-    private String stature = "";          //身高
-    private List<String>  Coordinates;   //坐标  经度，纬度
-    private String MBTI = "";          //MBTI性格类型  1、NT ，2、NF ，3、SJ ，4、SP 
-	private String email;  // 邮箱
+    private String age = "";               //年龄       备注：根据出生日期自动计算
+    private String birthday="";            //出生年月      例如：1989-07-07
+    private String stature = "";          //身高           例如： 150
+    private String IfHaveChildren = "";     //是否有孩子 1、有小孩 2、没小孩
+    private String IfMindHaveChildren = "";    //是否介意有孩子  1.介意 2、不介意
+    private String SubstanceNeeds = "";  		//物质要求  1、有房 2、没房
+    private String InLovePeriod = "";      //恋爱期限  1、闪婚，2、三个月左右，3、半年左右，4、 一年左右，5、不着急结婚。
+    private String Faith = "";      //信仰    A或者B
+    private List<String> Coordinates;   //坐标  经度，纬度     例如：[90.274776,27.596344]
+    private String SpareTime = "";   //空余时间  二进制表示00000001,共八位二进制数，前七位代表星期，比如第一位是1代表星期一，第二位为1代表星期二。
+    private String MBTI = "";          //MBTI性格类型  1、NT ，2、NF ，3、SJ ，4、SP
+    private String nickname="";  //昵称
+    private String meter=""; //体重     例如：60
+    private String vipType = "";//诚意      1，免费会员  2，普通会员 3，白金会员 4，钻石会员 5 门票会员
+    private String hobby="";//嗜好      1，认同 2，否定 3，中立
+    private String marrigestatus="";  //婚恋状态     1，未婚 2，离婚
+    private String userimage="";  //图片路径   
+    private String email=""; //邮箱
+    
+    
+	public String getSubstranceNeeds() {
+		return SubstanceNeeds;
+	}
+	public void setSubstranceNeeds(String substranceNeeds) {
+		SubstanceNeeds = substranceNeeds;
+	}
+	
+	
+	public String getUserimage() {
+		return userimage;
+	}
+	public void setUserimage(String userimage) {
+		this.userimage = userimage;
+	}
 	public String getSex() {
 		return sex;
 	}
@@ -104,5 +125,26 @@ public class StructBaseUserInfo{
 	}
 	public void setEmial(String email) {
 		this.email = email;
+	}
+	public void setHasChild(String string) {
+		this.IfHaveChildren = string;
+	}
+	public void setOHasChild(String string) {
+		this.IfHaveChildren = string;
+	}
+	public void setMarryTime(String string) {
+		this.InLovePeriod = string;
+	}
+	public void setMessHabit(String string) {
+		this.hobby  = string;
+	}
+	public void setWeight(String weight) {
+		this.meter = weight;
+	}
+	public void setFreeTime(String freeTime) {
+		this.SpareTime = freeTime;
+	}
+	public void setMarryStatus(String string) {
+		this.marrigestatus = string;
 	}
 }

@@ -44,7 +44,8 @@
     <LinearLayout
         style="@style/m_w"
         android:orientation="vertical"
-        android:padding="@dimen/ten_dp" >
+        android:paddingLeft="@dimen/ten_dp"
+        android:paddingRight="@dimen/ten_dp" >
 
         <TextView
             android:id="@+id/tvLabel3"
@@ -66,7 +67,8 @@
     <LinearLayout
         style="@style/m_w"
         android:orientation="vertical"
-        android:padding="@dimen/ten_dp" >
+        android:paddingLeft="@dimen/ten_dp"
+        android:paddingRight="@dimen/ten_dp">
 
         <TextView
             android:id="@+id/tvLabel4"
@@ -112,6 +114,21 @@
         style="@style/m_w"
         android:orientation="vertical"
         android:padding="@dimen/ten_dp" >
+        
+        <TextView
+            android:id="@+id/tvLabel5"
+            style="@style/styleOfLabel"
+            android:text="体重" />
+
+        <include layout="@layout/include_split" />
+
+        <EditText
+            android:id="@+id/etWeight"
+            style="@style/EtTheme"
+            android:inputType="number"
+            android:hint="请输入体重(公斤)" />
+        
+        <include layout="@layout/include_split" />
 
         <TextView
             android:id="@+id/tvLabel5"
@@ -140,7 +157,8 @@
     <LinearLayout
         style="@style/m_w"
         android:orientation="vertical"
-        android:padding="@dimen/ten_dp" >
+        android:paddingLeft="@dimen/ten_dp" 
+        android:paddingRight="@dimen/ten_dp">
 
         <TextView
             android:id="@+id/tvLabel6"
@@ -164,6 +182,206 @@
         </LinearLayout>
 
         <include layout="@layout/include_split" />
+        
+        <TextView
+            android:id="@+id/tvLabel9"
+            style="@style/styleOfLabel" 
+            android:text="你是否有小孩?" />
+
+        <RadioGroup
+            android:id="@+id/rgQuestion9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:checkedButton="@+id/rb9Y"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rb9Y"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_left"
+                android:text="没有" />
+
+            <RadioButton
+                android:id="@+id/rb9N"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_right"
+                android:text="有" />
+        </RadioGroup>
+
+        <include layout="@layout/include_split" />
+        
+        <TextView
+            android:id="@+id/tvLabel10"
+            style="@style/styleOfLabel" 
+            android:text="你是否介意对象有小孩?" />
+
+        <RadioGroup
+            android:id="@+id/rgQuestion10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:checkedButton="@+id/rb10Y"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rb10Y"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_left"
+                android:text="介意" />
+
+            <RadioButton
+                android:id="@+id/rb10N"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_right"
+                android:text="不介意" />
+        </RadioGroup>
+
+        <include layout="@layout/include_split" />
+        
+        <TextView
+            android:id="@+id/tvLabel11"
+            style="@style/styleOfLabel" 
+            android:text="物质要求?" />
+
+        <RadioGroup
+            android:id="@+id/rgQuestion11"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:checkedButton="@+id/rb11Y"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rb11Y"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_left"
+                android:text="有房" />
+
+            <RadioButton
+                android:id="@+id/rb11N"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_right"
+                android:text="没房" />
+        </RadioGroup>
+
+        <include layout="@layout/include_split" />
+        
+        <TextView
+            android:id="@+id/tvLabel12"
+            style="@style/styleOfLabel" 
+            android:text="谈恋爱后多久结婚(结婚期限)?" />
+
+        <RadioGroup
+            android:id="@+id/rgQuestion12"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:checkedButton="@+id/rb12Y1"
+            android:orientation="vertical" >
+
+            <RadioButton
+                android:id="@+id/rb12Y1"
+                style="@style/styleForRadioBtn"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:text="闪婚" />
+
+            <RadioButton
+                android:id="@+id/rb12Y2"
+                style="@style/styleForRadioBtn"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:text="三个月左右" />
+            <RadioButton
+                android:id="@+id/rb12Y3"
+                style="@style/styleForRadioBtn"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:text="三个月左右" />
+             <RadioButton
+                android:id="@+id/rb12Y4"
+                style="@style/styleForRadioBtn"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:text="一年左右" />
+            <RadioButton
+                android:id="@+id/rb12Y5"
+                style="@style/styleForRadioBtn"
+                android:layout_width="wrap_content"
+                android:text="不着急结婚" />
+        </RadioGroup>
+
+        <include layout="@layout/include_split" />
+        
+        <TextView
+            android:id="@+id/tvLabel13"
+            style="@style/styleOfLabel" 
+            android:text="你每周那些天有空陪对象?" />
+        
+        <include layout="@layout/spare_time_check_box" />
+        
+        <TextView
+            android:id="@+id/tvLabel13"
+            style="@style/styleOfLabel" 
+            android:text="你对抽烟喝酒打牌怎么看?" />
+        
+        <RadioGroup
+            android:id="@+id/rgQuestion13"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:checkedButton="@+id/rbHasChild"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rb13Y"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_left"
+                android:text="反对" />
+
+            <RadioButton
+                android:id="@+id/rb13N"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_mid"
+                android:text="赞同" />
+            <RadioButton
+                android:id="@+id/rb13M"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_right"
+                android:text="中立" />
+        </RadioGroup>
+
+        <include layout="@layout/include_split" />
+        
+        <TextView
+            android:id="@+id/tvLabel14"
+            style="@style/styleOfLabel" 
+            android:text="婚姻状态(未婚或离异)" />
+        
+        <RadioGroup
+            android:id="@+id/rgQuestion14"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:checkedButton="@+id/rbHasChild"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rb14Y"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_left"
+                android:text="未婚" />
+
+            <RadioButton
+                android:id="@+id/rb14N"
+                style="@style/styleForRadioBtnLeft"
+                android:background="@drawable/button_onclick_effect_right"
+                android:text="离异" />
+        </RadioGroup>
+
+        <include layout="@layout/include_split" />
+        
     </LinearLayout>
 
     <LinearLayout

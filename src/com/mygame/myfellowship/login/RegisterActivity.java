@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -76,7 +77,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 	RadioGroup rgGender;
 	TextView tvLocation, tvBirthday, tvMBTI, tvHeight;
 	LinearLayout llBirthday;
-	EditText etUserName, etEmail;
+	EditText etUserName, etEmail, etWeight;
 	StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
 	List<String> coordinates = new ArrayList<String>();
 	private CharacterParse mCharacterParse;
@@ -85,6 +86,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 	private ScrollView scrollview;
 	private Dialog chooseDlg;
 	List<CfgCommonType> highCcts = new ArrayList<CfgCommonType>();
+	// 基本问答题
+	RadioGroup rgQuestion9, rgQuestion10, rgQuestion11, rgQuestion12, rgQuestion13, rgQuestion14;
+	CheckBox CheckBox1, CheckBox2, CheckBox3, CheckBox4, CheckBox5, CheckBox6, CheckBox7;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +187,20 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 				}
 			}
 		});
+		
+		if(checkId > 0) {
+			builder.setPositiveButton("上一步", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Message msg = mHandler.obtainMessage();
+					msg.what = MBTI_TEST;
+					checkId --;
+					msg.obj = requestList.get(checkId);
+					mHandler.sendMessage(msg);
+				}
+			});
+		}
 		chooseDlg = builder.create();
 		chooseDlg.show();
 	}
@@ -252,6 +270,25 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		
 		llRigGetVerify.setVisibility(View.VISIBLE);
 		llRigGetInfo.setVisibility(View.GONE);
+		
+		// 自己有小孩
+		rgQuestion9 = (RadioGroup) findViewById(R.id.rgQuestion9);
+		rgQuestion10 = (RadioGroup) findViewById(R.id.rgQuestion10);
+		rgQuestion11 = (RadioGroup) findViewById(R.id.rgQuestion11);
+		rgQuestion12 = (RadioGroup) findViewById(R.id.rgQuestion12);
+		rgQuestion13 = (RadioGroup) findViewById(R.id.rgQuestion13);
+		rgQuestion14 = (RadioGroup) findViewById(R.id.rgQuestion14);
+		 
+		etWeight = (EditText)findViewById(R.id.etWeight);
+		
+		CheckBox1 = (CheckBox) findViewById(R.id.CheckBox1);
+		CheckBox2 = (CheckBox) findViewById(R.id.CheckBox2);
+		CheckBox3 = (CheckBox) findViewById(R.id.CheckBox3);
+		CheckBox4 = (CheckBox) findViewById(R.id.CheckBox4);
+		CheckBox5 = (CheckBox) findViewById(R.id.CheckBox5);
+		CheckBox6 = (CheckBox) findViewById(R.id.CheckBox6);
+		CheckBox7 = (CheckBox) findViewById(R.id.CheckBox7);
+		
 		llMBTI.setOnClickListener(this);
 		btnSubmit.setOnClickListener(this);
 		btnNext.setOnClickListener(this);
@@ -535,6 +572,14 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 			return;
 		}
 		mStructBaseUserInfo.setStature(height);
+		
+		// 体重
+		String weight = etWeight.getText().toString();
+		if(TextUtils.isEmpty(height)){
+			ToastHelper.ToastSht("请输入体重", getActivity());
+			return;
+		}
+		mStructBaseUserInfo.setWeight(weight);
 		// 昵称
 		String nickName = etUserName.getText().toString();
 		if(TextUtils.isEmpty(nickName)){
@@ -552,6 +597,66 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		} else if(!email.contains("@")){
 			ToastHelper.ToastSht("请输入合法邮箱", getActivity());
 			return;
+		}
+		
+		
+		// 基本问答题
+		// 是否有小孩
+		mStructBaseUserInfo.setHasChild("2");
+		if(rgQuestion10.getCheckedRadioButtonId() == R.id.rb10N){
+			mStructBaseUserInfo.setHasChild("1");
+		}
+		// 是否介意对象有小孩
+		mStructBaseUserInfo.setOHasChild("2");
+		if(rgQuestion11.getCheckedRadioButtonId() == R.id.rb11N){
+			mStructBaseUserInfo.setOHasChild("1");
+		}
+		
+		// 谈恋爱时间
+		if(rgQuestion12.getCheckedRadioButtonId() == R.id.rb12Y1){
+			mStructBaseUserInfo.setMarryTime("1");
+		} else if(rgQuestion12.getCheckedRadioButtonId() == R.id.rb12Y2){
+			mStructBaseUserInfo.setMarryTime("2");
+		} else if(rgQuestion12.getCheckedRadioButtonId() == R.id.rb12Y3){
+			mStructBaseUserInfo.setMarryTime("3");
+		} else if(rgQuestion12.getCheckedRadioButtonId() == R.id.rb12Y4){
+			mStructBaseUserInfo.setMarryTime("4");
+		} else if(rgQuestion12.getCheckedRadioButtonId() == R.id.rb12Y5){
+			mStructBaseUserInfo.setMarryTime("5");
+		}
+		
+		// 婚姻状态
+		mStructBaseUserInfo.setMarryStatus("1");
+		if(rgQuestion14.getCheckedRadioButtonId() == R.id.rb14N){
+			mStructBaseUserInfo.setMarryStatus("2");
+		}
+		
+		// 休息时间
+		String freeTime = "00000000";
+		if(CheckBox1.isChecked()){
+		} else if(CheckBox2.isChecked()){
+			freeTime += "2";
+		} else if(CheckBox3.isChecked()){
+			freeTime += "3";
+		} else if(CheckBox4.isChecked()){
+			freeTime += "4";
+		} else if(CheckBox5.isChecked()){
+			freeTime += "5";
+		} else if(CheckBox6.isChecked()){
+			freeTime += "6";
+		} else if(CheckBox7.isChecked()){
+			freeTime += "7";
+		}
+		
+		mStructBaseUserInfo.setFreeTime(freeTime);
+		
+		
+		// 抽烟喝酒打牌怎么看
+		mStructBaseUserInfo.setMessHabit("1");
+		if(rgQuestion13.getCheckedRadioButtonId() == R.id.rb13Y){
+			mStructBaseUserInfo.setMessHabit("2");
+		} else if(rgQuestion13.getCheckedRadioButtonId() == R.id.rb13N){
+			mStructBaseUserInfo.setMessHabit("3");
 		}
 		
 		mStructBaseUserInfo.setEmial(email);
