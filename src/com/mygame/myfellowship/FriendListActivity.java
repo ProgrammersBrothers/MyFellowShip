@@ -1,6 +1,8 @@
 package com.mygame.myfellowship;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,6 +45,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -71,6 +74,9 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	
 	public static final int IMAGE_PICK_REQUEST = 10001;
 	public static final int CROP_REQUEST = 10002;
+	public static final int HANDLE_SET_USER_IMAGE = 10002;
+	
+	
 	//定位参数
 	private MyLocation myLocation = new MyLocation();
 	private LocationClient mLocClient;
@@ -197,6 +203,9 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	    	} else if (requestCode == CROP_REQUEST) {
 	    	  
 	    	  	mUploadFilePathName = saveCropAvatar(data);
+	    	  	Message msg = new Message();
+	    	  	msg.what = HANDLE_SET_USER_IMAGE;
+	    	  	mHandler.sendMessage(msg);
 	    	  	Log.i("huwei","上传文件："+ mUploadFilePathName+"到服务器");
 	    	  	new UploadPhotoTask().execute();
 	      }
@@ -385,7 +394,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		x_StructBaseUserInfo.setBirthday(preferences.getString(Constant.Age, ""));
 
 		x_StructBaseUserInfo.setStature(preferences.getString(Constant.Height,  ""));
-
+		
 //		x_StructBaseUserInfo.setIfHaveChildren(preferences.getString(Constant.IfChild, ""));
 //	
 //		x_StructBaseUserInfo.setIfMindHaveChildren(preferences.getString(Constant.IfMind,  ""));
@@ -414,12 +423,43 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 				if(completePercent == 100)
 				Toast.makeText(FriendListActivity.this, R.string.upload_photo_success, Toast.LENGTH_SHORT).show();
 				break;
+			case HANDLE_SET_USER_IMAGE:
+				mImageViewUserPicture.setImageBitmap(getLoacalBitmap(mUploadFilePathName));
+				break;
 			default:
 				break;
 			}
 		}
 	};
-	
+	/**
+
+	* 加载本地图片
+
+	* http://bbs.3gstdy.com
+
+	* @param url
+
+	* @return
+
+	*/
+
+	public static Bitmap getLoacalBitmap(String url) {
+
+	     try {
+
+	          FileInputStream fis = new FileInputStream(url);
+
+	          return BitmapFactory.decodeStream(fis);
+
+	     } catch (FileNotFoundException e) {
+
+	          e.printStackTrace();
+
+	          return null;
+
+	     }
+
+	}
 	private class UploadPhotoTask extends AsyncTask<String, Void, Boolean>{
 		
     	@Override
