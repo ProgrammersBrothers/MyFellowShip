@@ -9,6 +9,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import com.mygame.myfellowship.bean.Urls;
+
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
@@ -40,7 +43,6 @@ public class HttpUploadedFile {
 	}
 	
 	
-	String url = "http://2.novelread.sinaapp.com/framework-sae/index.php?c=main&a=getPostBody";
 	private int lastErrCode = 0;// 最近一次出错的错误代码
 	byte[] tmpBuf = new byte[BUF_LEN];
 	byte[] tmpBuf2 = new byte[BUF_LEN * 2];
@@ -60,7 +62,7 @@ public class HttpUploadedFile {
 	public static final int TIMEOUT = 30000;// 超时时间30秒
 	private static final int BUF_LEN = 512;// 数据缓冲长度
 
-	public boolean doUploadPhoto(Context context, String filePathName,
+	public boolean doUploadPhoto(Context context, String filePathName,String param,
 			Handler handler) {
 		boolean ret = false;
 
@@ -82,7 +84,7 @@ public class HttpUploadedFile {
 			return false;
 		}
 		mHandler = handler;
-		ret = postWithoutResponse(context, url, fs, (int) file.length());
+		ret = postWithoutResponse(context, Urls.ImageUrl, fs, (int) file.length());
 		if (fs != null) {
 			try {
 				fs.close();

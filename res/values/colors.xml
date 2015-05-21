@@ -47,5 +47,6 @@
     <color name="theme_blue_color">#3c72df</color>
     <color name="primary_text_default_material_light">#ffb0f40c</color>
     <color name="primary_text_default_material_dark">#ffb0f40c</color>
-
+    <color name="dark">#FF222222</color>
+    <color name="light">#FFEEEEEE</color>
 </resources>

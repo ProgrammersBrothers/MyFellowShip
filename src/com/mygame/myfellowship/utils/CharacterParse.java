@@ -23,6 +23,28 @@ public class CharacterParse{
 	public int [] getCharacterAndNum() {
 		return CharacterAndNum;
 	}
+	public static String getNature(String xingge){
+		String l_natirn = "";
+		if(xingge == null){
+			return l_natirn;
+		}
+		if(xingge.equals("1")){
+			l_natirn = "NT";
+		}
+		else if(xingge.equals("2")){
+			l_natirn = "NF";
+		}
+		else if(xingge.equals("3")){
+			l_natirn = "SJ";
+		}
+		else if(xingge.equals("4")){
+			l_natirn = "SP";
+		}
+		else{
+			
+		}
+		return l_natirn;
+	}
 	public int MTBITypeToInt(String type){
 		int result = 0;
 		if(type == null){

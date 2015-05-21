@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.mygame.myfellowship"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent" >
 
-    <ImageView
+    <com.mygame.myfellowship.custom.CircleImageView
         android:id="@+id/ImageViewUserPicture"
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/user_setting" />
+        android:layout_marginTop="20dp"
+        android:src="@drawable/user_setting"
+        app:border_color="@color/dark"
+        app:border_width="2dp" />
+
     <TextView
         android:id="@+id/TextViewUserName"
-        android:layout_below="@+id/ImageViewUserPicture"
-        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ImageViewUserPicture"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
         android:text="user"
         android:textColor="@color/white"
-        android:textSize="17sp"
-        android:layout_centerHorizontal="true" />
-
+        android:textSize="17sp" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="40dp"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp" >
 
         <Button
             android:id="@+id/ButtonQuitLogin"
@@ -36,10 +40,20 @@
             android:layout_height="50dp"
             android:layout_centerInParent="true"
             android:background="@drawable/button_onclick"
+            android:onClick="OnclickButtonQuitLogin"
             android:text="退出登录"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            android:onClick="OnclickButtonQuitLogin" />
+            android:textSize="14sp" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/TextViewVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="18dp"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
 
 </RelativeLayout>

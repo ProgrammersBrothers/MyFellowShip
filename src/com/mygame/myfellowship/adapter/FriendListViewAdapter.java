@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.mygame.myfellowship.R;
 import com.mygame.myfellowship.struct.StructFriendListShowContent;
+import com.mygame.myfellowship.utils.CharacterParse;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -77,6 +78,8 @@ public class FriendListViewAdapter extends BaseAdapter {
 					.findViewById(R.id.TextViewDistance);
 			hold.TextViewActivityAddress = (TextView) arg1
 					.findViewById(R.id.TextViewActivityAddress);
+			hold.TextViewNaturn = (TextView) arg1
+					.findViewById(R.id.TextViewNaturn);
 			hold.ImageViewUserImage = (ImageView) arg1
 					.findViewById(R.id.ImageViewUserImage);
 			arg1.setTag(hold);
@@ -87,10 +90,10 @@ public class FriendListViewAdapter extends BaseAdapter {
 		hold.TextViewAge.setText(listItems.get(arg0).getAge()+"岁");
 		hold.TextViewDistance.setText(listItems.get(arg0).getDistance()+"km");
 		hold.TextViewActivityAddress.setText(listItems.get(arg0).getAddress());
+		hold.TextViewNaturn.setText(CharacterParse.getNature(listItems.get(arg0).getNaturn()));
 		mImageLoader.displayImage(listItems.get(arg0).getUserimage(), hold.ImageViewUserImage, options, animateFirstListener);
 		return arg1;
 	}
-
 
 	private static class Holder {
 		ImageView ImageViewUserImage;
@@ -98,6 +101,7 @@ public class FriendListViewAdapter extends BaseAdapter {
 		TextView TextViewAge;
 		TextView TextViewDistance;
 		TextView TextViewActivityAddress;
+		TextView TextViewNaturn;
 	}
 	public interface OnWareItemClickClass{
 		public void OnItemClick(View v,int Position);

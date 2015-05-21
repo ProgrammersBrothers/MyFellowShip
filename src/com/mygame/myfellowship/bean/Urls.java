@@ -10,8 +10,8 @@ import android.util.Log;
 
 public class Urls {
 	
-//	public static final String SERVER_IP = "http://192.168.1.103:8080/loveon/service";
-	public static final String SERVER_IP = "http://204.152.218.57:8080/loveon/service";
+	public static final String SERVER_IP = "http://192.168.1.103:8080/loveon/service";
+//	public static final String SERVER_IP = "http://204.152.218.57:8080/loveon/service";
 //	public static final String SERVER_IP = "http://118.193.163.126:3306/loveon/service";
 
 	public static String question_info = SERVER_IP + "?buss=getQueGroup";
@@ -21,6 +21,8 @@ public class Urls {
 	public static String getuser = SERVER_IP + "?buss=getUser";
 	
 	public static String login = SERVER_IP + "?buss=getUserid";
+	
+	public static String ImageUrl = SERVER_IP + "?buss=getImageurl";
 	
 	
 	public static String getUrlAppendPath(String url, NameValuePair... parmas) {

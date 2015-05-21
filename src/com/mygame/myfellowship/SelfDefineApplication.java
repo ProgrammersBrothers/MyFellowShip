@@ -2,6 +2,9 @@ package com.mygame.myfellowship;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap.CompressFormat;
 import android.util.Log;
 import cn.smssdk.SMSSDK;

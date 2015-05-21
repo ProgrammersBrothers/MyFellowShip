@@ -3,10 +3,18 @@ package com.mygame.myfellowship;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -24,11 +32,13 @@ import com.mygame.myfellowship.http.AjaxParams;
 import com.mygame.myfellowship.struct.StructBaseUserInfo;
 import com.mygame.myfellowship.struct.StructFriendListShowContent;
 import com.mygame.myfellowship.utils.AssetUtils;
+import com.mygame.myfellowship.utils.FormatTools;
 import com.mygame.myfellowship.utils.HttpUploadedFile;
 import com.mygame.myfellowship.utils.PathUtils;
 import com.mygame.myfellowship.utils.PhotoUtils;
 import com.mygame.myfellowship.utils.SimpleNetTask;
 import com.mygame.myfellowship.utils.ToastHelper;
+import com.mygame.myfellowship.utils._HttpUploadedFile;
 import com.mygame.myfellowship.view.XListView;
 import com.mygame.myfellowship.view.XListView.IXListViewListener; 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -44,6 +54,9 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -71,6 +84,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	private final static int XLIST_LOAD_MORE = 2; //加载更多
 	private StructBaseUserInfo mStructBaseUserInfo = new StructBaseUserInfo();
 	private TextView mTextViewUserName;
+	private TextView mTextViewVersion;
 	
 	public static final int IMAGE_PICK_REQUEST = 10001;
 	public static final int CROP_REQUEST = 10002;
@@ -88,11 +102,17 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	
 	private DisplayImageOptions options;
 	private ImageLoader mImageLoader;
+	
+	private final String TAG = "FriendListActivity";
 	public Handler handler = new Handler(){
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 1:
 				mTextViewUserName.setText(mStructBaseUserInfo.getNickname());
+				Bitmap userimage = getHttpBitmap(mStructBaseUserInfo.getUserimage());
+				if(userimage != null){
+					mImageViewUserPicture.setImageBitmap(userimage);
+				}
 				break;
 				default:break;
 			}
@@ -143,21 +163,66 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 			mLocClient.start();
 		}
 	}
+	/*
+	 * 获取应用版本号
+	 * return 返回版本号
+	 * */
+	public String getVersionName()
+	{
+		// 获取packagemanager的实例
+		PackageManager packageManager = getPackageManager();
+		// getPackageName()是你当前类的包名，0代表是获取版本信息
+		PackageInfo packInfo = null;
+		try {
+			packInfo = packageManager.getPackageInfo(getPackageName(),0);
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return packInfo.versionName;
+	}
 	@Override
 	protected void onCreate(Bundle arg0) { 
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_friend_list);
         mMenu = (SlidingMenu) findViewById(R.id.id_menu);
         mTextViewUserName = (TextView) findViewById(R.id.TextViewUserName);
+        mTextViewVersion = (TextView) findViewById(R.id.TextViewVersion);
         mImageViewUserPicture = (ImageView) findViewById(R.id.ImageViewUserPicture);
+        mTextViewVersion.setText("V"+getVersionName());
         mImageViewUserPicture.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-			      Intent intent = new Intent(Intent.ACTION_PICK, null);
+			  /*    Intent intent = new Intent(Intent.ACTION_PICK, null);
 			      intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-			      startActivityForResult(intent, IMAGE_PICK_REQUEST);
+			      startActivityForResult(intent, IMAGE_PICK_REQUEST);*/
+			      //******************************************
+		    		AjaxParams params = new AjaxParams();
+		    		params.put(Constant.USER_ID,mStructBaseUserInfo.getUserid());
+		    		
+		    		InputStream imageinput =  FormatTools.getInstance().Drawable2InputStream(getResources().getDrawable(R.drawable.xingfukuaiche));
+					params.put("imageurl",imageinput);
+		    		showReqeustDialog(R.string.sending_data);
+		    		getFinalHttp().post(Urls.ImageUrl, params, new AjaxCallBack<String>(){
+
+		    			@Override
+		    			public void onSuccess(String t) {
+		    				super.onSuccess(t);
+		    				cancelRequestDialog();
+		    			}
+
+		    			@Override
+		    			public void onFailure(Throwable t, int errorNo, String strMsg) {
+		    				super.onFailure(t, errorNo, strMsg);
+		    				ToastHelper.ToastLg(strMsg, getActivity());
+		    				cancelRequestDialog();
+		    			}
+		    		});
+		    	  	Log.i("huwei","上传文件："+ mUploadFilePathName+"到服务器");
+		    	  	//***************************************************************
+//		    	  	new UploadPhotoTask().execute();
 			}
 		});
 		mMenu.setSlideEnable(true);
@@ -199,15 +264,40 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	    if (resultCode == Activity.RESULT_OK) {
 	    	if (requestCode == IMAGE_PICK_REQUEST) {
 	    		Uri uri = data.getData();
-	    		startImageCrop(uri, 200, 200, CROP_REQUEST);
+	    		startImageCrop(uri, 300, 300, CROP_REQUEST);
 	    	} else if (requestCode == CROP_REQUEST) {
 	    	  
 	    	  	mUploadFilePathName = saveCropAvatar(data);
 	    	  	Message msg = new Message();
 	    	  	msg.what = HANDLE_SET_USER_IMAGE;
 	    	  	mHandler.sendMessage(msg);
+	    		AjaxParams params = new AjaxParams();
+	    		params.put(Constant.USER_ID,mStructBaseUserInfo.getUserid());
+	    		
+				try {
+					params.put("imageurl",new File(mUploadFilePathName));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		showReqeustDialog(R.string.sending_data);
+	    		getFinalHttp().post(Urls.ImageUrl, params, new AjaxCallBack<String>(){
+
+	    			@Override
+	    			public void onSuccess(String t) {
+	    				super.onSuccess(t);
+	    				cancelRequestDialog();
+	    			}
+
+	    			@Override
+	    			public void onFailure(Throwable t, int errorNo, String strMsg) {
+	    				super.onFailure(t, errorNo, strMsg);
+	    				ToastHelper.ToastLg(strMsg, getActivity());
+	    				cancelRequestDialog();
+	    			}
+	    		});
 	    	  	Log.i("huwei","上传文件："+ mUploadFilePathName+"到服务器");
-	    	  	new UploadPhotoTask().execute();
+//	    	  	new UploadPhotoTask().execute();
 	      }
 	    }
 	}
@@ -460,6 +550,60 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	     }
 
 	}
+	/**
+
+	* 从服务器取图片
+
+	*http://bbs.3gstdy.com
+
+	* @param url
+
+	* @return
+
+	*/
+
+	public Bitmap getHttpBitmap(String url) {
+
+	     URL myFileUrl = null;
+
+	     Bitmap bitmap = null;
+	     if(url == null){
+	    	 Log.e(TAG, "url is null");
+	     }
+	     try {
+
+	          Log.d(TAG, url);
+
+	          myFileUrl = new URL(url);
+	          
+	          HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+
+	          conn.setConnectTimeout(0);
+
+	          conn.setDoInput(true);
+
+	          conn.connect();
+
+	          InputStream is = conn.getInputStream();
+
+	          bitmap = BitmapFactory.decodeStream(is);
+
+	          is.close();
+
+	     } catch (MalformedURLException e) {
+
+	          e.printStackTrace();
+
+	     }
+	     catch (IOException e) {
+
+	          e.printStackTrace();
+
+	     }
+
+	     return bitmap;
+
+	}
 	private class UploadPhotoTask extends AsyncTask<String, Void, Boolean>{
 		
     	@Override
@@ -468,12 +612,18 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		}
 
 		protected Boolean doInBackground(String... params) {
-    		return HttpUploadedFile.getInstance().doUploadPhoto(getApplicationContext(), mUploadFilePathName, mHandler);
+			Map<String, String> textMap = new HashMap<String, String>();
+			textMap.put(Constant.USER_ID,mStructBaseUserInfo.getUserid());
+			Map<String, String> fileMap = new HashMap<String, String>();
+			fileMap.put("imageurl", mUploadFilePathName);
+			String ret = _HttpUploadedFile.formUpload(Urls.ImageUrl, textMap, fileMap);
+			System.out.println(ret);
+    		return true;
     	}  
     	
     	protected void onPostExecute(Boolean result){
 			if(result){
-				Toast.makeText(FriendListActivity.this, R.string.upload_photo_fail, Toast.LENGTH_SHORT).show();
+				Toast.makeText(FriendListActivity.this, R.string.upload_photo_success, Toast.LENGTH_SHORT).show();
 			}else{
 				Toast.makeText(FriendListActivity.this, R.string.upload_photo_fail, Toast.LENGTH_SHORT).show();
 

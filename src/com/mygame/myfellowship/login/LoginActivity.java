@@ -292,9 +292,10 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onSuccess(String t) {
 				super.onSuccess(t);
+				btnLoad.setText("登录");
 //				callback.parseData(t);
 				parseData(t);
-				cancelRequestDialog();
+				
 			}
 			private void parseData(String t) {
 					Response<StructBaseUserInfo> response = new Gson().fromJson(t, 
@@ -312,7 +313,7 @@ public class LoginActivity extends BaseActivity {
 			public void onFailure(Throwable t, int errorNo, String strMsg) {
 				super.onFailure(t, errorNo, strMsg);
 				ToastHelper.ToastLg(strMsg, getActivity());
-				cancelRequestDialog();
+				btnLoad.setText("登录");
 			}
 		});
 /*		getFinalHttp().get(Urls.login, getLoginParams(uname, encryptPwd),
