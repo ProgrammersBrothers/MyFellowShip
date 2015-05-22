@@ -1,7 +1,9 @@
 package com.mygame.myfellowship.login;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -182,7 +184,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 				} else {
 					mMBTIbigType = mCharacterParse.getCharacterType();
 					mStructBaseUserInfo.setMBTI(mMBTIbigType+"");
-					tvMBTI.setText(mMBTIbigType+"");
+					tvMBTI.setText(CharacterParse.getNature(mMBTIbigType+""));
 					mHandler.sendEmptyMessage(FINISH_ASK);
 				}
 			}
@@ -370,9 +372,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		AjaxParams params = new AjaxParams();
 		params.put("username", phonEditText.getText().toString());
 		params.put("password", etConfirmPwd.getText().toString());
-		String rig = Urls.getUrlAppendPath(Urls.register, new BasicNameValuePair("username", phonEditText.getText().toString()),
-				new BasicNameValuePair("password", etConfirmPwd.getText().toString()));
-		getFinalHttp().get(rig, new AjaxCallBack<String>(){
+//		String rig = Urls.getUrlAppendPath(Urls.register, new BasicNameValuePair("username", phonEditText.getText().toString()),
+//				new BasicNameValuePair("password", etConfirmPwd.getText().toString()));
+		getFinalHttp().post(Urls.register,params, new AjaxCallBack<String>(){
 
 			@Override
 			public void onSuccess(String t) {
@@ -424,13 +426,18 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		}
 		scrollview.smoothScrollTo(0, 0);
 	}
-	
+	public String getNowYear() {
+	   Date currentTime = new Date();
+	   SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	   String dateString = formatter.format(currentTime);
+	   return dateString;
+}
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.tvBirthday: // 获取验证码 
 			WheelViewUtil.showWheelView(v.getContext(), (View)tvBirthday, ageListener, 
-					"1988-01-01", "选择生日", false);
+					getNowYear(), "选择生日", false);
 			break;
 		case R.id.tvHeight: // 获取验证码 
 			WheelViewUtil.showSingleWheel(getActivity(), v, highCcts, highListener, "选择身高", "身高");
