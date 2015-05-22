@@ -284,10 +284,10 @@ public class LoginActivity extends BaseActivity {
 		params.put("username",uname);
 		params.put("password",pwd);
 		
-		String login = Urls.getUrlAppendPath(Urls.login, new BasicNameValuePair("username",uname),
-				new BasicNameValuePair("password",pwd));
+//		String login = Urls.getUrlAppendPath(Urls.login, new BasicNameValuePair("username",uname),
+//				new BasicNameValuePair("password",pwd));
 //		final LoginCallBack callback = new LoginCallBack(isBackLogin, btnLoad, user, LoginActivity.this, isShowLoading);
-		getFinalHttp().get(login, new AjaxCallBack<String>(){
+		getFinalHttp().post(Urls.login,params, new AjaxCallBack<String>(){
 
 			@Override
 			public void onSuccess(String t) {

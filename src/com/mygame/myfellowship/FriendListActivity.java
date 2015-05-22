@@ -195,11 +195,11 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-			  /*    Intent intent = new Intent(Intent.ACTION_PICK, null);
+			      Intent intent = new Intent(Intent.ACTION_PICK, null);
 			      intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-			      startActivityForResult(intent, IMAGE_PICK_REQUEST);*/
+			      startActivityForResult(intent, IMAGE_PICK_REQUEST);
 			      //******************************************
-		    		AjaxParams params = new AjaxParams();
+		    	/*	AjaxParams params = new AjaxParams();
 		    		params.put(Constant.USER_ID,mStructBaseUserInfo.getUserid());
 		    		
 		    		InputStream imageinput =  FormatTools.getInstance().Drawable2InputStream(getResources().getDrawable(R.drawable.xingfukuaiche));
@@ -220,7 +220,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		    				cancelRequestDialog();
 		    			}
 		    		});
-		    	  	Log.i("huwei","上传文件："+ mUploadFilePathName+"到服务器");
+		    	  	Log.i("huwei","上传文件："+ mUploadFilePathName+"到服务器");*/
 		    	  	//***************************************************************
 //		    	  	new UploadPhotoTask().execute();
 			}
@@ -340,7 +340,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	    	if (bitmap != null) {
 	    		bitmap = PhotoUtils.toRoundCorner(bitmap, 10);
 	    		String filename = new SimpleDateFormat("yyMMddHHmmss")
-	            	.format(new Date());
+	            	.format(new Date())+".jpg";
 	    		path = PathUtils.getAvatarDir() + filename;
 	    		Log.d("huwei","save bitmap to " + path);
 	    		PhotoUtils.saveBitmap(PathUtils.getAvatarDir(), filename,
