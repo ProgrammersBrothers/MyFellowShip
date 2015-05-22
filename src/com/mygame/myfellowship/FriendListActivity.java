@@ -1,10 +1,14 @@
 package com.mygame.myfellowship;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -59,6 +63,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -109,7 +114,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 			switch (msg.what) {
 			case 1:
 				mTextViewUserName.setText(mStructBaseUserInfo.getNickname());
-				Bitmap userimage = getHttpBitmap(mStructBaseUserInfo.getUserimage());
+				Bitmap userimage = (Bitmap) msg.obj;
 				if(userimage != null){
 					mImageViewUserPicture.setImageBitmap(userimage);
 				}
@@ -135,9 +140,8 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 				}else{
 					//得到经纬度
 					getUserBaseInfo(mStructBaseUserInfo);
-					Message msg = new Message();
-					msg.what = 1;
-					handler.sendMessage(msg);
+
+					new UploadPhotoTask().execute();
 					SubmitAllUserInfo(mStructBaseUserInfo);
 					if(mLocClient.isStarted()){
 						mLocClient.stop();
@@ -195,7 +199,6 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-		/*	      Intent intent = new Intent(Intent.ACTION_PICK, null);
 			      Intent intent = new Intent(Intent.ACTION_PICK, null);
 			      intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 			      startActivityForResult(intent, IMAGE_PICK_REQUEST);
@@ -429,6 +432,10 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		if(mFriendListViewAdapter != null){
+			mFriendListViewAdapter.claerImageList();
+		}
+		
 	}
 	@Override
 	public void onRefresh() {
@@ -486,22 +493,23 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 
 		x_StructBaseUserInfo.setStature(preferences.getString(Constant.Height,  ""));
 		
-//		x_StructBaseUserInfo.setIfHaveChildren(preferences.getString(Constant.IfChild, ""));
-//	
-//		x_StructBaseUserInfo.setIfMindHaveChildren(preferences.getString(Constant.IfMind,  ""));
-//
-//		x_StructBaseUserInfo.setSubstanceNeeds(preferences.getString(Constant.ThingAsk, ""));
-//
-//		x_StructBaseUserInfo.setInLovePeriod(preferences.getString(Constant.MarryNum, ""));
-//
-//		x_StructBaseUserInfo.setFaith(preferences.getString(Constant.Faith, ""));
+		x_StructBaseUserInfo.setIfHaveChildren(preferences.getString(Constant.IfChild, ""));
+	
+		x_StructBaseUserInfo.setIfMindHaveChildren(preferences.getString(Constant.IfMind,  ""));
+
+		x_StructBaseUserInfo.setSubstanceNeeds(preferences.getString(Constant.ThingAsk, ""));
+
+		x_StructBaseUserInfo.setInLovePeriod(preferences.getString(Constant.MarryNum, ""));
+
+		x_StructBaseUserInfo.setFaith(preferences.getString(Constant.Faith, ""));
+		x_StructBaseUserInfo.setUserimage(preferences.getString(Constant.UserImage, ""));
 		
 		List<String> coordinates = new ArrayList<String>();
 		coordinates.add(Double.toString(myLocation.getLongitude()));
 		coordinates.add(Double.toString(myLocation.getLatitude()));
 		x_StructBaseUserInfo.setCoordinates(coordinates);
 		
-//		x_StructBaseUserInfo.setSpareTime(preferences.getString(Constant.Freetime,""));
+		x_StructBaseUserInfo.setSpareTime(preferences.getString(Constant.Freetime,""));
 		
 		x_StructBaseUserInfo.setMBTI(preferences.getString(Constant.Nature,""));
 	}
@@ -562,7 +570,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	* @return
 
 	*/
-
+	String imageUrl = "http://hiphotos.baidu.com/baidu/pic/item/7d8aebfebf3f9e125c6008d8.jpg"; 
 	public Bitmap getHttpBitmap(String url) {
 
 	     URL myFileUrl = null;
@@ -578,9 +586,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	          myFileUrl = new URL(url);
 	          
 	          HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-
-	          conn.setConnectTimeout(0);
-
+	          
 	          conn.setDoInput(true);
 
 	          conn.connect();
@@ -613,22 +619,15 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 		}
 
 		protected Boolean doInBackground(String... params) {
-			Map<String, String> textMap = new HashMap<String, String>();
-			textMap.put(Constant.USER_ID,mStructBaseUserInfo.getUserid());
-			Map<String, String> fileMap = new HashMap<String, String>();
-			fileMap.put("imageurl", mUploadFilePathName);
-			String ret = _HttpUploadedFile.formUpload(Urls.ImageUrl, textMap, fileMap);
-			System.out.println(ret);
-    		return true;
+			Bitmap bitmap = getHttpBitmap(mStructBaseUserInfo.getUserimage());
+			Message msg = new Message();
+			msg.what = 1;
+			msg.obj = bitmap;
+			handler.sendMessage(msg);
+			return (bitmap == null) ?false:true;
     	}  
     	
     	protected void onPostExecute(Boolean result){
-			if(result){
-				Toast.makeText(FriendListActivity.this, R.string.upload_photo_success, Toast.LENGTH_SHORT).show();
-			}else{
-				Toast.makeText(FriendListActivity.this, R.string.upload_photo_fail, Toast.LENGTH_SHORT).show();
-
-			}
     	}
 	}
 	@Override

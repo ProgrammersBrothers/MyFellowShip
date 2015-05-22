@@ -586,7 +586,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 			ToastHelper.ToastSht("请输入体重", getActivity());
 			return;
 		}
-		mStructBaseUserInfo.setWeight(weight);
+		mStructBaseUserInfo.setMeter(weight);
 		// 昵称
 		String nickName = etUserName.getText().toString();
 		if(TextUtils.isEmpty(nickName)){
@@ -609,64 +609,70 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		
 		// 基本问答题
 		// 是否有小孩
-		mStructBaseUserInfo.setHasChild("2");
+		mStructBaseUserInfo.setIfHaveChildren("2");
 		if(rgQuestion10.getCheckedRadioButtonId() == R.id.rb10N){
-			mStructBaseUserInfo.setHasChild("1");
+			mStructBaseUserInfo.setIfHaveChildren("1");
 		}
 		// 是否介意对象有小孩
-		mStructBaseUserInfo.setOHasChild("2");
+		mStructBaseUserInfo.setIfMindHaveChildren("2");
 		if(rgQuestion11.getCheckedRadioButtonId() == R.id.rb11N){
-			mStructBaseUserInfo.setOHasChild("1");
+			mStructBaseUserInfo.setInLovePeriod("1");
 		}
 		
 		// 谈恋爱时间
 		if(rgQuestion12.getCheckedRadioButtonId() == R.id.rb12Y1){
-			mStructBaseUserInfo.setMarryTime("1");
+			mStructBaseUserInfo.setInLovePeriod("1");
 		} else if(rgQuestion12.getCheckedRadioButtonId() == R.id.rb12Y2){
-			mStructBaseUserInfo.setMarryTime("2");
+			mStructBaseUserInfo.setInLovePeriod("2");
 		} else if(rgQuestion12.getCheckedRadioButtonId() == R.id.rb12Y3){
-			mStructBaseUserInfo.setMarryTime("3");
+			mStructBaseUserInfo.setInLovePeriod("3");
 		} else if(rgQuestion12.getCheckedRadioButtonId() == R.id.rb12Y4){
-			mStructBaseUserInfo.setMarryTime("4");
+			mStructBaseUserInfo.setInLovePeriod("4");
 		} else if(rgQuestion12.getCheckedRadioButtonId() == R.id.rb12Y5){
-			mStructBaseUserInfo.setMarryTime("5");
+			mStructBaseUserInfo.setInLovePeriod("5");
 		}
 		
 		// 婚姻状态
-		mStructBaseUserInfo.setMarryStatus("1");
+		mStructBaseUserInfo.setMarrigestatus("1");
 		if(rgQuestion14.getCheckedRadioButtonId() == R.id.rb14N){
-			mStructBaseUserInfo.setMarryStatus("2");
+			mStructBaseUserInfo.setMarrigestatus("2");
 		}
 		
 		// 休息时间
-		String freeTime = "00000000";
+		int mSpareTime = 0;
 		if(CheckBox1.isChecked()){
-		} else if(CheckBox2.isChecked()){
-			freeTime += "2";
-		} else if(CheckBox3.isChecked()){
-			freeTime += "3";
-		} else if(CheckBox4.isChecked()){
-			freeTime += "4";
-		} else if(CheckBox5.isChecked()){
-			freeTime += "5";
-		} else if(CheckBox6.isChecked()){
-			freeTime += "6";
-		} else if(CheckBox7.isChecked()){
-			freeTime += "7";
+			mSpareTime = mSpareTime | (1<<0);
 		}
-		
-		mStructBaseUserInfo.setFreeTime(freeTime);
+		if(CheckBox2.isChecked()){
+			mSpareTime = mSpareTime | (1<<1);
+		}
+		if(CheckBox3.isChecked()){
+			mSpareTime = mSpareTime | (1<<2);
+		}
+		if(CheckBox4.isChecked()){
+			mSpareTime = mSpareTime | (1<<3);
+		}
+		if(CheckBox5.isChecked()){
+			mSpareTime = mSpareTime | (1<<4);
+		}
+		if(CheckBox6.isChecked()){
+			mSpareTime = mSpareTime | (1<<5);
+		}
+		if(CheckBox7.isChecked()){
+			mSpareTime = mSpareTime | (1<<6);
+		}
+		mStructBaseUserInfo.setSpareTime(mSpareTime+"");
 		
 		
 		// 抽烟喝酒打牌怎么看
-		mStructBaseUserInfo.setMessHabit("1");
+		mStructBaseUserInfo.setHobby("1");
 		if(rgQuestion13.getCheckedRadioButtonId() == R.id.rb13Y){
-			mStructBaseUserInfo.setMessHabit("2");
+			mStructBaseUserInfo.setHobby("2");
 		} else if(rgQuestion13.getCheckedRadioButtonId() == R.id.rb13N){
-			mStructBaseUserInfo.setMessHabit("3");
+			mStructBaseUserInfo.setHobby("3");
 		}
 		
-		mStructBaseUserInfo.setEmial(email);
+		mStructBaseUserInfo.setEmail(email);
 		// MBTI测试题
 		String mbti = tvMBTI.getText().toString();
 		
@@ -700,7 +706,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 					startActivity(intent);
 					finish();
 				}else{
-					ToastHelper.ToastLg(response.getMessage(), getActivity());
+					ToastHelper.ToastLg("需要5人才能激活本系统", getActivity());
 				}
 			}
 

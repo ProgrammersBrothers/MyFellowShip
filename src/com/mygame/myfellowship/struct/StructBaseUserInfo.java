@@ -24,15 +24,6 @@ public class StructBaseUserInfo{
     private String userimage="";  //图片路径   
     private String email=""; //邮箱
     
-    
-	public String getSubstranceNeeds() {
-		return SubstanceNeeds;
-	}
-	public void setSubstranceNeeds(String substranceNeeds) {
-		SubstanceNeeds = substranceNeeds;
-	}
-	
-	
 	public String getUserimage() {
 		return userimage;
 	}
@@ -44,60 +35,6 @@ public class StructBaseUserInfo{
 	}
 	public void setSex(String sex) {
 		this.sex = sex;
-	}
-	public String getStature() {
-		return stature;
-	}
-	public void setStature(String stature) {
-		this.stature = stature;
-	}
-//	public String getIfHaveChildren() {
-//		return IfHaveChildren;
-//	}
-//	public void setIfHaveChildren(String ifHaveChildren) {
-//		IfHaveChildren = ifHaveChildren;
-//	}
-//	public String getIfMindHaveChildren() {
-//		return IfMindHaveChildren;
-//	}
-//	public void setIfMindHaveChildren(String ifMindHaveChildren) {
-//		IfMindHaveChildren = ifMindHaveChildren;
-//	}
-//	public String getSubstanceNeeds() {
-//		return SubstanceNeeds;
-//	}
-//	public void setSubstanceNeeds(String substanceNeeds) {
-//		SubstanceNeeds = substanceNeeds;
-//	}
-//	public String getInLovePeriod() {
-//		return InLovePeriod;
-//	}
-//	public void setInLovePeriod(String inLovePeriod) {
-//		InLovePeriod = inLovePeriod;
-//	}
-//	public String getFaith() {
-//		return Faith;
-//	}
-//	public void setFaith(String faith) {
-//		Faith = faith;
-//	}
-	public List<String> getCoordinates() {
-		return Coordinates;
-	}
-	public void setCoordinates(List<String> coordinates) {
-		Coordinates = coordinates;
-	}
-//	public String getSpareTime() {
-//		return SpareTime;
-//	}
-//	public void setSpareTime(String spareTime) {
-//		SpareTime = spareTime;
-//	}
-	public String getMBTI() {
-		return MBTI;
-	}
-	public void setMBTI(String mBTI) {
-		MBTI = mBTI;
 	}
 	public String getUserid() {
 		return userid;
@@ -123,28 +60,88 @@ public class StructBaseUserInfo{
 	public void setAge(String age) {
 		this.age = age;
 	}
-	public void setEmial(String email) {
+	public String getMeter() {
+		return meter;
+	}
+	public void setMeter(String meter) {
+		this.meter = meter;
+	}
+	public String getVipType() {
+		return vipType;
+	}
+	public void setVipType(String vipType) {
+		this.vipType = vipType;
+	}
+	public String getHobby() {
+		return hobby;
+	}
+	public void setHobby(String hobby) {
+		this.hobby = hobby;
+	}
+	public String getMarrigestatus() {
+		return marrigestatus;
+	}
+	public void setMarrigestatus(String marrigestatus) {
+		this.marrigestatus = marrigestatus;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
 		this.email = email;
 	}
-	public void setHasChild(String string) {
-		this.IfHaveChildren = string;
+	public String getStature() {
+		return stature;
 	}
-	public void setOHasChild(String string) {
-		this.IfHaveChildren = string;
+	public void setStature(String stature) {
+		this.stature = stature;
 	}
-	public void setMarryTime(String string) {
-		this.InLovePeriod = string;
+	public String getIfHaveChildren() {
+		return IfHaveChildren;
 	}
-	public void setMessHabit(String string) {
-		this.hobby  = string;
+	public void setIfHaveChildren(String ifHaveChildren) {
+		IfHaveChildren = ifHaveChildren;
 	}
-	public void setWeight(String weight) {
-		this.meter = weight;
+	public String getIfMindHaveChildren() {
+		return IfMindHaveChildren;
 	}
-	public void setFreeTime(String freeTime) {
-		this.SpareTime = freeTime;
+	public void setIfMindHaveChildren(String ifMindHaveChildren) {
+		IfMindHaveChildren = ifMindHaveChildren;
 	}
-	public void setMarryStatus(String string) {
-		this.marrigestatus = string;
+	public String getSubstanceNeeds() {
+		return SubstanceNeeds;
+	}
+	public void setSubstanceNeeds(String substanceNeeds) {
+		SubstanceNeeds = substanceNeeds;
+	}
+	public String getInLovePeriod() {
+		return InLovePeriod;
+	}
+	public void setInLovePeriod(String inLovePeriod) {
+		InLovePeriod = inLovePeriod;
+	}
+	public String getFaith() {
+		return Faith;
+	}
+	public void setFaith(String faith) {
+		Faith = faith;
+	}
+	public List<String> getCoordinates() {
+		return Coordinates;
+	}
+	public void setCoordinates(List<String> coordinates) {
+		Coordinates = coordinates;
+	}
+	public String getSpareTime() {
+		return SpareTime;
+	}
+	public void setSpareTime(String spareTime) {
+		SpareTime = spareTime;
+	}
+	public String getMBTI() {
+		return MBTI;
+	}
+	public void setMBTI(String mBTI) {
+		MBTI = mBTI;
 	}
 }

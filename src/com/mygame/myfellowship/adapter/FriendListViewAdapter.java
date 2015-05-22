@@ -91,7 +91,7 @@ public class FriendListViewAdapter extends BaseAdapter {
 		hold.TextViewDistance.setText(listItems.get(arg0).getDistance()+"km");
 		hold.TextViewActivityAddress.setText(listItems.get(arg0).getAddress());
 		hold.TextViewNaturn.setText(CharacterParse.getNature(listItems.get(arg0).getNaturn()));
-		mImageLoader.displayImage(listItems.get(arg0).getUserimage(), hold.ImageViewUserImage, options, animateFirstListener);
+		mImageLoader.displayImage("http://"+listItems.get(arg0).getImageurl(), hold.ImageViewUserImage, options, animateFirstListener);
 		return arg1;
 	}
 
@@ -122,6 +122,9 @@ public class FriendListViewAdapter extends BaseAdapter {
 		}
 	
 	}
+	public void claerImageList(){
+		AnimateFirstDisplayListener.displayedImages.clear();
+	}
 	private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
 		static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
@@ -133,7 +136,6 @@ public class FriendListViewAdapter extends BaseAdapter {
 				boolean firstDisplay = !displayedImages.contains(imageUri);
 				if (firstDisplay) {
 					FadeInBitmapDisplayer.animate(imageView, 500);
-//					FadeInBitmapDisplayer.animate(imageView, 500);
 					displayedImages.add(imageUri);
 				}
 			}

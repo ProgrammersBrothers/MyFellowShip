@@ -229,15 +229,17 @@ public class LoginActivity extends BaseActivity {
 
 		preferences.edit().putString(Constant.Height, l_StructBaseUserInfo.getStature()).commit();
 
-//		preferences.edit().putString(Constant.IfChild,l_StructBaseUserInfo.getIfHaveChildren()).commit();
-//	
-//		preferences.edit().putString(Constant.IfMind, l_StructBaseUserInfo.getIfMindHaveChildren()).commit();
-//
-//		preferences.edit().putString(Constant.ThingAsk,l_StructBaseUserInfo.getSubstanceNeeds()).commit();
-//
-//		preferences.edit().putString(Constant.MarryNum, l_StructBaseUserInfo.getInLovePeriod()).commit();
-//
-//		preferences.edit().putString(Constant.Faith,l_StructBaseUserInfo.getFaith()).commit();
+		preferences.edit().putString(Constant.IfChild,l_StructBaseUserInfo.getIfHaveChildren()).commit();
+	
+		preferences.edit().putString(Constant.IfMind, l_StructBaseUserInfo.getIfMindHaveChildren()).commit();
+
+		preferences.edit().putString(Constant.ThingAsk,l_StructBaseUserInfo.getSubstanceNeeds()).commit();
+
+		preferences.edit().putString(Constant.MarryNum, l_StructBaseUserInfo.getInLovePeriod()).commit();
+
+		preferences.edit().putString(Constant.Faith,l_StructBaseUserInfo.getFaith()).commit();
+		preferences.edit().putString(Constant.UserImage,l_StructBaseUserInfo.getUserimage()).commit();
+		
 		
 		Set<String> siteno = new HashSet<String>(); 
 		if(l_StructBaseUserInfo.getCoordinates() != null){
@@ -247,7 +249,7 @@ public class LoginActivity extends BaseActivity {
 		}
 		preferences.edit().putStringSet(Constant.Address,siteno).commit();
 		
-//		preferences.edit().putString(Constant.Freetime,l_StructBaseUserInfo.getSpareTime()).commit();
+		preferences.edit().putString(Constant.Freetime,l_StructBaseUserInfo.getSpareTime()).commit();
 		
 		preferences.edit().putString(Constant.Nature,l_StructBaseUserInfo.getMBTI()).commit();
 		
