@@ -195,7 +195,7 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-			  /*    Intent intent = new Intent(Intent.ACTION_PICK, null);
+		/*	      Intent intent = new Intent(Intent.ACTION_PICK, null);
 			      intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 			      startActivityForResult(intent, IMAGE_PICK_REQUEST);*/
 			      //******************************************
