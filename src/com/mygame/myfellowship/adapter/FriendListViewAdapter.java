@@ -90,8 +90,8 @@ public class FriendListViewAdapter extends BaseAdapter {
 		hold.TextViewAge.setText(listItems.get(arg0).getAge()+"岁");
 		hold.TextViewDistance.setText(listItems.get(arg0).getDistance()+"km");
 		hold.TextViewActivityAddress.setText(listItems.get(arg0).getAddress());
-		hold.TextViewNaturn.setText(CharacterParse.getNature(listItems.get(arg0).getNaturn()));
-		mImageLoader.displayImage("http://"+listItems.get(arg0).getImageurl(), hold.ImageViewUserImage, options, animateFirstListener);
+		hold.TextViewNaturn.setText(CharacterParse.getNature(listItems.get(arg0).getMbti()));
+		mImageLoader.displayImage(listItems.get(arg0).getImageurl(), hold.ImageViewUserImage, options, animateFirstListener);
 		return arg1;
 	}
 

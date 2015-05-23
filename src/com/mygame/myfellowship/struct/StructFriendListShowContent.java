@@ -4,7 +4,7 @@ public class StructFriendListShowContent{
 	private String age;
 	private String distance;
 	private String address;
-	private String naturn;
+	private String mbti;
 	private String imageurl;
 	public String getAge() {
 		return age;
@@ -30,16 +30,16 @@ public class StructFriendListShowContent{
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getNaturn() {
-		return naturn;
-	}
-	public void setNaturn(String naturn) {
-		this.naturn = naturn;
-	}
 	public String getImageurl() {
 		return imageurl;
 	}
 	public void setImageurl(String imageurl) {
 		this.imageurl = imageurl;
+	}
+	public String getMbti() {
+		return mbti;
+	}
+	public void setMbti(String mbti) {
+		this.mbti = mbti;
 	}
 }
