@@ -290,6 +290,14 @@ public class FriendListActivity extends BaseActivity implements IXListViewListen
 	    			@Override
 	    			public void onSuccess(String t) {
 	    				super.onSuccess(t);
+	    				Response<String> response = new Gson().fromJson(t, 
+	    						new TypeToken<Response<String>>(){}.getType());
+	    				cancelRequestDialog();
+	    				if(response.getResult()){
+	    					ToastHelper.ToastLg(response.getMessage(), getActivity());
+	    				}else{
+	    					ToastHelper.ToastLg(response.getMessage(), getActivity());
+	    				}
 	    				cancelRequestDialog();
 	    			}
 
